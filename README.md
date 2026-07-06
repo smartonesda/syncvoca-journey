@@ -1,106 +1,124 @@
-# Peta Dokumentasi SyncVoca Journey
+# SyncVoca Journey
 
-Dokumen di folder ini dibagi agar eksekusi tim tidak bercampur antara prototype apps dan real apps production.
+**Platform Transisi Vokasi Inklusif untuk Anak Berkebutuhan Khusus (ABK)**
 
-## Struktur Folder
+> 🏆 Proyek Lomba FIKSI 2026
 
-```text
-docs/
-  README.md
-  REAL_IMPLEMENTATION_PLAN.md
-  PRD.md
-  TASKS.md
-  WEB_DESIGN.md
+---
 
-  prototype-apps/
-    README.md
+## Apa Itu SyncVoca Journey?
 
-  frontend/
-    README.md
+SyncVoca Journey adalah ekosistem digital yang membantu **Anak Berkebutuhan Khusus (ABK)** mempersiapkan diri memasuki dunia kerja. Platform ini menghubungkan empat pilar penting dalam transisi vokasi anak: **sekolah**, **keluarga**, **siswa**, dan **dunia industri (DUDI)** — semuanya dalam satu alur yang saling tersinkronisasi.
 
-  backend/
-    README.md
+Produk ini bukan sekadar aplikasi latihan. SyncVoca Journey adalah **jembatan** antara potensi anak dan kebutuhan nyata industri, yang dibangun dengan prinsip inklusi, privasi data, dan aksesibilitas.
 
-  database/
-    README.md
+## Mengapa SyncVoca Journey?
 
-  auth-security/
-    README.md
+| Masalah | Solusi SyncVoca Journey |
+|---|---|
+| Potensi ABK sulit diterjemahkan menjadi bukti kompetensi yang dipercaya industri | Simulasi vokasi berbasis game menghasilkan **portofolio kompetensi** yang terukur |
+| DUDI ragu merekrut kandidat ABK karena tidak ada data performa yang objektif | **ABK Talent Portfolio** dan **Industry Validation Seal** memberikan bukti nyata kesiapan kerja |
+| Data pendampingan siswa tersebar di banyak pihak | Satu platform menyatukan progres dari sekolah, rumah, dan industri |
+| Privasi data anak sering terabaikan | Arsitektur **privacy-by-design** memastikan data sensitif tidak pernah bocor ke pihak industri |
 
-  team-execution/
-    README.md
+## Bagaimana Cara Kerjanya?
+
+SyncVoca Journey memandu ABK melalui **5 tahap perjalanan vokasi**:
+
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────────┐
+│  1. Intake       │ ──▶ │  2. Simulasi     │ ──▶ │  3. Rencana          │
+│     Dukungan     │     │     Kerja        │     │     Pendampingan     │
+└─────────────────┘     └─────────────────┘     └─────────────────────┘
+                                                          │
+                        ┌─────────────────┐     ┌─────────▼───────────┐
+                        │  5. Validasi     │ ◀── │  4. Portofolio       │
+                        │     DUDI         │     │     Bukti            │
+                        └─────────────────┘     └─────────────────────┘
 ```
 
-## Fungsi Tiap Dokumen
+1. **Intake Dukungan** — Pemetaan profil kebutuhan dukungan anak berbasis ICF-WHO, bukan sekadar label diagnosis.
+2. **Simulasi Kerja** — Latihan vokasi dalam bentuk game interaktif yang menghasilkan data performa nyata.
+3. **Rencana Pendampingan** — Guru dan orang tua mendapat rekomendasi intervensi yang terukur dan actionable.
+4. **Portofolio Bukti** — Semua hasil latihan dan catatan pendampingan disusun menjadi portofolio kompetensi.
+5. **Validasi DUDI** — Mitra industri memberikan **Industry Validation Seal** sebagai pengakuan kesiapan kerja.
 
-### Master Product dan Planning
+## Siapa Penggunanya?
 
-- `PRD.md`: arah produk, target pengguna, scope MVP prototype, dan prinsip produk.
-- `TASKS.md`: histori task prototype apps yang sudah dieksekusi.
-- `WEB_DESIGN.md`: aturan UI prototype, visual, popup/toast, dan workflow web.
-- `REAL_IMPLEMENTATION_PLAN.md`: master plan real apps end-to-end.
+| Peran | Kebutuhan Utama |
+|---|---|
+| 🎓 **Siswa ABK** | Latihan yang terasa seperti game, instruksi sederhana, motivasi yang tidak menghakimi |
+| 👩‍🏫 **Guru / Pendamping** | Dashboard pemantauan progres, catatan pendampingan, rekomendasi intervensi |
+| 👨‍👩‍👧 **Orang Tua** | Ringkasan perkembangan anak yang mudah dipahami, tugas pendampingan di rumah |
+| 🏢 **DUDI** | Talent pool kandidat ABK dengan bukti kompetensi, tanpa akses ke data sensitif |
+| ⚙️ **Admin** | Manajemen data sekolah, siswa, dan mitra DUDI |
 
-### Panduan Per Tim
+## Fitur Unggulan
 
-- `prototype-apps/README.md`: batas kerja repo prototype `v2`, cara validasi, dan apa yang boleh/tidak boleh diubah.
-- `frontend/README.md`: panduan FE production web/PWA, role routing, UX per role, PWA, state, performance, dan testing.
-- `backend/README.md`: panduan BE production API, module boundary, service, audit, storage, report, dan deployment.
-- `database/README.md`: panduan schema production, relasi data, enum, index, migration order, dan seed.
-- `database/ERD.md`: ERD teknis, normalisasi, dan setup PostgreSQL lokal via Docker.
-- `auth-security/README.md`: panduan auth, RBAC, role visibility, consent, DUDI privacy, dan security testing.
-- `team-execution/README.md`: urutan kerja tim, dependency antar area, definition of done, dan rekomendasi sprint.
+### 🎮 Gamifikasi Berbasis UDL
+Simulasi vokasi dirancang dengan prinsip Universal Design for Learning sehingga setiap anak bisa belajar dengan cara yang sesuai kemampuannya.
 
-## Cara Membaca Untuk Tim
+### 🛡️ Privacy-by-Design
+Data sensitif siswa (catatan medis, kontak keluarga, diagnosis) **tidak pernah** terekspos ke pihak industri. DUDI hanya melihat kode kandidat pseudonim dan data kesiapan kerja.
 
-### Product Owner / Lead
+### ✅ Industry Validation Seal
+Mitra DUDI dapat memberikan sertifikasi pengakuan kompetensi yang memperkuat portofolio kerja ABK.
 
-1. Baca `PRD.md`.
-2. Baca `REAL_IMPLEMENTATION_PLAN.md`.
-3. Baca `team-execution/README.md`.
-4. Lock keputusan scope MVP real apps sebelum FE/BE mulai coding.
+### ♿ Aksesibilitas WCAG 2.2
+Interface dirancang agar ramah bagi pengguna dengan berbagai kebutuhan: kontras tinggi, navigasi keyboard, teks yang mudah dibaca, dan panel aksesibilitas bawaan.
 
-### Frontend Team
+### 📊 ABK Talent Portfolio
+Portofolio kompetensi yang dihasilkan dari bukti nyata (skor simulasi, catatan guru, evidence video) — bukan klaim tanpa data.
 
-1. Baca `frontend/README.md`.
-2. Baca `auth-security/README.md` bagian FE responsibility.
-3. Baca `WEB_DESIGN.md` untuk arah visual dan interaksi.
-4. Gunakan prototype apps sebagai referensi alur, bukan sebagai source of truth data production.
+### 🤝 Sinkronisasi 4 Pilar
+Sekolah, keluarga, siswa, dan industri bekerja di satu ekosistem yang sama, sehingga perkembangan anak terlihat utuh dan tidak terfragmentasi.
 
-### Backend Team
+## Model Bisnis
 
-1. Baca `backend/README.md`.
-2. Baca `database/README.md`.
-3. Baca `auth-security/README.md`.
-4. Pastikan semua access control diterapkan di backend, bukan hanya di UI.
+SyncVoca Journey dirancang dengan model bisnis yang **etis dan tidak membebani ABK atau keluarga** sebagai penerima manfaat utama:
 
-### Database / Data Engineer
+- **SaaS Sekolah** — Langganan untuk sekolah inklusi dan SLB
+- **Subscription DUDI** — Akses talent pool dan fitur validasi untuk mitra industri
+- **CSR & Grant** — Pendanaan dari program tanggung jawab sosial perusahaan
+- **Placement Fee** — Biaya dari mitra DUDI untuk penempatan kerja yang berhasil
+- **Validasi Modul Industri** — DUDI dapat berkontribusi membuat modul simulasi sesuai kebutuhan industri
 
-1. Baca `database/README.md`.
-2. Cocokkan dengan `auth-security/README.md` untuk data classification dan consent.
-3. Finalkan Prisma schema atau SQL schema sebelum API core dibangun.
+## Teknologi
 
-### QA / Security Reviewer
+Platform ini dibangun sebagai **Progressive Web App (PWA)** agar dapat diakses dari berbagai perangkat tanpa perlu instalasi. Stack teknologi utama dan detail arsitektur dapat dilihat di dokumentasi teknis.
 
-1. Baca `auth-security/README.md`.
-2. Baca `prototype-apps/README.md` untuk privacy test prototype.
-3. Baca `backend/README.md` untuk API test dan audit expectation.
-4. Prioritaskan test kebocoran data DUDI.
+## Prinsip Produk
 
-## Aturan Dokumentasi Ke Depan
+1. **ABK-first, bukan label-first** — Fokus pada kebutuhan dukungan dan potensi, bukan jenis diagnosis
+2. **Proof over claim** — Setiap klaim inklusi dibuktikan lewat skor, simulasi, catatan guru, dan validation seal
+3. **Data minimization** — DUDI hanya melihat data yang relevan untuk keputusan rekrutmen
+4. **Accessible by default** — Aksesibilitas bukan fitur tambahan, melainkan fondasi desain
+5. **Realistic demo flow** — Setiap halaman menjawab "apa yang harus dilakukan user berikutnya?"
 
-1. Jangan menaruh semua rencana baru di root `docs/` jika area kerjanya spesifik.
-2. Jika dokumen membahas prototype, simpan di `docs/prototype-apps/`.
-3. Jika dokumen membahas FE/PWA, simpan di `docs/frontend/`.
-4. Jika dokumen membahas API/server/job/storage, simpan di `docs/backend/`.
-5. Jika dokumen membahas schema, migration, dan seed, simpan di `docs/database/`.
-6. Jika dokumen membahas auth, RBAC, privacy, consent, dan DUDI visibility, simpan di `docs/auth-security/`.
-7. Jika dokumen membahas pembagian kerja, sprint, DoD, dan handoff, simpan di `docs/team-execution/`.
+## Struktur Dokumentasi
 
-## Guardrail Utama
+Dokumentasi proyek ini dibagi berdasarkan area kerja:
 
-- Prototype boleh memakai localStorage untuk demo.
-- Real apps tidak boleh memakai localStorage sebagai sumber data utama.
-- DUDI tidak boleh menerima data sensitif siswa.
-- Consent dan audit wajib berjalan di backend.
-- FE hanya menyembunyikan tampilan; BE tetap harus menolak request yang tidak berhak.
-- Semua report DUDI harus dibuat dari public candidate payload, bukan data siswa penuh.
+| Dokumen | Isi |
+|---|---|
+| [PRD.md](PRD.md) | Arah produk, target pengguna, dan scope MVP |
+| [WEB_DESIGN.md](WEB_DESIGN.md) | Aturan UI, visual, dan workflow web |
+| [REAL_IMPLEMENTATION_PLAN.md](REAL_IMPLEMENTATION_PLAN.md) | Master plan implementasi end-to-end |
+| [TASKS.md](TASKS.md) | Histori task yang sudah dieksekusi |
+
+Panduan per tim tersedia di subfolder: `frontend/`, `backend/`, `database/`, `auth-security/`, dan `team-execution/`.
+
+---
+
+## 📖 Dokumentasi Teknis
+
+Untuk panduan teknis lengkap (struktur folder, fungsi tiap dokumen, cara membaca per role tim, aturan dokumentasi, dan guardrail teknis), silakan baca:
+
+**👉 [TEKNIS.md](TEKNIS.md)**
+
+---
+
+<p align="center">
+  <strong>SyncVoca Journey</strong> — Setiap Anak Berhak Punya Bukti Kompetensi<br>
+  <em>Proyek Lomba FIKSI 2026</em>
+</p>
