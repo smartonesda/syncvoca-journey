@@ -101,7 +101,7 @@ export default function OrangTuaDashboard({ students, sessions, teacherNotes, pr
           <div className={`p-4 rounded-2xl text-center border ${isHighContrast ? 'bg-zinc-100 border-black' : 'bg-[#161616] border-white/5'}`}>
             <span className="text-[10px] text-zinc-500 uppercase tracking-wider block">Ketekunan Belajar</span>
             <p className={`text-2xl font-black font-display mt-1 ${isHighContrast ? 'text-black' : 'text-amber-400'}`}>
-              Sangat Aktif ✨
+              Sangat Aktif
             </p>
           </div>
         </div>

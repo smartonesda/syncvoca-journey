@@ -6,6 +6,7 @@ import {
 } from 'lucide-react';
 import { database } from '../data';
 import { GameSession } from '../types';
+import { useAppFeedback } from './AppFeedback';
 
 interface GameProps {
   studentId: string;
@@ -189,6 +190,7 @@ function LogicQuestGame({ studentId, studentName, onComplete, preferences }: {
   onComplete: (session: GameSession) => void;
   preferences: any;
 }) {
+  const { notify } = useAppFeedback();
   const [isPlaying, setIsPlaying] = useState(false);
   const [pattern, setPattern] = useState<string[]>([]);
   const [playerInput, setPlayerInput] = useState<string[]>([]);
@@ -298,7 +300,11 @@ function LogicQuestGame({ studentId, studentName, onComplete, preferences }: {
       playSound('error');
       setErrors(e => e + 1);
       setPlayerInput([]);
-      alert("Pola salah! Coba perhatikan kembali polanya.");
+      notify({
+        title: 'Pola belum sesuai',
+        message: 'Perhatikan ulang urutan simbol yang muncul, lalu coba lagi.',
+        tone: 'warning'
+      });
       showPattern(pattern);
       return;
     }
@@ -476,6 +482,7 @@ function DataEntryGame({ studentId, studentName, onComplete, preferences }: {
   onComplete: (session: GameSession) => void;
   preferences: any;
 }) {
+  const { notify } = useAppFeedback();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [formData, setFormData] = useState({
@@ -521,7 +528,11 @@ function DataEntryGame({ studentId, studentName, onComplete, preferences }: {
 
     if (currentInvoiceErrors > 0) {
       setErrors(e => e + currentInvoiceErrors);
-      alert(`Terdapat ${currentInvoiceErrors} ketidaksesuaian input berkas. Silakan periksa kembali data di kartu invoice!`);
+      notify({
+        title: `${currentInvoiceErrors} data belum sesuai`,
+        message: 'Periksa kembali kartu invoice dan samakan input berkas digital.',
+        tone: 'warning'
+      });
       return;
     }
 
@@ -747,6 +758,7 @@ function PackageSorterGame({ studentId, studentName, onComplete, preferences }: 
   onComplete: (session: GameSession) => void;
   preferences: any;
 }) {
+  const { notify } = useAppFeedback();
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(0);
@@ -785,7 +797,11 @@ function PackageSorterGame({ studentId, studentName, onComplete, preferences }: 
       setScore(s => s + 15);
     } else {
       setErrors(e => e + 1);
-      alert(`Peringatan! "${activePackage.label}" dikategorikan salah. Ini termasuk kargo "${activePackage.type}".`);
+      notify({
+        title: 'Kategori belum tepat',
+        message: `"${activePackage.label}" termasuk kargo "${activePackage.type}".`,
+        tone: 'warning'
+      });
     }
 
     if (currentIndex < PACKAGES_MOCK.length - 1) {

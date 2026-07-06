@@ -28,15 +28,15 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
     <div className="relative">
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 text-sm bg-teal-50 border border-teal-200 text-teal-800 rounded-full hover:bg-teal-100 transition shadow-sm font-semibold"
+        className="flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 p-2 text-sm font-semibold text-teal-800 shadow-sm transition hover:bg-teal-100 sm:px-3"
         aria-label="Pengaturan Aksesibilitas"
       >
         <Accessibility className="w-5 h-5 text-teal-600 animate-pulse" />
-        <span>Mode Aksesibilitas</span>
+        <span className="hidden sm:inline">Mode Aksesibilitas</span>
       </button>
 
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-80 bg-white rounded-xl border border-slate-200 shadow-xl z-50 p-5 space-y-4 text-slate-800">
+        <div className="absolute right-0 z-50 mt-2 w-[min(20rem,calc(100vw-2rem))] rounded-xl border border-slate-200 bg-white p-5 text-slate-800 shadow-xl space-y-4">
           <div className="flex justify-between items-center border-b pb-2">
             <h4 className="font-bold flex items-center gap-2 text-teal-800">
               <Accessibility className="w-5 h-5 text-teal-600" />

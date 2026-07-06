@@ -7,6 +7,7 @@ import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip 
 } from 'recharts';
 import { StudentProfile, GameSession, TeacherNote, AccessibilityPreferences } from '../types';
+import { useAppFeedback } from './AppFeedback';
 
 interface GuruDashboardProps {
   students: StudentProfile[];
@@ -17,8 +18,9 @@ interface GuruDashboardProps {
 }
 
 export default function GuruDashboard({ students, sessions, teacherNotes, onAddNote, preferences }: GuruDashboardProps) {
+  const { notify } = useAppFeedback();
   const [searchTerm, setSearchTerm] = useState('');
-  const [disabilityFilter, setDisabilityFilter] = useState<string>('All');
+  const [supportFilter, setSupportFilter] = useState<string>('All');
   const [sortBy, setSortBy] = useState<'name' | 'score'>('name');
   
   // Selection state for viewing/editing notes
@@ -47,10 +49,10 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
     const matchesSearch = student.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
                           student.schoolName.toLowerCase().includes(searchTerm.toLowerCase());
     
-    const matchesDisability = disabilityFilter === 'All' || 
-                              student.disabilityType.toLowerCase().includes(disabilityFilter.toLowerCase());
+    const matchesSupport = supportFilter === 'All' ||
+                              student.supportProfile.toLowerCase().includes(supportFilter.toLowerCase());
 
-    return matchesSearch && matchesDisability;
+    return matchesSearch && matchesSupport;
   }).sort((a, b) => {
     if (sortBy === 'name') return a.name.localeCompare(b.name);
     return b.readinessScore - a.readinessScore;
@@ -108,7 +110,11 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
 
     setNewNote(prev => ({ ...prev, noteText: '' }));
     setIsAddingNote(false);
-    alert('Catatan Guru berhasil ditambahkan!');
+    notify({
+      title: 'Catatan guru tersimpan',
+      message: 'Rencana pendampingan siswa sudah diperbarui.',
+      tone: 'success'
+    });
   };
 
   const isHighContrast = preferences.highContrast;
@@ -185,7 +191,7 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
             isHighContrast ? 'bg-white text-black border-black' : 'bg-[#111] border-white/5'
           }`}>
             <div className="flex justify-between items-center">
-              <h3 className={`font-bold font-display text-sm ${isHighContrast ? 'text-black' : 'text-white'}`}>Siswa SLB Mitra</h3>
+              <h3 className={`font-bold font-display text-sm ${isHighContrast ? 'text-black' : 'text-white'}`}>Siswa Sekolah Mitra</h3>
               <button
                 onClick={() => setSortBy(sortBy === 'name' ? 'score' : 'name')}
                 className={`text-[10px] font-bold ${isHighContrast ? 'text-black underline' : 'text-indigo-400 hover:text-indigo-300'}`}
@@ -213,9 +219,9 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
             {/* Filter Buttons */}
             <div className="flex flex-wrap gap-1.5 pb-2 border-b border-white/5">
               <button
-                onClick={() => setDisabilityFilter('All')}
+                onClick={() => setSupportFilter('All')}
                 className={`px-2.5 py-1 rounded-lg text-[9px] font-bold transition ${
-                  disabilityFilter === 'All'
+                  supportFilter === 'All'
                     ? (isHighContrast ? 'bg-black text-white' : 'bg-indigo-600 text-white')
                     : (isHighContrast ? 'bg-zinc-100 text-zinc-600 border border-black' : 'bg-[#1a1a1a] text-zinc-400 hover:bg-zinc-800')
                 }`}
@@ -223,34 +229,44 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
                 Semua
               </button>
               <button
-                onClick={() => setDisabilityFilter('Tunarungu')}
+                onClick={() => setSupportFilter('Sensorik')}
                 className={`px-2.5 py-1 rounded-lg text-[9px] font-bold transition ${
-                  disabilityFilter === 'Tunarungu'
+                  supportFilter === 'Sensorik'
                     ? (isHighContrast ? 'bg-black text-white' : 'bg-indigo-600 text-white')
                     : (isHighContrast ? 'bg-[#1a1a1a] text-zinc-400 hover:bg-zinc-800' : 'bg-white/5 text-zinc-300 hover:bg-white/10')
                 }`}
               >
-                Rungu & Wicara
+                Sensorik
               </button>
               <button
-                onClick={() => setDisabilityFilter('Tunadaksa')}
+                onClick={() => setSupportFilter('Mobilitas')}
                 className={`px-2.5 py-1 rounded-lg text-[9px] font-bold transition ${
-                  disabilityFilter === 'Tunadaksa'
+                  supportFilter === 'Mobilitas'
                     ? (isHighContrast ? 'bg-black text-white' : 'bg-indigo-600 text-white')
                     : (isHighContrast ? 'bg-[#1a1a1a] text-zinc-400 hover:bg-zinc-800' : 'bg-white/5 text-zinc-300 hover:bg-white/10')
                 }`}
               >
-                Daksa
+                Mobilitas
               </button>
               <button
-                onClick={() => setDisabilityFilter('Tunagrahita')}
+                onClick={() => setSupportFilter('Kognitif')}
                 className={`px-2.5 py-1 rounded-lg text-[9px] font-bold transition ${
-                  disabilityFilter === 'Tunagrahita'
+                  supportFilter === 'Kognitif'
                     ? (isHighContrast ? 'bg-black text-white' : 'bg-indigo-600 text-white')
                     : (isHighContrast ? 'bg-[#1a1a1a] text-zinc-400 hover:bg-zinc-800' : 'bg-white/5 text-zinc-300 hover:bg-white/10')
                 }`}
               >
-                Grahita
+                Kognitif
+              </button>
+              <button
+                onClick={() => setSupportFilter('Neurodivergent')}
+                className={`px-2.5 py-1 rounded-lg text-[9px] font-bold transition ${
+                  supportFilter === 'Neurodivergent'
+                    ? (isHighContrast ? 'bg-black text-white' : 'bg-indigo-600 text-white')
+                    : (isHighContrast ? 'bg-[#1a1a1a] text-zinc-400 hover:bg-zinc-800' : 'bg-white/5 text-zinc-300 hover:bg-white/10')
+                }`}
+              >
+                Neurodivergent
               </button>
             </div>
 
@@ -274,7 +290,7 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
                   >
                     <div className="space-y-1">
                       <p className="font-bold text-xs">{st.name}</p>
-                      <p className="text-[10px] text-zinc-500 truncate w-32">{st.disabilityType}</p>
+                      <p className="text-[10px] text-zinc-500 truncate w-32">{st.supportProfile}</p>
                     </div>
                     <div className="text-right">
                       <span className={`text-xs font-bold ${isHighContrast ? 'text-black' : 'text-indigo-400'}`}>{st.readinessScore}%</span>
@@ -298,7 +314,7 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
               <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 border-b border-white/5 pb-4">
                 <div>
                   <h3 className={`${titleClass} ${isHighContrast ? 'text-black' : 'text-white'}`}>{selectedStudent.name}</h3>
-                  <p className="text-xs text-zinc-500">{selectedStudent.schoolName} • {selectedStudent.disabilityType}</p>
+                  <p className="text-xs text-zinc-500">{selectedStudent.schoolName} • {selectedStudent.supportProfile}</p>
                 </div>
                 <button
                   onClick={() => setIsAddingNote(!isAddingNote)}
@@ -419,11 +435,11 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
                   <div className="h-[200px] w-full md:w-1/2 flex items-center justify-center relative">
                     <ResponsiveContainer width="100%" height="100%">
                       <RadarChart cx="50%" cy="50%" outerRadius="65%" data={selectedCompetencyData}>
-                        <PolarGrid stroke={isHighContrast ? "#4b5563" : "rgba(255, 255, 255, 0.15)"} />
+                        <PolarGrid stroke={isHighContrast ? "#4b5563" : "#cfe1d2"} />
                         <PolarAngleAxis 
                           dataKey="subject" 
                           tick={{ 
-                            fill: isHighContrast ? "#000000" : "#a1a1aa", 
+                            fill: isHighContrast ? "#000000" : "#61746a", 
                             fontSize: 8,
                             fontWeight: 600
                           }} 
@@ -431,20 +447,20 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
                         <PolarRadiusAxis 
                           angle={30} 
                           domain={[0, 100]} 
-                          tick={{ fill: isHighContrast ? "#000000" : "#71717a", fontSize: 7 }}
+                          tick={{ fill: isHighContrast ? "#000000" : "#61746a", fontSize: 7 }}
                         />
                         <Radar
                           name={selectedStudent.name}
                           dataKey="A"
-                          stroke={isHighContrast ? "#000000" : "#818cf8"}
-                          fill={isHighContrast ? "rgba(0,0,0,0.2)" : "rgba(129, 140, 248, 0.2)"}
+                          stroke={isHighContrast ? "#000000" : "#12843a"}
+                          fill={isHighContrast ? "rgba(0,0,0,0.2)" : "rgba(19, 138, 61, 0.18)"}
                           fillOpacity={0.6}
                         />
                         <Tooltip
                           contentStyle={{
-                            backgroundColor: isHighContrast ? '#ffffff' : '#161616',
-                            borderColor: isHighContrast ? '#000000' : 'rgba(255,255,255,0.1)',
-                            color: isHighContrast ? '#000000' : '#ffffff',
+                            backgroundColor: isHighContrast ? '#ffffff' : '#ffffff',
+                            borderColor: isHighContrast ? '#000000' : '#dbe7dd',
+                            color: isHighContrast ? '#000000' : '#17351f',
                             borderRadius: '12px',
                             fontSize: '10px'
                           }}

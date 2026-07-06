@@ -1,6 +1,6 @@
 {
   "name": "SyncVoca Journey",
-  "description": "Platform digital inklusif transisi siswa disabilitas menuju dunia kerja melalui simulasi karier, portofolio digital, dan Industry Validation Seal.",
+  "description": "Platform transisi vokasi Anak Berkebutuhan Khusus menuju dunia kerja melalui simulasi karier, portofolio kompetensi, dan Industry Validation Seal.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

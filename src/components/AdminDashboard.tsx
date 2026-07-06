@@ -4,6 +4,7 @@ import {
   Send, Trash2, CheckCircle, Database, LayoutGrid, FileText
 } from 'lucide-react';
 import { StudentProfile, Company, JobPosting, AccessibilityPreferences, UserRole } from '../types';
+import { useAppFeedback } from './AppFeedback';
 
 interface AdminDashboardProps {
   students: StudentProfile[];
@@ -13,13 +14,14 @@ interface AdminDashboardProps {
 }
 
 export default function AdminDashboard({ students, companies, onAddStudent, preferences }: AdminDashboardProps) {
+  const { notify } = useAppFeedback();
   const [activeTab, setActiveTab] = useState<'users' | 'schools' | 'companies'>('users');
   const [isAddingUser, setIsAddingUser] = useState(false);
 
   // Form states
   const [newUser, setNewUser] = useState({
     name: '',
-    disabilityType: 'Tunarungu (Hearing Disability)',
+    supportProfile: 'Profil Dukungan Sensorik - komunikasi visual',
     bio: '',
     skills: '',
     interest: 'Administrasi',
@@ -47,8 +49,8 @@ export default function AdminDashboard({ students, companies, onAddStudent, pref
       id: `student-${Date.now()}`,
       name: newUser.name,
       schoolId: 'school-slb-1',
-      schoolName: 'SLB Negeri 1 Jakarta',
-      disabilityType: newUser.disabilityType,
+      schoolName: 'SLB/Sekolah Inklusi Negeri 1 Jakarta',
+      supportProfile: newUser.supportProfile,
       bio: newUser.bio || 'Siswa berdedikasi tinggi yang gemar melatih fokus kognitif harian.',
       skills: newUser.skills.split(',').map(s => s.trim()).filter(Boolean),
       interest: newUser.interest,
@@ -65,13 +67,17 @@ export default function AdminDashboard({ students, companies, onAddStudent, pref
     setIsAddingUser(false);
     setNewUser({
       name: '',
-      disabilityType: 'Tunarungu (Hearing Disability)',
+      supportProfile: 'Profil Dukungan Sensorik - komunikasi visual',
       bio: '',
       skills: '',
       interest: 'Administrasi',
       support: ''
     });
-    alert('User baru berhasil didaftarkan ke sistem master data!');
+    notify({
+      title: 'User berhasil didaftarkan',
+      message: 'Profil siswa baru sudah masuk ke master data SyncVoca.',
+      tone: 'success'
+    });
   };
 
   const isHighContrast = preferences.highContrast;
@@ -117,7 +123,7 @@ export default function AdminDashboard({ students, companies, onAddStudent, pref
             <School className="w-5 h-5" />
           </div>
           <div>
-            <span className="text-[10px] text-zinc-500 font-bold uppercase block tracking-wider">SLB Terintegrasi</span>
+            <span className="text-[10px] text-zinc-500 font-bold uppercase block tracking-wider">Sekolah Mitra</span>
             <p className={`text-lg font-black font-display mt-0.5 ${isHighContrast ? 'text-black' : 'text-white'}`}>
               4 Sekolah Mitra
             </p>
@@ -152,7 +158,7 @@ export default function AdminDashboard({ students, companies, onAddStudent, pref
                   : (isHighContrast ? 'text-zinc-600 hover:bg-zinc-200' : 'text-zinc-400 hover:text-white')
               }`}
             >
-              Master SLB
+              Master Sekolah
             </button>
             <button
               onClick={() => setActiveTab('companies')}
@@ -202,19 +208,20 @@ export default function AdminDashboard({ students, companies, onAddStudent, pref
               </div>
 
               <div className="space-y-1">
-                <label className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider block">Jenis Disabilitas</label>
+                <label className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider block">Profil Dukungan ABK</label>
                 <select
-                  value={newUser.disabilityType}
-                  onChange={(e) => setNewUser(p => ({ ...p, disabilityType: e.target.value }))}
+                  value={newUser.supportProfile}
+                  onChange={(e) => setNewUser(p => ({ ...p, supportProfile: e.target.value }))}
                   className={`w-full border rounded-xl p-2.5 text-xs outline-none focus:ring-1 ${
                     isHighContrast 
                       ? 'bg-white border-black text-black focus:ring-black' 
                       : 'bg-[#111] border-white/10 text-white focus:ring-indigo-500'
                   }`}
                 >
-                  <option value="Tunarungu & Wicara">Tunarungu & Wicara (Hearing & Speech)</option>
-                  <option value="Tunadaksa Ringan">Tunadaksa Ringan (Physical Disability)</option>
-                  <option value="Tunagrahita Ringan">Tunagrahita Ringan (Intellectual Disability)</option>
+                  <option value="Profil Dukungan Sensorik - komunikasi visual">Sensorik - komunikasi visual</option>
+                  <option value="Profil Dukungan Mobilitas - akses fisik dan ergonomi">Mobilitas - akses fisik dan ergonomi</option>
+                  <option value="Profil Dukungan Kognitif - instruksi bertahap">Kognitif - instruksi bertahap</option>
+                  <option value="Profil Dukungan Neurodivergent - fokus bertahap">Neurodivergent - fokus bertahap</option>
                 </select>
               </div>
             </div>
@@ -270,7 +277,7 @@ export default function AdminDashboard({ students, companies, onAddStudent, pref
                   <th className="p-3.5">ID Pengguna</th>
                   <th className="p-3.5">Nama Lengkap</th>
                   <th className="p-3.5">Asal Sekolah</th>
-                  <th className="p-3.5">Disabilitas</th>
+                  <th className="p-3.5">Profil Dukungan</th>
                   <th className="p-3.5">Skor Kesiapan</th>
                 </tr>
               </thead>
@@ -284,7 +291,7 @@ export default function AdminDashboard({ students, companies, onAddStudent, pref
                       <span className={`px-2.5 py-1 rounded-lg text-[9px] font-bold border ${
                         isHighContrast ? 'bg-zinc-100 border-black text-black' : 'bg-[#161616] border-white/5 text-zinc-400'
                       }`}>
-                        {u.disabilityType}
+                        {u.supportProfile}
                       </span>
                     </td>
                     <td className={`p-3.5 font-bold ${isHighContrast ? 'text-black' : 'text-indigo-400'}`}>{u.readinessScore}%</td>
@@ -307,7 +314,7 @@ export default function AdminDashboard({ students, companies, onAddStudent, pref
               <tbody className={`divide-y divide-white/5 font-medium ${isHighContrast ? 'text-neutral-800' : 'text-zinc-300'}`}>
                 <tr className={isHighContrast ? 'hover:bg-zinc-100' : 'hover:bg-white/[0.01]'}>
                   <td className="p-3.5 font-mono text-[10px] text-zinc-500">school-slb-1</td>
-                  <td className={`p-3.5 font-bold ${isHighContrast ? 'text-black' : 'text-white'}`}>SLB Negeri 1 Jakarta</td>
+                  <td className={`p-3.5 font-bold ${isHighContrast ? 'text-black' : 'text-white'}`}>SLB/Sekolah Inklusi Negeri 1 Jakarta</td>
                   <td className="p-3.5">DKI Jakarta</td>
                   <td className="p-3.5">
                     <span className={`px-2.5 py-1 rounded-lg text-[9px] font-bold border ${
@@ -319,7 +326,7 @@ export default function AdminDashboard({ students, companies, onAddStudent, pref
                 </tr>
                 <tr className={isHighContrast ? 'hover:bg-zinc-100' : 'hover:bg-white/[0.01]'}>
                   <td className="p-3.5 font-mono text-[10px] text-zinc-500">school-slb-2</td>
-                  <td className={`p-3.5 font-bold ${isHighContrast ? 'text-black' : 'text-white'}`}>SLB Pembina Swasta</td>
+                  <td className={`p-3.5 font-bold ${isHighContrast ? 'text-black' : 'text-white'}`}>SLB/Sekolah Inklusi Pembina Swasta</td>
                   <td className="p-3.5">Jawa Barat</td>
                   <td className="p-3.5">
                     <span className={`px-2.5 py-1 rounded-lg text-[9px] font-bold border ${

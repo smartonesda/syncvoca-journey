@@ -3,7 +3,7 @@ const ASSETS_TO_CACHE = [
   '/',
   '/index.html',
   '/manifest.json',
-  '/favicon.ico'
+  '/syncvoca-logo.png'
 ];
 
 self.addEventListener('install', (event) => {
@@ -87,7 +87,7 @@ self.addEventListener('fetch', (event) => {
             return new Response(
               JSON.stringify({
                 success: true,
-                reply: "⚠️ Koneksi internet terputus. Saya adalah asisten AI offline Anda saat ini. Seluruh simulasi, nilai kompetensi, dan profil Anda tetap tersimpan aman di perangkat ini! Silakan hubungkan kembali internet untuk mengaktifkan kembali Mentor Karier AI penuh."
+                reply: "Koneksi internet terputus. Saya adalah asisten AI offline Anda saat ini. Seluruh simulasi, nilai kompetensi, dan profil Anda tetap tersimpan aman di perangkat ini. Silakan hubungkan kembali internet untuk mengaktifkan kembali Mentor Karier AI penuh."
               }),
               { headers: { 'Content-Type': 'application/json' } }
             );
@@ -139,8 +139,8 @@ self.addEventListener('push', (event) => {
   const title = data.title || 'SyncVoca Career Reminder';
   const options = {
     body: data.body || 'Ayo latih terus keterampilan kerja Anda!',
-    icon: '/favicon.ico',
-    badge: '/favicon.ico',
+    icon: '/syncvoca-logo.png',
+    badge: '/syncvoca-logo.png',
     data: data.url || '/',
     vibrate: [100, 50, 100],
     actions: [
@@ -179,8 +179,8 @@ self.addEventListener('message', (event) => {
     const { title, body, url } = event.data.payload;
     const options = {
       body,
-      icon: 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><rect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%232563eb%22/><path d=%22M150 150h212v50H150zm0 80h212v50H150zm0 80h130v50H150z%22 fill=%22%23ffffff%22/></svg>',
-      badge: 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><rect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%232563eb%22/><path d=%22M150 150h212v50H150zm0 80h212v50H150zm0 80h130v50H150z%22 fill=%22%23ffffff%22/></svg>',
+      icon: '/syncvoca-logo.png',
+      badge: '/syncvoca-logo.png',
       data: url || '/',
       vibrate: [100, 50, 100],
       tag: 'syncvoca-reminder-' + Date.now()

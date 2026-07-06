@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { jsPDF } from 'jspdf';
 import { 
   Gamepad2, User, Key, Keyboard, Package, Sparkles, CheckCircle2, 
   Eye, FileText, Printer, ArrowRight, TrendingUp, Accessibility, Star, Heart,
@@ -9,6 +8,7 @@ import {
   Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, Tooltip 
 } from 'recharts';
 import { StudentProfile, GameSession, AccessibilityPreferences, IndustryValidation } from '../types';
+import { useAppFeedback } from './AppFeedback';
 import Games from './Games';
 interface SiswaDashboardProps {
   student: StudentProfile;
@@ -27,6 +27,7 @@ export default function SiswaDashboard({
   preferences,
   validations 
 }: SiswaDashboardProps) {
+  const { notify } = useAppFeedback();
   const [activeTab, setActiveTab] = useState<'overview' | 'simulation' | 'portfolio' | 'mentor' | 'leaderboard'>('overview');
   const [leaderboardFilter, setLeaderboardFilter] = useState<'global' | 'logic' | 'data-entry' | 'package' | 'validation'>('global');
 
@@ -62,7 +63,11 @@ export default function SiswaDashboard({
 
   const requestNotificationPermission = async () => {
     if (!('Notification' in window)) {
-      alert('Browser atau frame ini tidak mendukung notifikasi sistem.');
+      notify({
+        title: 'Notifikasi tidak tersedia',
+        message: 'Browser atau frame ini belum mendukung notifikasi sistem.',
+        tone: 'warning'
+      });
       return;
     }
     try {
@@ -70,7 +75,7 @@ export default function SiswaDashboard({
       setNotificationPermission(permission);
       if (permission === 'granted') {
         sendNotificationDirectly(
-          'SyncVoca Aktif! 🔔',
+          'SyncVoca Aktif',
           'Terima kasih telah mengaktifkan pengingat PWA karir inklusif Anda.'
         );
       }
@@ -84,10 +89,10 @@ export default function SiswaDashboard({
       if ('serviceWorker' in navigator) {
         navigator.serviceWorker.ready.then((reg) => {
           // Send notification via Service Worker registration to work in background PWA style
-          reg.showNotification(title, {
+        reg.showNotification(title, {
             body,
-            icon: 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><rect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%232563eb%22/><path d=%22M150 150h212v50H150zm0 80h212v50H150zm0 80h130v50H150z%22 fill=%22%23ffffff%22/></svg>',
-            badge: 'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 512 512%22><rect width=%22512%22 height=%22512%22 rx=%22100%22 fill=%22%232563eb%22/><path d=%22M150 150h212v50H150zm0 80h212v50H150zm0 80h130v50H150z%22 fill=%22%23ffffff%22/></svg>',
+            icon: '/syncvoca-logo.png',
+            badge: '/syncvoca-logo.png',
             vibrate: [100, 50, 100],
             tag: 'syncvoca-reminder'
           } as any);
@@ -106,8 +111,8 @@ export default function SiswaDashboard({
     setIsScheduling(type);
     
     const title = type === 'simulation' 
-      ? '🎮 Waktunya Latihan di SyncVoca!' 
-      : '💼 Validasi Industri Menunggu!';
+      ? 'Waktunya Latihan di SyncVoca'
+      : 'Validasi Industri Menunggu';
     
     const body = type === 'simulation'
       ? `Halo ${student.name}, sudah 24 jam sejak simulasi terakhir Anda. Ayo ikuti simulasi baru untuk meningkatkan Kesiapan Kerja!`
@@ -123,7 +128,7 @@ export default function SiswaDashboard({
   const [chatMessages, setChatMessages] = useState<Array<{ role: 'user' | 'assistant'; text: string; id: string }>>([
     { 
       role: 'assistant', 
-      text: `Halo ${student.name}! Saya adalah Mentor Vokasi AI Anda di SyncVoca. 🌟\n\nSaya telah menganalisis profil dan minat Anda di bidang **${student.interest}** dengan jenis disabilitas **${student.disabilityType}**.\n\nSaya siap membantu menjawab pertanyaan Anda seputar persiapan kerja, bimbingan karier, akomodasi kerja yang diperlukan, serta bagaimana simulasi kerja di SyncVoca dapat membantu melatih keterampilan Anda.\n\nApa yang ingin Anda tanyakan hari ini?`,
+      text: `Halo ${student.name}! Saya adalah Mentor Vokasi AI Anda di SyncVoca.\n\nSaya telah membaca minat Anda di bidang **${student.interest}** dan profil dukungan ABK **${student.supportProfile}**.\n\nSaya siap membantu menjawab pertanyaan seputar persiapan kerja, bimbingan karier, akomodasi kerja yang diperlukan, serta bagaimana simulasi kerja di SyncVoca dapat membantu melatih keterampilan Anda.\n\nApa yang ingin Anda tanyakan hari ini?`,
       id: 'welcome'
     }
   ]);
@@ -131,7 +136,7 @@ export default function SiswaDashboard({
   const [chatLoading, setChatLoading] = useState(false);
   const [suggestedQuestions] = useState([
     `Bagaimana prospek kerja bidang ${student.interest}?`,
-    `Akomodasi apa yang bisa saya peroleh untuk disabilitas ${student.disabilityType}?`,
+    `Akomodasi apa yang bisa saya peroleh untuk profil dukungan ${student.supportProfile}?`,
     `Bagaimana melatih ketelitian kognitif atau data entry?`,
     `Tips menghadapi wawancara kerja yang inklusif?`
   ]);
@@ -254,7 +259,7 @@ export default function SiswaDashboard({
       const studentContext = {
         name: student.name,
         schoolName: student.schoolName,
-        disabilityType: student.disabilityType,
+        supportProfile: student.supportProfile,
         interest: student.interest,
         skills: student.skills,
         readinessScore: student.readinessScore,
@@ -308,7 +313,8 @@ export default function SiswaDashboard({
     window.print();
   };
 
-  const handleDownloadPDF = () => {
+  const handleDownloadPDF = async () => {
+    const { jsPDF } = await import('jspdf');
     const doc = new jsPDF('p', 'mm', 'a4');
     const studentValidations = validations.filter(v => v.studentId === student.id);
 
@@ -348,14 +354,14 @@ export default function SiswaDashboard({
     
     doc.text('Nama Lengkap', 20, y + 11);
     doc.text('Asal Sekolah', 20, y + 18);
-    doc.text('Kategori Disabilitas', 20, y + 25);
+    doc.text('Profil Dukungan ABK', 20, y + 25);
     doc.text('Minat Bidang Vokasi', 20, y + 32);
 
     doc.setFont('Helvetica', 'bold');
     doc.setTextColor(30, 41, 59);
     doc.text(`: ${student.name}`, 55, y + 11);
     doc.text(`: ${student.schoolName}`, 55, y + 18);
-    doc.text(`: ${student.disabilityType}`, 55, y + 25);
+    doc.text(`: ${student.supportProfile}`, 55, y + 25);
     doc.text(`: ${student.interest}`, 55, y + 32);
 
     // Readiness score circular indicator / box in info section
@@ -605,20 +611,20 @@ export default function SiswaDashboard({
             )}
           </div>
           <h2 className={`${headingClass} ${isHighContrast ? 'text-black' : 'text-white'}`}>
-            Halo, {student.name}! 👋
+            Halo, {student.name}!
           </h2>
           <p className={`${textClass} ${isHighContrast ? 'text-neutral-700' : 'text-zinc-400'}`}>
             Ayo latih terus kemampuan kerjamu, kumpulkan skor, dan siapkan resume masa depanmu.
           </p>
         </div>
         
-        <div className="flex flex-wrap gap-2.5">
-          <span className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${
+        <div className="flex w-full max-w-full flex-wrap gap-2.5 md:w-auto md:max-w-[44%] md:justify-end">
+          <span className={`max-w-full whitespace-normal break-words text-left text-xs font-bold px-3 py-1.5 rounded-xl border ${
             isHighContrast ? 'bg-neutral-200 text-black border-black' : 'bg-indigo-500/10 border-indigo-500/20 text-indigo-400'
           }`}>
-            {student.disabilityType}
+            {student.supportProfile}
           </span>
-          <span className={`text-xs font-bold px-3 py-1.5 rounded-xl border ${
+          <span className={`max-w-full whitespace-normal text-xs font-bold px-3 py-1.5 rounded-xl border ${
             isHighContrast ? 'bg-black text-white border-black' : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
           }`}>
             Kesiapan Kerja: {student.readinessScore}%
@@ -705,35 +711,41 @@ export default function SiswaDashboard({
               <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
                 
                 {/* Radar Chart Panel - Left (3/5 width on desktop) */}
-                <div className="lg:col-span-3 h-[280px] w-full flex items-center justify-center relative">
+                <div className="lg:col-span-3 h-[300px] w-full flex items-center justify-center relative sm:h-[280px]">
                   <ResponsiveContainer width="100%" height="100%">
-                    <RadarChart cx="50%" cy="50%" outerRadius="70%" data={competencyData}>
-                      <PolarGrid stroke={isHighContrast ? "#000000" : "rgba(255, 255, 255, 0.15)"} />
+                    <RadarChart
+                      cx="50%"
+                      cy="50%"
+                      outerRadius="58%"
+                      data={competencyData}
+                      margin={{ top: 24, right: 36, bottom: 24, left: 36 }}
+                    >
+                      <PolarGrid stroke={isHighContrast ? "#000000" : "#cfe1d2"} />
                       <PolarAngleAxis 
                         dataKey="subject" 
                         tick={{ 
-                          fill: isHighContrast ? "#000000" : "#a1a1aa", 
-                          fontSize: 10,
+                            fill: isHighContrast ? "#000000" : "#61746a", 
+                          fontSize: 9,
                           fontWeight: 600
                         }} 
                       />
                       <PolarRadiusAxis 
                         angle={30} 
                         domain={[0, 100]} 
-                        tick={{ fill: isHighContrast ? "#000000" : "#71717a", fontSize: 9 }}
+                        tick={{ fill: isHighContrast ? "#000000" : "#61746a", fontSize: 9 }}
                       />
                       <Radar
                         name={student.name}
                         dataKey="A"
-                        stroke={isHighContrast ? "#000000" : "#6366f1"}
-                        fill={isHighContrast ? "rgba(0,0,0,0.2)" : "rgba(99, 102, 241, 0.25)"}
+                        stroke={isHighContrast ? "#000000" : "#12843a"}
+                        fill={isHighContrast ? "rgba(0,0,0,0.2)" : "rgba(19, 138, 61, 0.18)"}
                         fillOpacity={0.6}
                       />
                       <Tooltip
                         contentStyle={{
-                          backgroundColor: isHighContrast ? '#ffffff' : '#161616',
-                          borderColor: isHighContrast ? '#000000' : 'rgba(255,255,255,0.1)',
-                          color: isHighContrast ? '#000000' : '#ffffff',
+                          backgroundColor: isHighContrast ? '#ffffff' : '#ffffff',
+                          borderColor: isHighContrast ? '#000000' : '#dbe7dd',
+                          color: isHighContrast ? '#000000' : '#17351f',
                           borderRadius: '12px',
                           fontSize: '11px',
                           fontWeight: 'bold'
@@ -822,7 +834,7 @@ export default function SiswaDashboard({
               
               {studentSessions.length === 0 ? (
                 <div className="text-center py-6">
-                  <span className="text-3xl block">🎮</span>
+                  <Gamepad2 className="mx-auto h-9 w-9 text-[#12843a]" />
                   <p className="text-xs text-zinc-500 mt-2">Belum ada aktivitas. Silakan coba menu Simulasi Kerja!</p>
                 </div>
               ) : (
@@ -868,25 +880,25 @@ export default function SiswaDashboard({
                 <div className={`p-3 rounded-xl border flex flex-col items-center ${
                   isHighContrast ? 'bg-zinc-100 border-black text-black' : 'bg-indigo-500/10 border-indigo-500/10 text-indigo-300'
                 }`}>
-                  <span className="text-2xl">⚡</span>
+                  <Clock className="h-6 w-6" />
                   <span className="text-[10px] font-bold mt-1 block">Fokus Tinggi</span>
                 </div>
                 <div className={`p-3 rounded-xl border flex flex-col items-center ${
                   isHighContrast ? 'bg-zinc-100 border-black text-black' : 'bg-emerald-500/10 border-emerald-500/10 text-emerald-300'
                 }`}>
-                  <span className="text-2xl">⌨️</span>
+                  <Keyboard className="h-6 w-6" />
                   <span className="text-[10px] font-bold mt-1 block">Ketik Akurat</span>
                 </div>
                 <div className={`p-3 rounded-xl border flex flex-col items-center ${
                   isHighContrast ? 'bg-zinc-100 border-black text-black' : 'bg-amber-500/10 border-amber-500/10 text-amber-300'
                 }`}>
-                  <span className="text-2xl">📦</span>
+                  <Package className="h-6 w-6" />
                   <span className="text-[10px] font-bold mt-1 block">Ahli Gudang</span>
                 </div>
                 <div className={`p-3 rounded-xl border flex flex-col items-center ${
                   isHighContrast ? 'bg-zinc-100 border-black text-black' : 'bg-rose-500/10 border-rose-500/10 text-rose-300'
                 }`}>
-                  <span className="text-2xl">❤️</span>
+                  <Heart className="h-6 w-6" />
                   <span className="text-[10px] font-bold mt-1 block">Disiplin Kerja</span>
                 </div>
               </div>
@@ -896,7 +908,7 @@ export default function SiswaDashboard({
             <div className={`p-6 rounded-3xl space-y-4 relative overflow-hidden ${
               isHighContrast ? 'bg-white border-4 border-black text-black' : 'bg-indigo-600 text-white bento-glow-indigo'
             }`}>
-              <div className={`absolute top-0 right-0 text-[9px] uppercase font-bold px-3 py-1 rotate-12 translate-x-3 translate-y-2 ${
+              <div className={`absolute right-2 top-2 text-[9px] uppercase font-bold px-3 py-1 rotate-6 ${
                 isHighContrast ? 'bg-black text-white' : 'bg-black/20 text-indigo-100'
               }`}>
                 Recom
@@ -1072,7 +1084,7 @@ export default function SiswaDashboard({
                 <span className="text-zinc-500 col-span-1">Nama</span>
                 <span className={`font-bold col-span-2 ${isHighContrast ? 'text-black' : 'text-zinc-100'}`}>: {student.name}</span>
 
-                <span className="text-zinc-500 col-span-1">Asal SLB</span>
+                <span className="text-zinc-500 col-span-1">Asal Sekolah</span>
                 <span className={`font-bold col-span-2 ${isHighContrast ? 'text-black' : 'text-zinc-100'}`}>: {student.schoolName}</span>
 
                 <span className="text-zinc-500 col-span-1">Minat Vokasi</span>
@@ -1160,7 +1172,7 @@ export default function SiswaDashboard({
                   <div key={val.id} className={`p-5 rounded-2xl border relative overflow-hidden ${
                     isHighContrast ? 'bg-zinc-100 border-black text-black' : 'bg-indigo-500/10 border-indigo-500/20 text-indigo-300'
                   }`}>
-                    <span className={`absolute top-0 right-0 text-[8px] uppercase font-bold px-3 py-0.5 rotate-12 translate-x-3 translate-y-1 ${
+                    <span className={`absolute right-2 top-2 text-[8px] uppercase font-bold px-3 py-0.5 rotate-6 ${
                       isHighContrast ? 'bg-black text-white' : 'bg-indigo-600 text-white'
                     }`}>
                       VALIDATED
@@ -1252,7 +1264,7 @@ export default function SiswaDashboard({
                 Tentang Mentor AI
               </h4>
               <p className="text-[11px] leading-relaxed text-zinc-400">
-                Mentor AI menggunakan teknologi kecerdasan buatan Gemini untuk memberikan panduan karir vokasi yang disesuaikan secara pribadi dengan potensi, jenis disabilitas, dan hasil simulasi kerja Anda.
+                Mentor AI menggunakan teknologi kecerdasan buatan Gemini untuk memberikan panduan karir vokasi yang disesuaikan secara pribadi dengan potensi, Profil Dukungan ABK, dan hasil simulasi kerja Anda.
               </p>
             </div>
           </div>
@@ -1505,7 +1517,7 @@ export default function SiswaDashboard({
                           {/* Disability Type Tag */}
                           <div className="pt-0.5">
                             <span className="px-1.5 py-0.5 rounded bg-zinc-900 border border-white/5 text-[9px] text-zinc-400">
-                              {item.student.disabilityType.split('(')[0].trim()}
+                              {item.student.supportProfile.split('(')[0].trim()}
                             </span>
                           </div>
                         </div>

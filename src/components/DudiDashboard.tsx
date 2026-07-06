@@ -3,21 +3,34 @@ import {
   Building2, Users, Search, Filter, Plus, FileText, Printer, 
   CheckCircle2, Sparkles, Send, X, ClipboardList, Briefcase, DollarSign, MapPin
 } from 'lucide-react';
-import { StudentProfile, GameSession, JobPosting, IndustryValidation, AccessibilityPreferences } from '../types';
+import {
+  AccessibilityPreferences,
+  DudiCandidateProfile,
+  GameSession,
+  IndustryValidation,
+  JobPosting,
+  StudentConsent,
+  StudentProfile,
+  ValidationActionResult
+} from '../types';
+import { useAppFeedback } from './AppFeedback';
+import { createDudiCandidateProfiles } from '../privacy';
 
 interface DudiDashboardProps {
   students: StudentProfile[];
   sessions: GameSession[];
   jobs: JobPosting[];
   validations: IndustryValidation[];
+  consents?: StudentConsent[];
   onAddJob: (job: Omit<JobPosting, 'id'>) => void;
-  onAddValidation: (val: Omit<IndustryValidation, 'id'>) => void;
+  onAddValidation: (val: Omit<IndustryValidation, 'id'>, actorRole?: 'dudi') => ValidationActionResult;
   preferences: AccessibilityPreferences;
 }
 
 export default function DudiDashboard({ 
-  students, sessions, jobs, validations, onAddJob, onAddValidation, preferences 
+  students, sessions, jobs, validations, consents = [], onAddJob, onAddValidation, preferences 
 }: DudiDashboardProps) {
+  const { notify } = useAppFeedback();
   const [activeTab, setActiveTab] = useState<'talent' | 'jobs' | 'add-job'>('talent');
   
   // Talent search states
@@ -25,7 +38,8 @@ export default function DudiDashboard({
   const [skillFilter, setSkillFilter] = useState('All');
 
   // Modal / Drawer states for Validation
-  const [selectedStudentForValidation, setSelectedStudentForValidation] = useState<StudentProfile | null>(null);
+  const dudiCandidates = createDudiCandidateProfiles(students, sessions, validations, consents, jobs);
+  const [selectedStudentForValidation, setSelectedStudentForValidation] = useState<DudiCandidateProfile | null>(null);
   const [validatedSkills, setValidatedSkills] = useState<string[]>([]);
   const [validationNote, setValidationNote] = useState('');
 
@@ -34,7 +48,7 @@ export default function DudiDashboard({
     title: '',
     companyName: 'PT Techindo Solusi Digital',
     location: 'Jakarta Selatan',
-    disabilitySupports: [] as string[],
+    accommodationSupports: [] as string[],
     requiredSkills: [] as string[],
     description: '',
     salaryRange: 'Rp 4.000.000 - Rp 5.000.000',
@@ -54,36 +68,45 @@ export default function DudiDashboard({
   }[preferences.textSize];
 
   // Filtering candidates
-  const filteredStudents = students.filter(s => {
-    const matchesSearch = s.name.toLowerCase().includes(talentSearch.toLowerCase()) || 
-                          s.interest.toLowerCase().includes(talentSearch.toLowerCase());
+  const filteredCandidates = dudiCandidates.filter(candidate => {
+    const matchesSearch = candidate.displayCode.toLowerCase().includes(talentSearch.toLowerCase()) ||
+                          candidate.interest.toLowerCase().includes(talentSearch.toLowerCase()) ||
+                          candidate.skills.some((skill) => skill.toLowerCase().includes(talentSearch.toLowerCase()));
     
-    const matchesSkill = skillFilter === 'All' || s.skills.includes(skillFilter);
+    const matchesSkill = skillFilter === 'All' || candidate.skills.includes(skillFilter);
 
     return matchesSearch && matchesSkill;
   });
 
   // Extract all unique skills across all students for the filter
-  const allSkills = Array.from(new Set(students.flatMap(s => s.skills)));
+  const allSkills = Array.from(new Set(dudiCandidates.flatMap(candidate => candidate.skills)));
 
   // Handle Validation submit
   const handleValidationSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedStudentForValidation || validatedSkills.length === 0) return;
 
-    onAddValidation({
-      studentId: selectedStudentForValidation.id,
+    const result = onAddValidation({
+      studentId: selectedStudentForValidation.studentRef,
       companyId: 'company-techindo',
       companyName: 'PT Techindo Solusi Digital',
       validatedSkills,
       sealIssuedAt: new Date().toISOString(),
       note: validationNote.trim()
-    });
+    }, 'dudi');
 
-    setSelectedStudentForValidation(null);
-    setValidatedSkills([]);
-    setValidationNote('');
-    alert(`Sukses! Industry Validation Seal resmi terbit untuk ${selectedStudentForValidation.name}!`);
+    if (result.ok) {
+      setSelectedStudentForValidation(null);
+      setValidatedSkills([]);
+      setValidationNote('');
+    }
+    notify({
+      title: result.ok ? 'Industry Validation Seal terbit' : 'Consent belum aktif',
+      message: result.ok
+        ? `${selectedStudentForValidation.displayCode} sudah mendapat validasi kompetensi dari DUDI.`
+        : result.message,
+      tone: result.ok ? 'success' : 'warning'
+    });
   };
 
   const handleToggleSkillSelection = (skill: string) => {
@@ -103,7 +126,7 @@ export default function DudiDashboard({
       companyName: newJob.companyName,
       industry: 'Teknologi Informasi & Software',
       location: newJob.location,
-      disabilitySupports: newJob.disabilitySupports.length > 0 ? newJob.disabilitySupports : ['Tunarungu (Hearing)', 'Tunawicara (Speech)'],
+      accommodationSupports: newJob.accommodationSupports.length > 0 ? newJob.accommodationSupports : ['Komunikasi tertulis', 'Instruksi visual', 'Checklist kerja bertahap'],
       requiredSkills: newJob.requiredSkills.length > 0 ? newJob.requiredSkills : ['Data Entry', 'Microsoft Excel'],
       description: newJob.description,
       salaryRange: newJob.salaryRange,
@@ -116,13 +139,17 @@ export default function DudiDashboard({
       title: '',
       companyName: 'PT Techindo Solusi Digital',
       location: 'Jakarta Selatan',
-      disabilitySupports: [],
+      accommodationSupports: [],
       requiredSkills: [],
       description: '',
       salaryRange: 'Rp 4.000.000 - Rp 5.000.000',
       type: 'Hybrid'
     });
-    alert('Lowongan Inklusif baru berhasil diterbitkan!');
+    notify({
+      title: 'Lowongan inklusif diterbitkan',
+      message: 'Kebutuhan talenta DUDI sudah tersedia untuk ekosistem SyncVoca.',
+      tone: 'success'
+    });
   };
 
   const isHighContrast = preferences.highContrast;
@@ -140,7 +167,7 @@ export default function DudiDashboard({
             Portal Rekrutmen & Hub Mitra Industri
           </h2>
           <p className={`text-xs ${isHighContrast ? 'text-neutral-700' : 'text-zinc-400'}`}>
-            Mengkoneksikan pencarian bakat disabilitas berbasis data riil kompetensi bebas bias demi lingkungan kerja inklusif.
+            Mengkoneksikan pencarian talenta ABK berbasis data riil kompetensi bebas bias demi lingkungan kerja inklusif.
           </p>
         </div>
 
@@ -234,34 +261,41 @@ export default function DudiDashboard({
 
           {/* Candidates grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredStudents.map((student) => {
-              const isValidated = validations.some(v => v.studentId === student.id);
+            {filteredCandidates.map((candidate) => {
+              const isValidated = candidate.validationSeals.length > 0;
 
               return (
-                <div key={student.id} className={`p-5 rounded-3xl border flex flex-col justify-between space-y-4 hover:shadow-xl transition duration-200 ${
+                <div key={candidate.candidateId} className={`p-5 rounded-3xl border flex flex-col justify-between space-y-4 hover:shadow-xl transition duration-200 ${
                   isHighContrast ? 'bg-white text-black border-4 border-black' : 'bg-[#111] border-white/5 hover:border-white/10'
                 }`}>
                   <div className="space-y-3">
                     <div className="flex justify-between items-start gap-2">
                       <div>
-                        <h4 className={`font-bold text-xs ${isHighContrast ? 'text-black' : 'text-zinc-200'}`}>{student.name}</h4>
-                        <p className="text-[10px] text-zinc-500 font-bold uppercase mt-0.5">{student.disabilityType}</p>
+                        <h4 className={`font-bold text-xs ${isHighContrast ? 'text-black' : 'text-zinc-200'}`}>{candidate.displayCode}</h4>
+                        <p className="text-[10px] text-zinc-500 font-bold uppercase mt-0.5">{candidate.schoolSegment}</p>
                       </div>
                       <span className={`text-[10px] font-bold px-2.5 py-1 rounded-lg border ${
                         isHighContrast ? 'bg-black text-white border-black' : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
                       }`}>
-                        {student.readinessScore}% Kesiapan
+                        {candidate.readinessScore}% Kesiapan
                       </span>
                     </div>
 
                     <p className={`text-xs leading-relaxed line-clamp-3 ${isHighContrast ? 'text-neutral-700' : 'text-zinc-400'}`}>
-                      {student.bio}
+                      {candidate.portfolioSummary}
                     </p>
+                    <div className={`w-fit rounded-lg border px-2.5 py-1 text-[9px] font-bold uppercase tracking-wider ${
+                      candidate.consentStatus === 'approved' && candidate.consentScopes.includes('industry-validation')
+                        ? (isHighContrast ? 'border-black bg-white text-black' : 'border-emerald-500/20 bg-emerald-500/10 text-emerald-400')
+                        : (isHighContrast ? 'border-black bg-zinc-100 text-black' : 'border-amber-500/20 bg-amber-500/10 text-amber-300')
+                    }`}>
+                      Consent {candidate.consentStatus}
+                    </div>
 
                     <div className="space-y-1.5">
                       <span className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider block">Keterampilan Kerja Teruji:</span>
                       <div className="flex flex-wrap gap-1">
-                        {student.skills.map((skill, i) => (
+                        {candidate.skills.map((skill, i) => (
                           <span key={i} className={`px-2 py-1 rounded-md text-[9px] font-bold border ${
                             isHighContrast ? 'bg-zinc-100 border-black text-black' : 'bg-[#161616] border-white/5 text-zinc-400'
                           }`}>
@@ -275,7 +309,7 @@ export default function DudiDashboard({
                   <div className="pt-3 border-t border-white/5 flex flex-wrap justify-between items-center gap-2">
                     <button
                       onClick={() => {
-                        setSelectedStudentForValidation(student);
+                        setSelectedStudentForValidation(candidate);
                         setValidatedSkills([]);
                         setValidationNote(`Telah berhasil menyelesaikan simulasi dengan performa sangat memuaskan dan direkomendasikan magang.`);
                       }}
@@ -319,7 +353,7 @@ export default function DudiDashboard({
             </div>
 
             <p className="text-xs text-zinc-400 leading-relaxed">
-              Pilihlah keahlian yang ingin perusahaan validasi secara resmi untuk <strong>{selectedStudentForValidation.name}</strong> guna mendongkrak skor pencapaian portofolio kerjanya.
+              Pilihlah keahlian yang ingin perusahaan validasi secara resmi untuk <strong>{selectedStudentForValidation.displayCode}</strong> guna mendongkrak skor pencapaian portofolio kerjanya.
             </p>
 
             <form onSubmit={handleValidationSubmit} className="space-y-4 text-xs font-medium">
@@ -416,7 +450,7 @@ export default function DudiDashboard({
                     </div>
 
                     <div className="flex flex-wrap gap-1 pt-1">
-                      {job.disabilitySupports.map((supp, i) => (
+                      {job.accommodationSupports.map((supp, i) => (
                         <span key={i} className={`px-2 py-0.5 rounded text-[9px] font-bold border ${
                           isHighContrast ? 'bg-zinc-100 border-black text-black' : 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400'
                         }`}>
@@ -515,6 +549,44 @@ export default function DudiDashboard({
                 <option value="Remote">Remote (Kerja 100% Dari Rumah)</option>
                 <option value="Onsite">Onsite (Kerja Di Kantor/Gudang Fisik)</option>
               </select>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div className="space-y-1">
+              <label className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider block">Skill Wajib (Pisahkan dengan koma)</label>
+              <input
+                type="text"
+                value={newJob.requiredSkills.join(', ')}
+                onChange={(e) => setNewJob(prev => ({
+                  ...prev,
+                  requiredSkills: e.target.value.split(',').map(item => item.trim()).filter(Boolean)
+                }))}
+                placeholder="Contoh: Data Entry, Quality Checking, Canva"
+                className={`w-full border rounded-xl p-2.5 text-xs focus:outline-none focus:ring-1 ${
+                  isHighContrast
+                    ? 'bg-white border-black text-black focus:ring-black'
+                    : 'bg-[#161616] border-white/10 text-white focus:ring-indigo-500'
+                }`}
+              />
+            </div>
+
+            <div className="space-y-1">
+              <label className="text-[9px] font-bold text-zinc-500 uppercase tracking-wider block">Akomodasi Kerja (Pisahkan dengan koma)</label>
+              <input
+                type="text"
+                value={newJob.accommodationSupports.join(', ')}
+                onChange={(e) => setNewJob(prev => ({
+                  ...prev,
+                  accommodationSupports: e.target.value.split(',').map(item => item.trim()).filter(Boolean)
+                }))}
+                placeholder="Contoh: Instruksi visual, checklist kerja, job coach"
+                className={`w-full border rounded-xl p-2.5 text-xs focus:outline-none focus:ring-1 ${
+                  isHighContrast
+                    ? 'bg-white border-black text-black focus:ring-black'
+                    : 'bg-[#161616] border-white/10 text-white focus:ring-indigo-500'
+                }`}
+              />
             </div>
           </div>
 
