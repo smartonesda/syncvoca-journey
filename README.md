@@ -6,7 +6,7 @@
 
 This contains everything you need to run your app locally.
 
-View your app in AI Studio: https://ai.studio/apps/1e8b0588-fe3f-4496-911b-c91f70276999
+View your app in https://syncvoca-journey-707456965645.asia-southeast1.run.app/
 
 ## Run Locally
 
