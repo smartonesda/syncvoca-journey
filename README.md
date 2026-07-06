@@ -123,38 +123,6 @@ Dengan kata lain, prototype ini menjadi acuan product flow dan UI. Real apps per
 - jsPDF untuk export report
 - localStorage untuk penyimpanan data demo
 
-## Struktur Penting
-
-```text
-docs/
-  PRD.md
-  TASKS.md
-  WEB_DESIGN.md
-  *.pdf
-
-src/
-  App.tsx
-  data.ts
-  types.ts
-  privacy.ts
-  report.ts
-  components/
-    LandingPage.tsx
-    JourneyWorkspace.tsx
-    AppFeedback.tsx
-    AccessibilityPanel.tsx
-  utils/
-    scroll.ts
-
-scripts/
-  check-dudi-privacy.ts
-
-public/
-  syncvoca-logo.png
-  manifest.json
-  sw.js
-```
-
 ## Dokumen Acuan
 
 - `docs/README.md`: peta dokumentasi tim dan aturan penempatan panduan.
