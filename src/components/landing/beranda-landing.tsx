@@ -1,0 +1,1013 @@
+import Image from "next/image";
+import Link from "next/link";
+import type { LucideIcon } from "lucide-react";
+import {
+  ArrowRight,
+  BadgeCheck,
+  BookOpenCheck,
+  BriefcaseBusiness,
+  Building2,
+  Check,
+  CheckCircle2,
+  ChevronRight,
+  CircleUserRound,
+  ClipboardCheck,
+  Database,
+  HeartHandshake,
+  LockKeyhole,
+  Mail,
+  MapPin,
+  Medal,
+  PlayCircle,
+  Send,
+  ShieldCheck,
+  Target,
+  UserCheck,
+  UsersRound,
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+
+const navItems = [
+  { label: "Beranda", href: "#beranda" },
+  { label: "Cara Kerja", href: "#cara-kerja" },
+  { label: "Bukti Kerja", href: "#bukti-kerja" },
+  { label: "Keamanan Data", href: "#keamanan-data" },
+  { label: "Untuk Siapa", href: "#untuk-siapa" },
+  { label: "Ekosistem", href: "#ekosistem" },
+  { label: "Tentang Kami", href: "#tentang-kami" },
+  { label: "Kontak", href: "#kontak" },
+];
+
+const trustBadges = [
+  { icon: ShieldCheck, title: "Aman & Privasi", body: "Terlindungi" },
+  { icon: CheckCircle2, title: "Berbasis Bukti", body: "& Terukur" },
+  { icon: UsersRound, title: "Empati, Inklusif", body: "& Aksesibel" },
+  { icon: Building2, title: "Siap Validasi", body: "Industri" },
+];
+
+const problemCards = [
+  {
+    icon: CircleUserRound,
+    tone: "green",
+    title: "ABK punya potensi, tapi sering sulit dibuktikan.",
+    body: "Banyak kemampuan hebat yang belum terlihat dan butuh peluang yang utuh berkembang.",
+  },
+  {
+    icon: Building2,
+    tone: "amber",
+    title: "Sekolah dan orang tua punya catatan, tapi belum jadi portofolio kerja.",
+    body: "Catatan perkembangan masih tersebar dan belum tersusun sebagai bukti kompetensi yang kuat.",
+  },
+  {
+    icon: BriefcaseBusiness,
+    tone: "blue",
+    title: "DUDI butuh bukti kompetensi yang jelas.",
+    body: "DUDI membutuhkan informasi yang dapat dipercaya untuk menilai kesiapan kerja secara adil.",
+  },
+  {
+    icon: LockKeyhole,
+    tone: "purple",
+    title: "Data sensitif anak harus tetap aman.",
+    body: "Informasi pribadi dan catatan sensitif hanya boleh diakses oleh pihak yang berwenang.",
+  },
+] satisfies Array<{ icon: LucideIcon; tone: Tone; title: string; body: string }>;
+
+const journeySteps = [
+  {
+    icon: CircleUserRound,
+    tone: "green",
+    title: "1. Mengenal Diri",
+    body: "Mengenali potensi, minat, dan kebutuhan dukungan.",
+    status: "Selesai",
+  },
+  {
+    icon: Target,
+    tone: "green",
+    title: "2. Eksplorasi Minat",
+    body: "Menjelajahi minat dan kemampuan melalui simulasi adaptif.",
+    status: "Selesai",
+  },
+  {
+    icon: BriefcaseBusiness,
+    tone: "amber",
+    title: "3. Pra-Internship",
+    body: "Asah keterampilan kerja melalui simulasi dan latihan terarah.",
+    status: "Berjalan",
+  },
+  {
+    icon: UsersRound,
+    tone: "blue",
+    title: "4. Internship",
+    body: "Pengalaman kerja nyata di lingkungan yang terkontrol dan aman.",
+    status: "Menunggu",
+  },
+  {
+    icon: Medal,
+    tone: "purple",
+    title: "5. Siap Kerja",
+    body: "Portofolio siap, divalidasi industri, dan siap untuk peluang nyata.",
+    status: "Menunggu",
+  },
+] satisfies Array<{
+  icon: LucideIcon;
+  tone: Tone;
+  title: string;
+  body: string;
+  status: "Selesai" | "Berjalan" | "Menunggu";
+}>;
+
+const proofCards = [
+  {
+    icon: ClipboardCheck,
+    tone: "green",
+    title: "Simulasi Adaptif",
+    body: "Simulasi yang menyesuaikan tingkat kesulitan dengan kemampuan siswa.",
+    visual: "simulation",
+  },
+  {
+    icon: BookOpenCheck,
+    tone: "green",
+    title: "Evidence Stack",
+    body: "Semua bukti dikumpulkan dan diverifikasi dalam satu tempat.",
+    visual: "evidence",
+  },
+  {
+    icon: BadgeCheck,
+    tone: "blue",
+    title: "Portofolio ABK",
+    body: "Portofolio kompetensi yang siap dibagikan ke sekolah, orang tua, dan DUDI.",
+    visual: "portfolio",
+  },
+  {
+    icon: HeartHandshake,
+    tone: "green",
+    title: "Rencana Pendampingan",
+    body: "Guru dan orang tua memiliki panduan pendampingan yang terstruktur.",
+    visual: "support",
+  },
+  {
+    icon: ShieldCheck,
+    tone: "amber",
+    title: "Validasi DUDI",
+    body: "DUDI memvalidasi kompetensi berdasarkan bukti, bukan sekadar klaim.",
+    visual: "validation",
+  },
+] satisfies Array<{
+  icon: LucideIcon;
+  tone: Tone;
+  title: string;
+  body: string;
+  visual: "simulation" | "evidence" | "portfolio" | "support" | "validation";
+}>;
+
+const privacyItems = [
+  {
+    icon: ShieldCheck,
+    title: "DUDI hanya melihat data publik yang relevan.",
+    body: "Hanya informasi kompetensi dan bukti kerja yang bisa dilihat DUDI.",
+  },
+  {
+    icon: LockKeyhole,
+    title: "Catatan sensitif tetap di sekolah/keluarga.",
+    body: "Catatan kebutuhan dukungan dan informasi sensitif tidak dibagikan.",
+  },
+  {
+    icon: UserCheck,
+    title: "Consent diperlukan sebelum validasi dan placement.",
+    body: "Persetujuan dari sekolah dan orang tua wajib sebelum data dibagikan lebih luas.",
+  },
+  {
+    icon: Database,
+    title: "Sistem aman dan terenkripsi.",
+    body: "Menggunakan enkripsi, kontrol akses, dan audit log untuk setiap aktivitas.",
+  },
+];
+
+const roleCards = [
+  {
+    image: "/landing/beranda/role-siswa.webp",
+    title: "Siswa",
+    color: "green",
+    bullets: [
+      "Kenali potensi dan minat diri",
+      "Latihan dan simulasi seru",
+      "Portofolio kerja yang membanggakan",
+      "Siap untuk peluang kerja nyata",
+    ],
+  },
+  {
+    image: "/landing/beranda/role-guru.webp",
+    title: "Guru",
+    color: "amber",
+    bullets: [
+      "Pantau perkembangan siswa",
+      "Rencana pendampingan terstruktur",
+      "Kelola bukti dan portofolio siswa",
+      "Laporan perkembangan otomatis",
+    ],
+  },
+  {
+    image: "/landing/beranda/role-orang-tua.webp",
+    title: "Orang Tua",
+    color: "amber",
+    bullets: [
+      "Lihat perkembangan anak",
+      "Dapat rekomendasi dukungan",
+      "Terlibat dalam perjalanan anak",
+      "Tenang dengan data yang aman",
+    ],
+  },
+  {
+    image: "/landing/beranda/role-dudi.webp",
+    title: "DUDI",
+    color: "blue",
+    bullets: [
+      "Temukan talenta berbasis bukti",
+      "Validasi kompetensi secara adil",
+      "Pipeline kandidat terverifikasi",
+      "Kolaborasi dengan sekolah",
+    ],
+  },
+  {
+    image: "/landing/beranda/role-admin.webp",
+    title: "Admin",
+    color: "purple",
+    bullets: [
+      "Kelola sistem dan pengguna",
+      "Pantau ekosistem secara menyeluruh",
+      "Audit dan keamanan terjamin",
+      "Data akurat untuk keputusan",
+    ],
+  },
+] satisfies Array<{ image: string; title: string; color: Tone; bullets: string[] }>;
+
+const stats = [
+  { icon: UsersRound, value: "10K+", label: "Siswa Aktif" },
+  { icon: Building2, value: "250+", label: "Sekolah Bergabung" },
+  { icon: BriefcaseBusiness, value: "150+", label: "DUDI Mitra" },
+  { icon: ShieldCheck, value: "100%", label: "Berbasis Bukti" },
+  { icon: Medal, value: "Aman &", label: "Terpercaya" },
+];
+
+const footerColumns = [
+  {
+    title: "Platform",
+    links: ["Untuk Siswa", "Untuk Guru", "Untuk Orang Tua", "Untuk DUDI", "Untuk Admin"],
+  },
+  {
+    title: "Informasi",
+    links: ["Cara Kerja", "Bukti Kerja", "Keamanan Data", "Kebijakan Privasi", "Syarat & Ketentuan"],
+  },
+  {
+    title: "Bantuan",
+    links: ["Pusat Bantuan", "Panduan Pengguna", "Video Tutorial", "FAQ"],
+  },
+];
+
+type Tone = "green" | "amber" | "blue" | "purple";
+
+const toneClass: Record<Tone, { badge: string; icon: string; soft: string; text: string }> = {
+  green: {
+    badge: "bg-emerald-50 text-emerald-700",
+    icon: "text-emerald-600",
+    soft: "bg-emerald-50",
+    text: "text-emerald-600",
+  },
+  amber: {
+    badge: "bg-amber-50 text-amber-700",
+    icon: "text-amber-500",
+    soft: "bg-amber-50",
+    text: "text-amber-500",
+  },
+  blue: {
+    badge: "bg-blue-50 text-blue-700",
+    icon: "text-blue-600",
+    soft: "bg-blue-50",
+    text: "text-blue-600",
+  },
+  purple: {
+    badge: "bg-violet-50 text-violet-700",
+    icon: "text-violet-600",
+    soft: "bg-violet-50",
+    text: "text-violet-600",
+  },
+};
+
+export function BerandaLanding() {
+  return (
+    <main id="beranda" className="min-h-screen overflow-x-hidden bg-[#fbfdfb] text-[#111c33]">
+      <LandingHeader />
+      <HeroSection />
+      <ProblemSection />
+      <JourneySection />
+      <ProofSection />
+      <PrivacySection />
+      <RoleSection />
+      <EcosystemSection />
+      <CtaSection />
+      <LandingFooter />
+    </main>
+  );
+}
+
+function LandingHeader() {
+  return (
+    <header className="sticky top-0 z-50 border-b border-[#e5eee8] bg-white/95 shadow-[0_10px_24px_rgba(17,28,51,0.04)] backdrop-blur">
+      <nav className="mx-auto flex min-h-20 w-full max-w-screen-2xl items-center justify-between gap-4 px-5 sm:px-8 xl:px-10">
+        <a href="#beranda" className="focus-ring flex shrink-0 items-center gap-3 rounded-2xl">
+          <Image
+            src="/landing/beranda/syncvoca-mark.webp"
+            alt="SyncVoca"
+            width={52}
+            height={52}
+            className="size-10 rounded-xl object-cover sm:size-11"
+            priority
+          />
+          <div className="leading-none">
+            <p className="text-2xl font-extrabold leading-none tracking-normal text-[#111c33]">
+              SyncVoca
+            </p>
+            <p className="mt-1 text-xs font-semibold text-[#24304b]">
+              Bukti Kerja, Masa Depan, Bersama.
+            </p>
+          </div>
+        </a>
+
+        <div className="hidden items-center gap-1 xl:flex">
+          {navItems.map((item) => (
+            <a
+              key={item.label}
+              href={item.href}
+              className={cn(
+                "focus-ring relative whitespace-nowrap rounded-full px-3 py-2 text-xs font-bold text-[#111c33] transition hover:text-[#008a4a]",
+                item.label === "Beranda" &&
+                  "text-[#008a4a] after:absolute after:inset-x-4 after:-bottom-1 after:h-[3px] after:rounded-full after:bg-[#24bf79]",
+              )}
+            >
+              {item.label}
+            </a>
+          ))}
+        </div>
+
+        <div className="hidden shrink-0 items-center gap-3 sm:flex">
+          <Link
+            href="/login"
+            className="focus-ring inline-flex min-h-11 items-center justify-center rounded-xl border border-[#13a966] bg-white px-4 text-sm font-extrabold text-[#008a4a] transition hover:bg-[#effaf4] sm:px-5"
+          >
+            Masuk
+          </Link>
+          <Link
+            href="/login"
+            className="focus-ring hidden min-h-11 items-center justify-center rounded-xl bg-[#008a4a] px-5 text-sm font-extrabold text-white shadow-[0_12px_24px_rgba(0,138,74,0.18)] transition hover:bg-[#006d3b] sm:inline-flex sm:px-6"
+          >
+            Masuk Portal Demo
+          </Link>
+        </div>
+      </nav>
+    </header>
+  );
+}
+
+function HeroSection() {
+  return (
+    <section className="border-b border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
+      <div className="sv-hero-grid mx-auto grid w-full max-w-screen-2xl gap-7 px-5 pb-8 pt-9 sm:px-8 lg:grid-cols-2 lg:items-start lg:pb-0 xl:px-10">
+        <div className="relative z-10 w-full min-w-0 max-w-3xl overflow-hidden">
+          <div className="inline-flex min-h-8 items-center gap-2 rounded-full bg-[#effaf4] px-4 text-sm font-extrabold text-[#008a4a]">
+            <ShieldCheck className="size-4" />
+            Ekosistem Vokasi Inklusif untuk ABK
+          </div>
+
+          <h1 className="mt-7 max-w-full break-words text-3xl font-extrabold leading-tight tracking-normal text-[#111c33] sm:text-5xl lg:text-5xl">
+            Temukan Potensi.
+            <br />
+            Siapkan Masa Depan.
+            <br />
+            <span className="text-[#0cae61]">Tumbuh</span> Bersama
+            <br className="sm:hidden" /> SyncVoca.
+          </h1>
+
+          <p className="mt-6 max-w-full break-words text-base font-medium leading-8 text-[#42506a] sm:max-w-2xl sm:text-lg">
+            SyncVoca membantu siswa mengenal diri, mengasah kompetensi, dan
+            terhubung dengan dunia kerja yang inklusif dan bermakna.
+          </p>
+
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <Link
+              href="/login"
+              className="focus-ring inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-[#009856] px-8 text-base font-extrabold text-white shadow-[0_18px_32px_rgba(0,152,86,0.2)] transition hover:bg-[#007b45]"
+            >
+              Masuk Portal Demo
+              <span className="grid size-6 place-items-center rounded-full border border-white/60">
+                <ArrowRight className="size-4" />
+              </span>
+            </Link>
+            <a
+              href="#cara-kerja"
+              className="focus-ring inline-flex min-h-14 items-center justify-center gap-3 rounded-xl border border-[#dbe7e0] bg-white px-8 text-base font-extrabold text-[#111c33] shadow-sm transition hover:bg-[#f7fbf8]"
+            >
+              Pelajari Cara Kerja
+              <PlayCircle className="size-5 text-[#111c33]" />
+            </a>
+          </div>
+
+          <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4">
+            {trustBadges.map((item) => (
+              <div key={item.title} className="flex min-w-0 items-center gap-3">
+                <span className="grid size-10 shrink-0 place-items-center rounded-xl bg-[#eaf8ee] text-[#06995a]">
+                  <item.icon className="size-5" />
+                </span>
+                <p className="text-sm font-extrabold leading-5 text-[#17233c]">
+                  {item.title}
+                  <br />
+                  {item.body}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="relative mx-auto min-w-0 w-full max-w-3xl self-end lg:mx-0 lg:self-start">
+          <Image
+            src="/landing/beranda/hero-students.webp"
+            alt="Dua siswa SyncVoca memegang tablet"
+            width={1100}
+            height={826}
+            priority
+            sizes="(max-width: 1024px) 92vw, 52vw"
+            className="h-auto w-full object-contain"
+          />
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProblemSection() {
+  return (
+    <section className="bg-white py-8">
+      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+        <SectionTitle
+          id="masalah"
+          eyebrow="Masalah yang Ingin Diselesaikan"
+          showArrows
+        />
+        <div className="mt-7 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {problemCards.map((item) => (
+            <InfoCard key={item.title} {...item} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function JourneySection() {
+  return (
+    <section id="cara-kerja" className="bg-[#fbfdfb] py-8">
+      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold leading-tight text-[#111c33]">
+            Cara SyncVoca Membantu
+          </h2>
+          <p className="mt-2 text-sm font-medium text-[#5e6a7e]">
+            Perjalanan 5 tahap untuk membantu ABK berkembang sesuai potensinya.
+          </p>
+        </div>
+
+        <div className="mt-9 grid gap-5 lg:grid-cols-5">
+          {journeySteps.map((step, index) => (
+            <JourneyCard key={step.title} step={step} index={index} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProofSection() {
+  return (
+    <section id="bukti-kerja" className="bg-[#fbfdfb] py-7">
+      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold leading-tight text-[#111c33]">
+            Mengubah Aktivitas Menjadi Bukti Kerja
+          </h2>
+          <p className="mt-2 text-sm font-medium text-[#5e6a7e]">
+            Setiap langkah menghasilkan bukti yang terukur dan bermakna.
+          </p>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+          {proofCards.map((card) => (
+            <ProofCard key={card.title} {...card} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function PrivacySection() {
+  return (
+    <section id="keamanan-data" className="bg-[#fbfdfb] py-8">
+      <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
+        <div className="rounded-2xl border border-[#dbe9df] bg-[linear-gradient(90deg,#f3fbf5_0%,#ffffff_52%,#f3fbf5_100%)] px-6 py-7 shadow-[0_14px_36px_rgba(17,28,51,0.05)]">
+          <div className="text-center">
+            <h2 className="text-2xl font-extrabold text-[#111c33]">Keamanan Data Anak</h2>
+            <p className="mt-2 text-sm font-medium text-[#5e6a7e]">
+              Kami menjaga setiap data dengan standar keamanan tinggi.
+            </p>
+          </div>
+          <div className="mt-7 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+            {privacyItems.map((item) => (
+              <div key={item.title} className="flex gap-4">
+                <span className="grid size-14 shrink-0 place-items-center rounded-2xl bg-[#e5f6ec] text-[#009856]">
+                  <item.icon className="size-7" />
+                </span>
+                <div>
+                  <h3 className="text-sm font-extrabold leading-5 text-[#111c33]">
+                    {item.title}
+                  </h3>
+                  <p className="mt-2 text-sm font-medium leading-6 text-[#5e6a7e]">
+                    {item.body}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function RoleSection() {
+  return (
+    <section id="untuk-siapa" className="bg-[#fbfdfb] py-8">
+      <div className="mx-auto w-full max-w-screen-2xl px-5 sm:px-8">
+        <div className="text-center">
+          <h2 className="text-2xl font-extrabold text-[#111c33]">Untuk Setiap Peran</h2>
+          <p className="mt-2 text-sm font-medium text-[#5e6a7e]">
+            SyncVoca dirancang untuk memberikan manfaat nyata bagi semua pihak.
+          </p>
+        </div>
+
+        <div className="mt-8 grid gap-5 md:grid-cols-2 xl:grid-cols-5">
+          {roleCards.map((role) => (
+            <RoleCard key={role.title} {...role} />
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function EcosystemSection() {
+  return (
+    <section id="ekosistem" className="bg-[#fbfdfb] py-8">
+      <div className="mx-auto w-full max-w-screen-2xl px-5 sm:px-8">
+        <div className="text-center">
+          <h2 className="text-3xl font-extrabold leading-tight text-[#111c33]">
+            Ekosistem Kuat, Dampak Nyata
+          </h2>
+          <p className="mt-2 text-sm font-medium text-[#5e6a7e]">
+            Bersama sekolah, keluarga, dan industri menciptakan masa depan yang lebih inklusif.
+          </p>
+        </div>
+
+        <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {stats.map((stat) => (
+            <div
+              key={stat.value + stat.label}
+              className="flex min-h-24 items-center gap-4 rounded-2xl border border-[#dbe9df] bg-white px-6 shadow-[0_14px_30px_rgba(17,28,51,0.04)]"
+            >
+              <span className="grid size-14 shrink-0 place-items-center rounded-full bg-[#e7f7ed] text-[#00a45d]">
+                <stat.icon className="size-7" />
+              </span>
+              <div>
+                <p className="text-3xl font-extrabold leading-tight text-[#009856]">{stat.value}</p>
+                <p className="text-sm font-bold text-[#111c33]">{stat.label}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-10 text-center">
+          <h2 className="text-2xl font-extrabold text-[#111c33]">
+            Didukung Oleh Sekolah Dan Mitra
+          </h2>
+          <div className="mx-auto mt-7 max-w-5xl">
+            <Image
+              src="/landing/beranda/partner-logos.webp"
+              alt="Logo sekolah dan mitra pendukung SyncVoca"
+              width={930}
+              height={89}
+              loading="eager"
+              sizes="(max-width: 1024px) 90vw, 930px"
+              className="mx-auto h-auto w-full object-contain grayscale"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function CtaSection() {
+  return (
+    <section id="tentang-kami" className="bg-[#fbfdfb] px-5 py-7 sm:px-8">
+      <div className="mx-auto grid w-full max-w-screen-2xl overflow-hidden rounded-2xl border border-[#cfe7d8] bg-[linear-gradient(100deg,#f1fbf4_0%,#ffffff_50%,#ecfaef_100%)] shadow-[0_18px_48px_rgba(17,28,51,0.07)] lg:grid-cols-3">
+        <div className="relative min-h-64">
+          <Image
+            src="/landing/beranda/cta-students.webp"
+            alt="Siswa melihat perkembangan SyncVoca"
+            width={900}
+            height={577}
+            loading="eager"
+            sizes="(max-width: 1024px) 70vw, 34vw"
+            className="absolute inset-x-0 bottom-0 h-full w-full object-contain object-left-bottom"
+          />
+        </div>
+
+        <div className="flex flex-col justify-center px-6 py-8 text-center lg:px-3 lg:text-left">
+          <h2 className="text-3xl font-extrabold leading-tight text-[#006b3f] sm:text-4xl">
+            Mulai lihat perjalanan ABK menuju masa depan yang lebih cerah.
+          </h2>
+          <p className="mt-4 text-sm font-medium leading-6 text-[#42506a]">
+            Masuk ke portal demo dan temukan bagaimana SyncVoca bekerja untuk mereka.
+          </p>
+          <div className="mt-7 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
+            <Link
+              href="/login"
+              className="focus-ring inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#009856] px-7 text-sm font-extrabold text-white shadow-[0_15px_28px_rgba(0,152,86,0.18)] hover:bg-[#007b45]"
+            >
+              Masuk Portal Demo
+              <ArrowRight className="size-4" />
+            </Link>
+            <a
+              href="#cara-kerja"
+              className="focus-ring inline-flex min-h-12 items-center justify-center gap-3 rounded-xl border border-[#dbe7e0] bg-white px-7 text-sm font-extrabold text-[#111c33] hover:bg-[#f7fbf8]"
+            >
+              Pelajari Cara Kerja
+              <PlayCircle className="size-5" />
+            </a>
+          </div>
+        </div>
+
+        <div className="relative hidden min-h-64 items-center justify-center lg:flex">
+          <Image
+            src="/landing/beranda/cta-proof-panel.webp"
+            alt="Panel bukti dan validasi SyncVoca"
+            width={300}
+            height={167}
+            loading="eager"
+            sizes="280px"
+            className="relative z-10 h-auto w-72 object-contain"
+          />
+          <span className="absolute bottom-5 right-9 grid size-20 place-items-center rounded-full bg-[#f7bd32] text-[#008a4a] shadow-[0_16px_34px_rgba(17,28,51,0.12)]">
+            <ShieldCheck className="size-11" />
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function LandingFooter() {
+  return (
+    <footer id="kontak" className="bg-[linear-gradient(135deg,#00603b_0%,#003f2a_100%)] text-white">
+      <div className="mx-auto grid w-full max-w-screen-2xl gap-9 px-5 py-10 sm:px-8 lg:grid-cols-6 xl:px-12">
+        <div>
+          <div className="flex items-center gap-3">
+            <Image
+              src="/landing/beranda/syncvoca-mark.webp"
+              alt="SyncVoca"
+              width={54}
+              height={54}
+              className="size-12 rounded-xl object-cover"
+            />
+            <div>
+              <p className="text-2xl font-extrabold leading-none">SyncVoca</p>
+              <p className="mt-1 text-xs font-semibold text-white/78">
+                Bukti Kerja, Masa Depan, Bersama.
+              </p>
+            </div>
+          </div>
+          <p className="mt-6 max-w-xs text-sm font-medium leading-7 text-white/82">
+            Platform vokasi inklusif yang membantu ABK mengembangkan potensi,
+            membangun portofolio kerja, dan terhubung dengan dunia industri secara aman.
+          </p>
+          <div className="mt-6 flex gap-4 text-white/90">
+            {["ig", "wa", "yt", "in"].map((item) => (
+              <span key={item} className="grid size-8 place-items-center rounded-full bg-white/8 text-xs font-bold">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {footerColumns.map((column) => (
+          <div key={column.title}>
+            <h3 className="text-base font-extrabold">{column.title}</h3>
+            <ul className="mt-4 space-y-2">
+              {column.links.map((item) => (
+                <li key={item}>
+                  <a href="#beranda" className="text-sm font-medium text-white/82 hover:text-white">
+                    {item}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+
+        <div>
+          <h3 className="text-base font-extrabold">Kontak</h3>
+          <div className="mt-4 space-y-3 text-sm font-medium leading-6 text-white/82">
+            <p className="flex gap-2">
+              <MapPin className="mt-1 size-4 shrink-0" />
+              Jl. Pendidikan No. 1 Jakarta, Indonesia
+            </p>
+            <p className="flex gap-2">
+              <Mail className="mt-1 size-4 shrink-0" />
+              hello@syncvoca.id
+            </p>
+            <p>+62 21 1234 5678</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-base font-extrabold">Dapatkan Update Terbaru</h3>
+          <p className="mt-4 text-sm font-medium leading-6 text-white/82">
+            Berlangganan untuk mendapatkan informasi terkini dari SyncVoca Journey.
+          </p>
+          <form className="mt-5 flex overflow-hidden rounded-xl border border-white/35 bg-white">
+            <input
+              type="email"
+              aria-label="Email"
+              placeholder="Masukkan email Anda"
+              className="min-h-12 min-w-0 flex-1 px-4 text-sm font-medium text-[#111c33] outline-none"
+            />
+            <button
+              type="submit"
+              aria-label="Kirim email"
+              className="grid min-h-12 w-14 place-items-center bg-[#009856] text-white"
+            >
+              <Send className="size-5" />
+            </button>
+          </form>
+        </div>
+      </div>
+      <p className="border-t border-white/10 px-5 py-5 text-center text-xs font-medium text-white/75">
+        &copy; 2025 SyncVoca Journey. All rights reserved.
+      </p>
+    </footer>
+  );
+}
+
+function SectionTitle({
+  eyebrow,
+  id,
+  showArrows = false,
+}: {
+  eyebrow: string;
+  id?: string;
+  showArrows?: boolean;
+}) {
+  return (
+    <div id={id} className="flex items-center justify-center gap-4 text-center">
+      {showArrows ? <ArrowRight className="size-6 text-[#0ba45f]" /> : null}
+      <h2 className="text-2xl font-extrabold text-[#111c33] sm:text-3xl">{eyebrow}</h2>
+      {showArrows ? <ArrowRight className="size-6 rotate-180 text-[#0ba45f]" /> : null}
+    </div>
+  );
+}
+
+function InfoCard({
+  icon: Icon,
+  tone,
+  title,
+  body,
+}: {
+  icon: LucideIcon;
+  tone: Tone;
+  title: string;
+  body: string;
+}) {
+  return (
+    <article className="flex min-h-36 gap-5 rounded-2xl border border-[#e0e9e3] bg-white p-6 shadow-[0_14px_36px_rgba(17,28,51,0.05)]">
+      <span className={cn("grid size-16 shrink-0 place-items-center rounded-full", toneClass[tone].soft)}>
+        <Icon className={cn("size-9", toneClass[tone].icon)} />
+      </span>
+      <div>
+        <h3 className="text-base font-extrabold leading-6 text-[#111c33]">{title}</h3>
+        <p className="mt-3 text-sm font-medium leading-6 text-[#5e6a7e]">{body}</p>
+      </div>
+    </article>
+  );
+}
+
+function JourneyCard({
+  step,
+  index,
+}: {
+  step: (typeof journeySteps)[number];
+  index: number;
+}) {
+  const Icon = step.icon;
+  const isLast = index === journeySteps.length - 1;
+
+  return (
+    <article className="relative rounded-2xl border border-[#e0e9e3] bg-white px-5 pb-6 pt-12 text-center shadow-[0_14px_32px_rgba(17,28,51,0.04)]">
+      {!isLast ? (
+        <span className="absolute left-full top-8 z-10 hidden -translate-x-2 items-center text-[#0aa960] lg:flex">
+          <span className="h-px w-10 border-t border-dashed border-current" />
+          <ChevronRight className="size-5" />
+        </span>
+      ) : null}
+      <span
+        className={cn(
+          "absolute left-1/2 top-0 grid size-20 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border-4 border-white shadow-[0_14px_28px_rgba(17,28,51,0.08)]",
+          toneClass[step.tone as Tone].soft,
+        )}
+      >
+        <Icon className={cn("size-9", toneClass[step.tone as Tone].icon)} />
+      </span>
+      <h3 className="mt-1 text-base font-extrabold text-[#111c33]">{step.title}</h3>
+      <p className="mx-auto mt-3 max-w-48 text-sm font-medium leading-6 text-[#5e6a7e]">
+        {step.body}
+      </p>
+      <span
+        className={cn(
+          "mt-4 inline-flex min-h-7 items-center rounded-full px-3 text-xs font-extrabold",
+          step.status === "Selesai"
+            ? "bg-[#e7f7ed] text-[#008a4a]"
+            : step.status === "Berjalan"
+              ? "bg-amber-50 text-amber-600"
+              : "bg-slate-100 text-slate-500",
+        )}
+      >
+        {step.status}
+      </span>
+    </article>
+  );
+}
+
+function ProofCard({
+  icon: Icon,
+  tone,
+  title,
+  body,
+  visual,
+}: {
+  icon: LucideIcon;
+  tone: Tone;
+  title: string;
+  body: string;
+  visual: string;
+}) {
+  return (
+    <article className="flex min-h-72 flex-col rounded-2xl border border-[#e0e9e3] bg-white p-5 text-center shadow-[0_14px_32px_rgba(17,28,51,0.04)]">
+      <h3 className="text-base font-extrabold text-[#111c33]">{title}</h3>
+      <div className="my-5 flex min-h-28 items-center justify-center">
+        <ProofVisual visual={visual} icon={Icon} tone={tone} />
+      </div>
+      <p className="mt-auto text-sm font-medium leading-6 text-[#4e5c73]">{body}</p>
+    </article>
+  );
+}
+
+function ProofVisual({
+  visual,
+  icon: Icon,
+  tone,
+}: {
+  visual: string;
+  icon: LucideIcon;
+  tone: Tone;
+}) {
+  if (visual === "simulation") {
+    return (
+      <div className="w-36 rounded-2xl bg-[#f7fbf8] p-3 text-left shadow-[0_10px_24px_rgba(17,28,51,0.08)]">
+        <div className="h-2 w-20 rounded-full bg-[#dfe8e3]" />
+        <p className="mt-3 text-xs font-bold text-[#42506a]">Simulasi Administrasi Perkantoran</p>
+        <div className="mt-4 flex items-end justify-between">
+          <span className="text-2xl font-extrabold text-[#111c33]">92%</span>
+          <span className="rounded-full bg-[#dff7e9] px-3 py-1 text-xs font-bold text-[#008a4a]">
+            Selesai
+          </span>
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === "evidence") {
+    return (
+      <div className="space-y-2 text-left">
+        {["Dokumen Tugas", "Foto / Video", "Hasil Simulasi", "Refleksi Diri"].map((item) => (
+          <div key={item} className="flex min-h-8 w-40 items-center gap-2 rounded-lg bg-[#f7fbf8] px-3">
+            <Icon className={cn("size-4", toneClass[tone].icon)} />
+            <span className="text-xs font-bold text-[#42506a]">{item}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  if (visual === "portfolio") {
+    return (
+      <div className="w-36 rounded-2xl bg-[#f7fbf8] p-3 text-left shadow-[0_10px_24px_rgba(17,28,51,0.07)]">
+        <div className="flex items-center gap-3">
+          <span className="grid size-10 place-items-center rounded-full bg-blue-100 text-blue-600">
+            <CircleUserRound className="size-6" />
+          </span>
+          <div>
+            <p className="text-xs font-extrabold text-[#111c33]">Rizky Pratama</p>
+            <p className="text-xs font-medium text-[#778297]">Siswa</p>
+          </div>
+        </div>
+        <div className="mt-4 flex items-end gap-2">
+          <span className="text-2xl font-extrabold text-[#111c33]">82</span>
+          <span className="pb-1 text-xs font-bold text-[#5e6a7e]">Level Mahir</span>
+        </div>
+      </div>
+    );
+  }
+
+  if (visual === "support") {
+    return (
+      <div className="space-y-2 text-left">
+        {["Pendampingan Mingguan", "Latihan Komunikasi", "Kesiapan Kerja"].map((item) => (
+          <div key={item} className="flex min-h-9 w-44 items-center gap-3 rounded-lg bg-[#f7fbf8] px-3">
+            <span className="grid size-5 place-items-center rounded-full bg-[#009856] text-white">
+              <Check className="size-3" />
+            </span>
+            <span className="text-xs font-bold text-[#42506a]">{item}</span>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-44 rounded-2xl bg-amber-50 p-4 text-left shadow-[0_10px_24px_rgba(17,28,51,0.06)]">
+      <div className="flex items-center gap-3">
+        <ShieldCheck className="size-9 text-amber-500" />
+        <div>
+          <p className="text-xs font-extrabold text-[#111c33]">Industry Validation Seal</p>
+          <p className="mt-1 text-xs font-bold text-amber-600">Telah tervalidasi DUDI</p>
+        </div>
+      </div>
+      <div className="mt-4 rounded-lg bg-white px-3 py-2 text-xs font-bold text-[#5e6a7e]">
+        Tanggal: 20 Mei 2025
+      </div>
+    </div>
+  );
+}
+
+function RoleCard({
+  image,
+  title,
+  color,
+  bullets,
+}: {
+  image: string;
+  title: string;
+  color: Tone;
+  bullets: string[];
+}) {
+  return (
+    <article className="overflow-hidden rounded-2xl border border-[#e0e9e3] bg-white shadow-[0_14px_36px_rgba(17,28,51,0.05)]">
+      <div className={cn("relative h-40", toneClass[color].soft)}>
+        <Image
+          src={image}
+          alt={`Peran ${title} di SyncVoca`}
+          width={360}
+          height={494}
+          loading="eager"
+          sizes="(max-width: 1280px) 45vw, 260px"
+          className="absolute inset-x-0 bottom-0 mx-auto h-44 w-auto object-contain"
+        />
+      </div>
+      <div className="p-5">
+        <h3 className="text-base font-extrabold text-[#111c33]">{title}</h3>
+        <ul className="mt-4 space-y-3">
+          {bullets.map((item) => (
+            <li key={item} className="flex gap-2 text-sm font-medium leading-5 text-[#42506a]">
+              <Check className={cn("mt-0.5 size-4 shrink-0", toneClass[color].icon)} />
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+        <a
+          href="#cara-kerja"
+          className={cn("mt-5 inline-flex items-center gap-1 text-sm font-extrabold", toneClass[color].text)}
+        >
+          Pelajari lebih lanjut
+          <ArrowRight className="size-4" />
+        </a>
+      </div>
+    </article>
+  );
+}

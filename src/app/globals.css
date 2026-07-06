@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f8faf7;
+  --foreground: #122033;
+  --surface: #ffffff;
+  --surface-muted: #eff7f0;
+  --border-soft: #dce9df;
+  --brand-50: #edf8ef;
+  --brand-100: #d8f0dc;
+  --brand-500: #12843a;
+  --brand-600: #0b6f31;
+  --brand-700: #075725;
+  --ink-muted: #5f7068;
+  --achievement: #f6c343;
+  --accent-blue: #1768c8;
+  --danger: #d94444;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-muted: var(--surface-muted);
+  --color-border-soft: var(--border-soft);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-ink-muted: var(--ink-muted);
+  --color-achievement: var(--achievement);
+  --color-accent-blue: var(--accent-blue);
+  --color-danger: var(--danger);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--brand-100);
+  color: var(--brand-700);
+}
+
+.focus-ring {
+  outline: 2px solid transparent;
+  outline-offset: 3px;
+}
+
+.focus-ring:focus-visible {
+  outline-color: var(--brand-600);
+}
+
+@media (min-width: 1024px) {
+  .sv-hero-grid {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  }
+}
