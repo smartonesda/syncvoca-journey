@@ -2,14 +2,6 @@
 
 Dokumen di folder ini dibagi agar eksekusi tim tidak bercampur antara prototype apps dan real apps production.
 
-## Prinsip Pembagian
-
-1. `docs/REAL_IMPLEMENTATION_PLAN.md` tetap menjadi master plan besar.
-2. Panduan operasional tim dipisah ke folder berdasarkan area kerja.
-3. Repo `v2` saat ini tetap disebut prototype apps.
-4. Real apps perlu FE production, BE production, database, auth, role access, audit, consent, dan storage yang benar.
-5. Semua keputusan privacy DUDI harus konsisten di prototype, frontend, backend, dan database.
-
 ## Struktur Folder
 
 ```text
