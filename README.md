@@ -3,6 +3,10 @@
 Frontend ini adalah fondasi real apps SyncVoca Journey berdasarkan `docs/frontend/README.md`.
 Targetnya satu aplikasi Next.js untuk landing/app shell, PWA mobile Siswa dan Orang Tua, serta dashboard responsif untuk Guru, DUDI, dan Admin.
 
+### Preview Apps
+
+https://syncvoca.vercel.app/
+
 ## Stack
 
 - Next.js App Router
