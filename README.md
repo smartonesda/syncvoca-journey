@@ -4,6 +4,10 @@ SyncVoca Journey adalah prototype aplikasi web untuk platform transisi vokasi in
 
 Repo ini bukan aplikasi production final. Repo ini adalah demo MVP/prototype apps yang memakai data lokal di browser untuk membuktikan workflow produk.
 
+## Preview
+
+Aplikasi dapat dicek melalui link berikut: https://syncvoca-prototype.vercel.app/
+
 ## Apa Fungsi Aplikasi Ini?
 
 SyncVoca Journey membantu sekolah, keluarga, dan DUDI membaca potensi ABK melalui bukti kerja, bukan label personal. Alur utamanya:
