@@ -42,6 +42,8 @@
 
 html {
   min-height: 100%;
+  max-width: 100%;
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
@@ -49,7 +51,14 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  max-width: 100%;
+  overflow-x: clip;
   text-rendering: optimizeLegibility;
+}
+
+header,
+nav {
+  border: none !important;
 }
 
 a,
@@ -71,7 +80,46 @@ button {
   outline-color: var(--brand-600);
 }
 
+.sv-partner-logo-track {
+  display: flex;
+  width: max-content;
+  align-items: center;
+  animation: sv-partner-logo-loop 18s linear infinite;
+  transform: translate3d(0, 0, 0);
+  will-change: transform;
+}
+
+.sv-partner-logo-rail {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+@keyframes sv-partner-logo-loop {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-33.333333%, 0, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sv-partner-logo-track {
+    animation-duration: 36s;
+  }
+}
+
 @media (min-width: 1024px) {
+  .sv-hero-grid {
+    grid-template-columns: minmax(0, 0.96fr) minmax(0, 1.04fr);
+  }
+}
+
+@media (min-width: 1536px) {
   .sv-hero-grid {
     grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
   }

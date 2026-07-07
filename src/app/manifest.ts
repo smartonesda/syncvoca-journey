@@ -1,12 +1,14 @@
 import type { MetadataRoute } from "next";
+import { siteConfig } from "@/lib/seo";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "SyncVoca Journey",
-    short_name: "SyncVoca",
-    description:
-      "Platform vokasi inklusif untuk journey ABK, evidence kompetensi, consent, validasi DUDI, dan dashboard pendampingan.",
+    name: siteConfig.title,
+    short_name: siteConfig.name,
+    description: siteConfig.description,
+    id: "/",
     start_url: "/",
+    scope: "/",
     display: "standalone",
     background_color: "#f8faf7",
     theme_color: "#0b6f31",
@@ -14,13 +16,13 @@ export default function manifest(): MetadataRoute.Manifest {
     categories: ["education", "productivity"],
     icons: [
       {
-        src: "/syncvoca-logo.png",
+        src: siteConfig.logoPath,
         sizes: "640x640",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/syncvoca-logo.png",
+        src: siteConfig.logoPath,
         sizes: "640x640",
         type: "image/png",
         purpose: "maskable",

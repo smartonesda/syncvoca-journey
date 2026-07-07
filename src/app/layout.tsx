@@ -1,8 +1,13 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { ServiceWorkerRegister } from "@/components/pwa/service-worker-register";
+import { AnalyticsScripts } from "@/components/seo/analytics-scripts";
+import { siteConfig } from "@/lib/seo";
 import { Providers } from "./providers";
 import "./globals.css";
+
+const googleSiteVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+const bingSiteVerification = process.env.NEXT_PUBLIC_BING_SITE_VERIFICATION;
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,25 +20,72 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000",
-  ),
-  applicationName: "SyncVoca",
+  metadataBase: new URL(siteConfig.url),
+  applicationName: siteConfig.name,
   title: {
-    default: "SyncVoca - Bukti Kerja, Masa Depan, Bersama",
-    template: "%s | SyncVoca",
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.name}`,
   },
-  description:
-    "Platform vokasi inklusif untuk journey ABK, evidence kompetensi, consent, validasi DUDI, dan dashboard pendampingan.",
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.name }],
+  creator: siteConfig.name,
+  publisher: siteConfig.name,
+  category: "education",
+  alternates: {
+    canonical: "/",
+  },
   manifest: "/manifest.webmanifest",
   icons: {
-    icon: "/syncvoca-logo.png",
-    apple: "/syncvoca-logo.png",
+    icon: [{ url: siteConfig.logoPath, sizes: "640x640", type: "image/png" }],
+    shortcut: [siteConfig.logoPath],
+    apple: [{ url: siteConfig.logoPath, sizes: "640x640", type: "image/png" }],
   },
+  openGraph: {
+    type: "website",
+    locale: siteConfig.locale,
+    url: "/",
+    siteName: siteConfig.name,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+  },
+  twitter: {
+    card: "summary",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage.url],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
+  formatDetection: {
+    telephone: false,
+    email: false,
+    address: false,
+  },
+  ...(googleSiteVerification || bingSiteVerification
+    ? {
+        verification: {
+          ...(googleSiteVerification ? { google: googleSiteVerification } : {}),
+          ...(bingSiteVerification
+            ? { other: { "msvalidate.01": bingSiteVerification } }
+            : {}),
+        },
+      }
+    : {}),
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "SyncVoca",
+    title: siteConfig.name,
   },
 };
 
@@ -58,6 +110,7 @@ export default function RootLayout({
           <ServiceWorkerRegister />
           {children}
         </Providers>
+        <AnalyticsScripts />
       </body>
     </html>
   );
