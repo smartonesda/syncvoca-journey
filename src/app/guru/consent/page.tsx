@@ -1,6 +1,6 @@
-import { RoutePlaceholderPage } from "@/components/layout/route-placeholder-page";
-import { getPageSpec } from "@/lib/routes";
+import type { Route } from "next";
+import { redirect } from "next/navigation";
 
 export default function GuruConsentPage() {
-  return <RoutePlaceholderPage page={getPageSpec("/guru/consent")} />;
+  redirect("/dashboard/guru/consent" as Route);
 }

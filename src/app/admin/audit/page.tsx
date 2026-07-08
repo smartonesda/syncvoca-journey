@@ -1,6 +1,6 @@
-import { RoutePlaceholderPage } from "@/components/layout/route-placeholder-page";
-import { getPageSpec } from "@/lib/routes";
+import type { Route } from "next";
+import { redirect } from "next/navigation";
 
 export default function AdminAuditPage() {
-  return <RoutePlaceholderPage page={getPageSpec("/admin/audit")} />;
+  redirect("/dashboard/admin/audit" as Route);
 }

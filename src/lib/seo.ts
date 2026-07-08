@@ -98,6 +98,7 @@ export const privateSeoPaths = [
   "/forgot-password",
   "/accept-invite",
   "/offline",
+  "/dashboard",
   "/siswa",
   "/orang-tua",
   "/guru",

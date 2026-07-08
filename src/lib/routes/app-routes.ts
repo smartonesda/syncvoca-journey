@@ -39,9 +39,9 @@ export const publicNavigation = [
   { href: "/" as Route, label: "Beranda" },
   { href: "/login" as Route, label: "Masuk" },
   { href: "/siswa" as Route, label: "Siswa" },
-  { href: "/guru" as Route, label: "Guru" },
-  { href: "/dudi" as Route, label: "DUDI" },
-  { href: "/admin" as Route, label: "Admin" },
+  { href: "/dashboard/guru" as Route, label: "Guru" },
+  { href: "/dashboard/dudi" as Route, label: "DUDI" },
+  { href: "/dashboard/admin" as Route, label: "Admin" },
 ] as const;
 
 export const roleSummaries: RoleSummary[] = [
@@ -65,7 +65,7 @@ export const roleSummaries: RoleSummary[] = [
   },
   {
     role: "guru",
-    href: "/guru" as Route,
+    href: "/dashboard/guru" as Route,
     label: "Dashboard",
     title: "Guru",
     description:
@@ -74,7 +74,7 @@ export const roleSummaries: RoleSummary[] = [
   },
   {
     role: "dudi",
-    href: "/dudi" as Route,
+    href: "/dashboard/dudi" as Route,
     label: "Dashboard Aman",
     title: "DUDI",
     description:
@@ -83,7 +83,7 @@ export const roleSummaries: RoleSummary[] = [
   },
   {
     role: "admin",
-    href: "/admin" as Route,
+    href: "/dashboard/admin" as Route,
     label: "Governance",
     title: "Admin",
     description:
@@ -284,7 +284,7 @@ export const pageSpecs = {
     title: "Guru memonitor banyak siswa tanpa kehilangan konteks personal",
     description:
       "Ruang guru menggabungkan daftar siswa, progress tahap, consent queue, rekomendasi latihan, dan follow-up placement.",
-    primaryAction: { label: "Buka Daftar Siswa", href: "/guru/siswa" as Route },
+    primaryAction: { label: "Buka Daftar Siswa", href: "/dashboard/guru/siswa" as Route },
     narrative: [
       "Dashboard mengutamakan filter cepat, pencarian, status tahap, dan aksi lanjutan.",
       "Detail siswa tetap punya narasi perkembangan agar guru tidak hanya membaca tabel.",
@@ -390,7 +390,7 @@ export const pageSpecs = {
     title: "DUDI melihat talenta lewat bukti yang aman dibagikan",
     description:
       "Ruang DUDI fokus pada kandidat pseudonim, evidence publik, kebutuhan akomodasi kerja, validasi, dan shortlist.",
-    primaryAction: { label: "Lihat Kandidat", href: "/dudi/kandidat" as Route },
+    primaryAction: { label: "Lihat Kandidat", href: "/dashboard/dudi/kandidat" as Route },
     narrative: [
       "DUDI tidak membaca nama siswa, kontak wali, catatan medis, atau catatan internal sekolah.",
       "Setiap kandidat tampil sebagai profil publik yang sudah lolos consent dan privacy boundary.",
@@ -481,7 +481,7 @@ export const pageSpecs = {
     title: "Admin menjaga tata kelola platform tetap rapi dan aman",
     description:
       "Admin mengelola tenant, user, sekolah, DUDI, consent oversight, audit log, dan report center.",
-    primaryAction: { label: "Buka Overview", href: "/admin/overview" as Route },
+    primaryAction: { label: "Buka Overview", href: "/dashboard/admin" as Route },
     narrative: [
       "Admin dashboard menampilkan kesehatan sistem, status consent, aktivitas terbaru, dan anomali akses.",
       "Aksi user dan role harus tercatat karena frontend bukan lapisan security final.",

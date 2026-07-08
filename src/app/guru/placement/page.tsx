@@ -1,6 +1,6 @@
-import { RoutePlaceholderPage } from "@/components/layout/route-placeholder-page";
-import { getPageSpec } from "@/lib/routes";
+import type { Route } from "next";
+import { redirect } from "next/navigation";
 
 export default function GuruPlacementPage() {
-  return <RoutePlaceholderPage page={getPageSpec("/guru/placement")} />;
+  redirect("/dashboard/guru/placement" as Route);
 }

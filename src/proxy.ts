@@ -14,6 +14,7 @@ export const config = {
     "/forgot-password",
     "/accept-invite",
     "/offline",
+    "/dashboard/:path*",
     "/siswa/:path*",
     "/orang-tua/:path*",
     "/guru/:path*",
