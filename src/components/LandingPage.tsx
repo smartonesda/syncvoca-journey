@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   ArrowRight,
   Award,
@@ -17,6 +18,9 @@ import {
   Users,
 } from "lucide-react";
 import { AccessibilityPreferences, UserRole } from "../types";
+import GuidedTour from "./GuidedTour";
+
+const TAGLINE = "Menghubungkan potensi, mewujudkan mandiri";
 
 interface LandingPageProps {
   onEnterPortal: (role: UserRole) => void;
@@ -163,6 +167,7 @@ export default function LandingPage({
   onEnterPortal,
   preferences,
 }: LandingPageProps) {
+  const [tourReplay, setTourReplay] = useState(0);
   const isHighContrast = preferences.highContrast;
 
   const titleClass = {
@@ -181,11 +186,55 @@ export default function LandingPage({
     ? "border-4 border-black bg-white text-black shadow-none"
     : "border border-[#dbe7dd] bg-white text-[#17351f] shadow-sm";
 
+  const landingTourSteps = [
+    {
+      selector: '[data-tour="landing-hero"]',
+      title: "Selamat datang di SyncVoca",
+      body: `Halaman awal ini menjelaskan cerita besar SyncVoca: ${TAGLINE}. User awam cukup memahami bahwa aktivitas siswa akan berubah menjadi bukti kerja.`,
+      voice:
+        "Di halaman awal ini, SyncVoca menjelaskan perjalanan dari potensi siswa menuju bukti kerja yang bisa dipahami sekolah, keluarga, dan industri.",
+    },
+    {
+      selector: '[data-tour="landing-portal-cta"]',
+      title: "Masuk ke portal demo",
+      body: "Tombol ini membawa user ke area prototype. Dari sini demo bisa diarahkan ke dashboard siswa, guru, orang tua, DUDI, atau admin.",
+    },
+    {
+      selector: '[data-tour="landing-role-picker"]',
+      title: "Pilih mode cepat",
+      body: "Role picker membantu presenter langsung membuka sudut pandang pengguna tanpa harus mencari menu di bawah halaman.",
+    },
+    {
+      selector: '[data-tour="landing-workflow"]',
+      title: "Alur produk",
+      body: "Alur ini menjadi jembatan naratif sebelum user masuk dashboard: intake, simulasi, pendampingan, portofolio, lalu validasi DUDI.",
+    },
+    {
+      selector: '[data-tour="landing-proof"]',
+      title: "Bukti produk",
+      body: "Bagian ini menunjukkan output yang perlu dibuktikan di dashboard: portofolio, validation seal, dan pendekatan aksesibilitas.",
+    },
+    {
+      selector: '[data-tour="landing-portal-roles"]',
+      title: "Portal role demo",
+      body: "Bagian ini adalah pintu utama untuk masuk ke dashboard masing-masing role. Setiap role punya menu, data, dan batas akses yang berbeda.",
+    },
+  ];
+
   return (
     <div
       className={`space-y-10 ${preferences.dyslexiaFont ? "font-serif" : "font-sans"}`}
     >
+      <GuidedTour
+        enabled
+        storageKey="sv-guide-landing"
+        replaySignal={tourReplay}
+        steps={landingTourSteps}
+        voiceIntro={`Selamat datang di halaman portal demo SyncVoca. ${TAGLINE}.`}
+      />
+
       <section
+        data-tour="landing-hero"
         className={`relative overflow-hidden rounded-[1.5rem] sm:rounded-[2rem] ${surfaceClass}`}
       >
         <div className="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-[#1768c8] via-[#12843a] to-[#f6c343]" />
@@ -215,6 +264,7 @@ export default function LandingPage({
 
               <div className="flex flex-col gap-3 min-[460px]:flex-row min-[460px]:flex-wrap">
                 <a
+                  data-tour="landing-portal-cta"
                   href="#portal-demo"
                   className="inline-flex items-center justify-center gap-2 rounded-full bg-[#12843a] px-5 py-3 text-sm font-black text-white shadow-lg shadow-green-900/10 transition hover:bg-[#0b5d2a]"
                 >
@@ -227,9 +277,20 @@ export default function LandingPage({
                 >
                   Lihat Bukti Produk
                 </a>
+                <button
+                  type="button"
+                  onClick={() => setTourReplay((value) => value + 1)}
+                  className="inline-flex items-center justify-center gap-2 rounded-full border border-[#dbe7dd] bg-white px-5 py-3 text-sm font-black text-[#17351f] transition hover:bg-[#eef8f0]"
+                >
+                  Panduan demo
+                  <Sparkles className="h-4 w-4 text-[#12843a]" />
+                </button>
               </div>
 
-              <div className="rounded-[1.25rem] border border-[#dbe7dd] bg-[#f8faf7] p-3">
+              <div
+                data-tour="landing-role-picker"
+                className="rounded-[1.25rem] border border-[#dbe7dd] bg-[#f8faf7] p-3"
+              >
                 <p className="px-2 pb-2 text-[10px] font-black uppercase tracking-[0.16em] text-[#61746a]">
                   Pilih mode demo cepat
                 </p>
@@ -361,7 +422,11 @@ export default function LandingPage({
         </div>
       </section>
 
-      <section id="workflow" className="scroll-mt-24 space-y-5">
+      <section
+        id="workflow"
+        data-tour="landing-workflow"
+        className="scroll-mt-24 space-y-5"
+      >
         <div className="flex flex-col justify-between gap-3 sm:flex-row sm:items-end">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#12843a]">
@@ -411,6 +476,7 @@ export default function LandingPage({
 
       <section
         id="proof"
+        data-tour="landing-proof"
         className="scroll-mt-24 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]"
       >
         <div className={`rounded-[2rem] p-5 sm:p-6 ${surfaceClass}`}>
@@ -493,6 +559,7 @@ export default function LandingPage({
 
       <section
         id="portal-demo"
+        data-tour="landing-portal-roles"
         className={`scroll-mt-24 rounded-[2rem] p-5 sm:p-6 ${surfaceClass}`}
       >
         <div className="mb-5 flex flex-col justify-between gap-3 sm:flex-row sm:items-end">

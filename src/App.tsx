@@ -27,8 +27,8 @@ import {
 } from "./types";
 import AccessibilityPanel from "./components/AccessibilityPanel";
 import { AppFeedbackProvider, useAppFeedback } from "./components/AppFeedback";
-import JourneyWorkspace from "./components/JourneyWorkspace";
 import LandingPage from "./components/LandingPage";
+import RoleDashboardWorkspace from "./components/RoleDashboardWorkspace";
 import { createDudiCandidateProfiles } from "./privacy";
 import { scrollToTopInstant } from "./utils/scroll";
 
@@ -542,7 +542,7 @@ export default function App() {
                   SyncVoca Journey
                 </p>
                 <span className="mt-1 block truncate text-[10px] font-bold uppercase tracking-[0.18em] text-[#1768c8]">
-                  Transisi Vokasi ABK
+                  Menghubungkan potensi, mewujudkan mandiri
                 </span>
               </div>
             </button>
@@ -579,7 +579,7 @@ export default function App() {
               preferences={accessibility}
             />
           ) : (
-            <JourneyWorkspace
+            <RoleDashboardWorkspace
               role={currentRole}
               students={currentRole === "dudi" ? [] : students}
               dudiCandidates={dudiCandidates}
@@ -606,6 +606,7 @@ export default function App() {
         </main>
 
         <nav
+          data-tour="role-switcher"
           className={`fixed bottom-4 left-1/2 z-50 flex -translate-x-1/2 items-center gap-1 rounded-full border px-2 py-2 shadow-2xl print:hidden sm:gap-2 sm:px-3 ${
             isHighContrast
               ? "border-2 border-black bg-white text-black"
