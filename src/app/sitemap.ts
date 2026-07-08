@@ -9,5 +9,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       priority: 1,
     },
+    {
+      url: absoluteUrl("/tentang-kami"),
+      lastModified: new Date(siteConfig.updatedAt),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
   ];
 }

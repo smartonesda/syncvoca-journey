@@ -3,24 +3,32 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 import { ArrowRight, Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "Beranda", href: "#beranda" },
-  { label: "Tentang Kami", href: "#tentang-kami" },
-  { label: "Cara Kerja", href: "#cara-kerja" },
-  { label: "Ekosistem", href: "#ekosistem" },
-  { label: "Untuk Siapa", href: "#untuk-siapa" },
-  { label: "Bukti Kerja", href: "#bukti-kerja" },
-  { label: "Keamanan Data", href: "#keamanan-data" },
-  { label: "Kontak", href: "#kontak" },
+  { label: "Beranda", href: "/" },
+  { label: "Tentang Kami", href: "/tentang-kami" },
+  { label: "Cara Kerja", href: "/#cara-kerja" },
+  { label: "Ekosistem", href: "/#ekosistem" },
+  { label: "Bukti Kerja", href: "/#bukti-kerja" },
+  { label: "Keamanan Data", href: "/#keamanan-data" },
+  { label: "Untuk Siapa", href: "/#untuk-siapa" },
+
+  { label: "Kontak", href: "/#kontak" },
 ];
 
-const compactNavItems = navItems.slice(0, 4);
+const compactNavItems = navItems.filter((item) =>
+  ["Beranda", "Tentang Kami", "Cara Kerja", "Ekosistem"].includes(item.label),
+);
 const compactNavLabels = new Set(compactNavItems.map((item) => item.label));
 
-export function LandingHeader() {
+type LandingHeaderProps = {
+  activeLabel?: string;
+};
+
+export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isHeaderVisible, setIsHeaderVisible] = useState(true);
@@ -93,11 +101,9 @@ export function LandingHeader() {
           isScrolled && "shadow-[0_12px_30px_rgba(17,28,51,0.08)]",
         )}
       >
-        <nav
-          className="mx-auto flex min-h-20 w-full max-w-screen-2xl items-center gap-3 px-4 sm:px-6 lg:px-8 2xl:px-10"
-        >
-          <a
-            href="#beranda"
+        <nav className="mx-auto flex min-h-20 w-full max-w-screen-2xl items-center gap-3 px-4 sm:px-6 lg:px-8 2xl:px-10">
+          <Link
+            href="/"
             onClick={closeMenu}
             className="focus-ring flex min-w-0 shrink items-center gap-3 rounded-2xl lg:shrink-0"
           >
@@ -117,37 +123,37 @@ export function LandingHeader() {
                 Bukti Kerja, Masa Depan, Bersama.
               </p>
             </div>
-          </a>
+          </Link>
 
           <div className="hidden min-w-0 flex-1 items-center justify-center gap-2 lg:flex 2xl:hidden">
             {compactNavItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                href={item.href as Route}
                 className={cn(
                   "focus-ring relative whitespace-nowrap rounded-full px-3 py-2 text-xs font-bold text-[#111c33] transition hover:text-[#008a4a]",
-                  item.label === "Beranda" &&
+                  item.label === activeLabel &&
                     "text-[#008a4a] after:absolute after:inset-x-4 after:-bottom-1 after:h-[3px] after:rounded-full after:bg-[#24bf79]",
                 )}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
 
           <div className="hidden min-w-0 flex-1 items-center justify-center gap-2 2xl:flex">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                href={item.href as Route}
                 className={cn(
                   "focus-ring relative whitespace-nowrap rounded-full px-3 py-2 text-xs font-bold text-[#111c33] transition hover:text-[#008a4a]",
-                  item.label === "Beranda" &&
+                  item.label === activeLabel &&
                     "text-[#008a4a] after:absolute after:inset-x-4 after:-bottom-1 after:h-[3px] after:rounded-full after:bg-[#24bf79]",
                 )}
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </div>
 
@@ -200,19 +206,19 @@ export function LandingHeader() {
         >
           <div className="grid gap-1">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                href={item.href as Route}
                 onClick={closeMenu}
                 className={cn(
                   "focus-ring flex min-h-11 items-center justify-between rounded-xl px-4 text-sm font-extrabold text-[#111c33] transition hover:bg-[#effaf4] hover:text-[#008a4a]",
                   compactNavLabels.has(item.label) && "lg:hidden",
-                  item.label === "Beranda" && "bg-[#effaf4] text-[#008a4a]",
+                  item.label === activeLabel && "bg-[#effaf4] text-[#008a4a]",
                 )}
               >
                 {item.label}
                 <ArrowRight className="size-4" />
-              </a>
+              </Link>
             ))}
           </div>
 

@@ -77,7 +77,7 @@ export const marketingSections = [
   },
   {
     label: "Tentang Kami",
-    href: "/#tentang-kami",
+    href: "/tentang-kami",
     summary: "Visi SyncVoca untuk membuat perjalanan ABK lebih terbaca, aman, dan bermakna.",
   },
   {
