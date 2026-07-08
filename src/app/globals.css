@@ -97,6 +97,15 @@ button {
   padding-right: 1.25rem;
 }
 
+.sv-scrollbar-hidden {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.sv-scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
 @keyframes sv-partner-logo-loop {
   from {
     transform: translate3d(0, 0, 0);

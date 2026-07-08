@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
@@ -12,7 +14,6 @@ import {
   HelpCircle,
   Home,
   LogOut,
-  Menu,
   RefreshCw,
   Search,
   Settings,
@@ -23,6 +24,11 @@ import {
   XCircle,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import {
+  DashboardShell,
+  DashboardSidebarToggle,
+  SidebarScrollArea,
+} from "@/components/dashboard/shared/dashboard-shell";
 import { cn } from "@/lib/utils";
 
 type Tone = "green" | "blue" | "yellow" | "purple" | "red" | "orange" | "gray";
@@ -218,31 +224,38 @@ function SmallLink({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Sidebar() {
+function Sidebar({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) {
   return (
-    <aside className="hidden min-h-screen w-[292px] shrink-0 flex-col border-r border-[#E2E8EC] bg-white xl:flex">
-      <div className="px-6 pb-8 pt-6">
+    <aside
+      className={cn(
+        "shrink-0 flex-col bg-white",
+        variant === "desktop"
+          ? "hidden h-screen w-[228px] border-r border-[#E2E8EC] xl:flex 2xl:w-[292px]"
+          : "flex h-full w-full",
+      )}
+    >
+      <div className="shrink-0 px-4 pb-6 pt-5 2xl:px-6 2xl:pb-8 2xl:pt-6">
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/syncvoca-logo.png"
             alt="SyncVoca"
             width={52}
             height={52}
-            className="size-[52px] rounded-full object-cover"
+            className="size-11 rounded-full object-cover 2xl:size-[52px]"
             priority
           />
           <div>
-            <p className="text-[31px] font-black leading-none tracking-[-0.03em] text-[#0B1531]">
+            <p className="text-[24px] font-black leading-none tracking-[-0.03em] text-[#0B1531] 2xl:text-[31px]">
               Sync<span className="text-[#009D55]">Voca</span>
             </p>
-            <p className="mt-2 text-[11px] font-medium text-[#4E5B6E]">
+            <p className="mt-2 text-[10px] font-medium leading-4 text-[#4E5B6E] 2xl:text-[11px]">
               Menghubungkan potensi, mewujudkan mandiri
             </p>
           </div>
         </Link>
       </div>
 
-      <div className="flex flex-1 flex-col justify-between px-5 pb-6">
+      <SidebarScrollArea>
         <div className="space-y-2">
           {sidebarMenu.map((item) => {
             const Icon = item.icon;
@@ -252,7 +265,7 @@ function Sidebar() {
                 key={item.label}
                 href={item.href}
                 className={cn(
-                  "flex min-h-[56px] items-center gap-4 rounded-xl px-4 text-[15px] font-bold transition",
+                  "flex min-h-[52px] items-center gap-3 rounded-xl px-3 text-[14px] font-bold transition 2xl:min-h-[56px] 2xl:gap-4 2xl:px-4 2xl:text-[15px]",
                   item.active
                     ? "bg-[#DDF6E7] text-[#058447]"
                     : "text-[#0E1A34] hover:bg-[#F3F8F5] hover:text-[#058447]",
@@ -264,41 +277,41 @@ function Sidebar() {
             );
           })}
         </div>
+      </SidebarScrollArea>
 
-        <div className="space-y-5">
-          <div className="rounded-[18px] border border-[#E2E8EC] bg-white p-5">
-            <p className="text-xs font-medium text-[#647086]">Tenant Aktif</p>
-            <p className="mt-3 text-sm font-black text-[#0E1A34]">SMK Antartika 1 Sidoarjo</p>
-            <button className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[#058447]">
-              Ganti Tenant
-              <ChevronRight className="size-4" />
-            </button>
-          </div>
-
-          <div className="rounded-[18px] border border-[#E2E8EC] bg-white p-4">
-            <div className="flex items-center gap-3">
-              <div className="relative size-12 overflow-hidden rounded-full bg-[#DDF6E7]">
-                <Image
-                  src="/landing/beranda/admin.png"
-                  alt="Admin Utama"
-                  fill
-                  sizes="48px"
-                  className="object-cover object-top"
-                />
-              </div>
-              <div className="min-w-0 flex-1">
-                <p className="truncate text-[15px] font-black text-[#0E1A34]">Admin Utama</p>
-                <p className="truncate text-xs font-medium text-[#647086]">Super Admin</p>
-              </div>
-              <ChevronDown className="size-4 text-[#0E1A34]" />
-            </div>
-          </div>
-
-          <button className="flex min-h-10 w-full items-center gap-3 px-4 text-sm font-medium text-[#0E1A34]">
-            <LogOut className="size-5" />
-            Logout
+      <div className="shrink-0 space-y-3 border-t border-[#E2E8EC] bg-white/95 p-4 2xl:p-5">
+        <div className="rounded-[16px] border border-[#E2E8EC] bg-white p-4">
+          <p className="text-xs font-medium text-[#647086]">Tenant Aktif</p>
+          <p className="mt-2 text-sm font-black leading-5 text-[#0E1A34]">SMK Antartika 1 Sidoarjo</p>
+          <button className="mt-3 inline-flex items-center gap-2 text-sm font-black text-[#058447]">
+            Ganti Tenant
+            <ChevronRight className="size-4" />
           </button>
         </div>
+
+        <div className="rounded-[16px] border border-[#E2E8EC] bg-white p-3">
+          <div className="flex items-center gap-3">
+            <div className="relative size-11 overflow-hidden rounded-full bg-[#DDF6E7]">
+              <Image
+                src="/landing/beranda/admin.png"
+                alt="Admin Utama"
+                fill
+                sizes="44px"
+                className="object-cover object-top"
+              />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[15px] font-black text-[#0E1A34]">Admin Utama</p>
+              <p className="truncate text-xs font-medium text-[#647086]">Super Admin</p>
+            </div>
+            <ChevronDown className="size-4 text-[#0E1A34]" />
+          </div>
+        </div>
+
+        <button className="flex min-h-10 w-full items-center gap-3 rounded-xl px-3 text-sm font-medium text-[#0E1A34] transition hover:bg-[#F3F8F5]">
+          <LogOut className="size-5" />
+          Logout
+        </button>
       </div>
     </aside>
   );
@@ -306,37 +319,35 @@ function Sidebar() {
 
 function TopBar() {
   return (
-    <div className="sticky top-0 z-30 flex h-[78px] items-center justify-between border-b border-[#E2E8EC] bg-white/95 px-5 backdrop-blur lg:px-8">
-      <div className="flex min-w-0 items-center gap-6">
-        <button className="inline-flex size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3]">
-          <Menu className="size-6" />
-        </button>
-        <h1 className="shrink-0 text-[26px] font-black tracking-[-0.02em] text-[#0E1A34]">
+    <div className="z-30 flex h-[72px] shrink-0 items-center justify-between border-b border-[#E2E8EC] bg-white/95 px-4 backdrop-blur lg:px-6 2xl:h-[78px] 2xl:px-8">
+      <div className="flex min-w-0 items-center gap-4 2xl:gap-6">
+        <DashboardSidebarToggle className="inline-flex size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3]" />
+        <h1 className="min-w-0 truncate text-[22px] font-black tracking-[-0.02em] text-[#0E1A34] 2xl:text-[26px]">
           Dashboard Admin
         </h1>
-        <p className="hidden truncate text-base font-black text-[#058447] min-[1100px]:block">
+        <p className="hidden truncate text-base font-black text-[#058447] min-[1700px]:block">
           Menghubungkan potensi, mewujudkan mandiri - pusat kontrol ekosistem SyncVoca
         </p>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-5">
-        <button className="hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] sm:inline-flex">
+      <div className="flex shrink-0 items-center gap-2 sm:gap-3 2xl:gap-5">
+        <button className="hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] md:inline-flex">
           <Search className="size-6" />
         </button>
-        <button className="relative hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] sm:inline-flex">
+        <button className="relative hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] md:inline-flex">
           <Bell className="size-6" />
           <span className="absolute right-0.5 top-0 flex size-5 items-center justify-center rounded-full bg-[#EF3333] text-[10px] font-black text-white">
             8
           </span>
         </button>
-        <button className="hidden size-10 items-center justify-center rounded-full text-[#009D55] transition hover:bg-[#F0F5F3] sm:inline-flex">
+        <button className="hidden size-10 items-center justify-center rounded-full text-[#009D55] transition hover:bg-[#F0F5F3] 2xl:inline-flex">
           <ShieldCheck className="size-7" />
         </button>
-        <span className="hidden h-9 w-px bg-[#E2E8EC] sm:block" />
-        <button className="hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] sm:inline-flex">
+        <span className="hidden h-9 w-px bg-[#E2E8EC] 2xl:block" />
+        <button className="hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] 2xl:inline-flex">
           <HelpCircle className="size-6" />
         </button>
-        <span className="hidden h-9 w-px bg-[#E2E8EC] sm:block" />
+        <span className="hidden h-9 w-px bg-[#E2E8EC] 2xl:block" />
         <button className="flex items-center gap-3 rounded-full px-1 py-1 transition hover:bg-[#F3F8F5]">
           <div className="relative size-11 overflow-hidden rounded-full bg-[#DDF6E7]">
             <Image
@@ -347,7 +358,7 @@ function TopBar() {
               className="object-cover object-top"
             />
           </div>
-          <span className="hidden text-sm font-black text-[#0E1A34] sm:inline">Admin Utama</span>
+          <span className="hidden text-sm font-black text-[#0E1A34] 2xl:inline">Admin Utama</span>
           <ChevronDown className="hidden size-4 text-[#0E1A34] sm:block" />
         </button>
       </div>
@@ -357,7 +368,7 @@ function TopBar() {
 
 function HeroAndActions() {
   return (
-    <div className="grid gap-5 xl:grid-cols-[1fr_0.4fr]">
+    <div className="grid gap-5 2xl:grid-cols-[1fr_0.4fr]">
       <section className="relative overflow-hidden rounded-[20px] border border-[#D5E7DD] bg-gradient-to-r from-[#F6FCF8] via-[#ECF8F2] to-[#F8FCFA] px-6 py-7 shadow-sm lg:px-8">
         <div className="grid min-h-[216px] gap-6 lg:grid-cols-[1fr_0.56fr] lg:items-center">
           <div className="relative z-10">
@@ -432,7 +443,7 @@ function HeroAndActions() {
 
       <SectionCard className="p-5 lg:p-6">
         <h2 className="text-xl font-black tracking-[-0.01em] text-[#0E1A34]">Aksi Cepat</h2>
-        <div className="mt-5 grid grid-cols-2 gap-4 xl:grid-cols-3">
+        <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3">
           {quickActions.map((action) => {
             const Icon = action.icon;
             return (
@@ -461,13 +472,13 @@ function SummarySection() {
       <h2 className="mb-5 text-xl font-black tracking-[-0.01em] text-[#0E1A34]">
         Ringkasan Ekosistem Hari Ini
       </h2>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-8">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4 min-[1800px]:grid-cols-8">
         {summaryCards.map((card) => {
           const Icon = card.icon;
           return (
             <article
               key={card.label}
-              className="min-h-[132px] rounded-[18px] border border-[#E2E8EC] bg-white p-5 shadow-[0_12px_40px_rgba(15,31,50,0.035)]"
+              className="min-h-[132px] rounded-[18px] border border-[#E2E8EC] bg-white p-5 shadow-[0_12px_40px_rgba(15,31,50,0.035)] min-[1800px]:p-4 2xl:p-5"
             >
               <div className="flex items-center gap-4">
                 <span
@@ -577,7 +588,7 @@ function EcosystemSnapshot() {
         </h2>
         <SmallLink>Lihat Detail</SmallLink>
       </div>
-      <div className="grid gap-4 xl:grid-cols-2">
+      <div className="grid gap-4 min-[1500px]:grid-cols-2">
         <div className="rounded-xl border border-[#E2E8EC] bg-white p-5">
           <p className="text-sm font-black text-[#0E1A34]">Distribusi Sekolah per Wilayah</p>
           <div className="mt-5 grid gap-4 sm:grid-cols-[0.9fr_1fr] sm:items-center">
@@ -731,7 +742,7 @@ function HealthSection() {
           </div>
         </div>
 
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-5">
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1760px]:grid-cols-5">
           {healthCards.map((item) => (
             <div key={item.label} className="rounded-xl border border-[#DDECE2] bg-white/85 p-4">
               <p className="text-xs font-medium text-[#4E5B6E]">{item.label}</p>
@@ -764,23 +775,20 @@ function CheckIcon() {
 
 export function AdminBerandaDashboard() {
   return (
-    <main className="min-h-screen bg-[#FBFCFD] text-[#0E1A34]">
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <div className="min-w-0 flex-1">
-          <TopBar />
-          <div className="mx-auto flex w-full max-w-[1580px] flex-col gap-5 px-4 py-5 sm:px-6 lg:px-8">
-            <HeroAndActions />
-            <SummarySection />
-            <div className="grid gap-5 xl:grid-cols-[0.75fr_1.18fr_1fr]">
-              <RiskPanel />
-              <EcosystemSnapshot />
-              <ActivityPanel />
-            </div>
-            <HealthSection />
+    <DashboardShell desktopSidebar={<Sidebar />} mobileSidebar={<Sidebar variant="mobile" />}>
+      <TopBar />
+      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="mx-auto flex w-full max-w-[1580px] flex-col gap-5 px-4 py-5 sm:px-6 2xl:px-8">
+          <HeroAndActions />
+          <SummarySection />
+          <div className="grid gap-5 min-[1760px]:grid-cols-[0.75fr_1.18fr_1fr]">
+            <RiskPanel />
+            <EcosystemSnapshot />
+            <ActivityPanel />
           </div>
+          <HealthSection />
         </div>
       </div>
-    </main>
+    </DashboardShell>
   );
 }

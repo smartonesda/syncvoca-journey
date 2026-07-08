@@ -118,7 +118,8 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
             />
             <div className="min-w-0 leading-none">
               <p className="truncate text-xl font-extrabold leading-none tracking-normal text-[#111c33] sm:text-2xl">
-                SyncVoca
+                Sync
+                <span className="text-[#009D55]">Voca</span>
               </p>
               <p className="mt-1 block truncate text-xs font-semibold text-[#24304b]">
                 Menghubungkan Potensi, Mewujudkan Mandiri

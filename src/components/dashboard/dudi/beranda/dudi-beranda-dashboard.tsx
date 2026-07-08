@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
@@ -17,13 +19,17 @@ import {
   HelpCircle,
   Home,
   LogOut,
-  Menu,
   Search,
   ShieldCheck,
   UserRound,
   UsersRound,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import {
+  DashboardShell,
+  DashboardSidebarToggle,
+  SidebarScrollArea,
+} from "@/components/dashboard/shared/dashboard-shell";
 import { cn } from "@/lib/utils";
 
 type Tone = "green" | "blue" | "yellow" | "purple" | "red" | "gray";
@@ -212,31 +218,38 @@ function SmallLink({ children }: { children: React.ReactNode }) {
   );
 }
 
-function Sidebar() {
+function Sidebar({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) {
   return (
-    <aside className="hidden min-h-screen w-[292px] shrink-0 flex-col border-r border-[#E2E8EC] bg-white xl:flex">
-      <div className="px-6 pb-8 pt-6">
+    <aside
+      className={cn(
+        "shrink-0 flex-col bg-white",
+        variant === "desktop"
+          ? "hidden h-screen w-[228px] border-r border-[#E2E8EC] xl:flex 2xl:w-[292px]"
+          : "flex h-full w-full",
+      )}
+    >
+      <div className="shrink-0 px-4 pb-6 pt-5 2xl:px-6 2xl:pb-8 2xl:pt-6">
         <Link href="/" className="flex items-center gap-3">
           <Image
             src="/syncvoca-logo.png"
             alt="SyncVoca"
             width={52}
             height={52}
-            className="size-[52px] rounded-full object-cover"
+            className="size-11 rounded-full object-cover 2xl:size-[52px]"
             priority
           />
           <div>
-            <p className="text-[31px] font-black leading-none tracking-[-0.03em] text-[#0B1531]">
+            <p className="text-[24px] font-black leading-none tracking-[-0.03em] text-[#0B1531] 2xl:text-[31px]">
               Sync<span className="text-[#009D55]">Voca</span>
             </p>
-            <p className="mt-2 text-[11px] font-medium text-[#4E5B6E]">
+            <p className="mt-2 text-[10px] font-medium leading-4 text-[#4E5B6E] 2xl:text-[11px]">
               Menghubungkan potensi, mewujudkan mandiri
             </p>
           </div>
         </Link>
       </div>
 
-      <div className="flex flex-1 flex-col justify-between px-5 pb-6">
+      <SidebarScrollArea>
         <div className="space-y-2">
           {sidebarMenu.map((item) => {
             const Icon = item.icon;
@@ -246,7 +259,7 @@ function Sidebar() {
                 key={item.label}
                 href={item.href}
                 className={cn(
-                  "flex min-h-[56px] items-center gap-4 rounded-xl px-4 text-[15px] font-bold transition",
+                  "flex min-h-[52px] items-center gap-3 rounded-xl px-3 text-[14px] font-bold transition 2xl:min-h-[56px] 2xl:gap-4 2xl:px-4 2xl:text-[15px]",
                   item.active
                     ? "bg-[#DDF6E7] text-[#058447]"
                     : "text-[#0E1A34] hover:bg-[#F3F8F5] hover:text-[#058447]",
@@ -259,58 +272,58 @@ function Sidebar() {
           })}
         </div>
 
-        <div className="space-y-5">
-          <div className="rounded-[18px] border border-[#DCEEE3] bg-white p-5">
-            <div className="mb-4 flex items-center gap-3 text-[#058447]">
-              <ShieldCheck className="size-6" />
-              <p className="text-base font-black">Privacy & Data</p>
-            </div>
-            <p className="text-sm font-medium leading-6 text-[#26344A]">
-              Anda hanya melihat data publik yang sudah disetujui. Data sensitif tetap
-              berada di sekolah dan keluarga.
-            </p>
-            <button className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[#058447]">
-              Lihat batas data
-              <ChevronRight className="size-4" />
-            </button>
+        <div className="mt-5 rounded-[18px] border border-[#DCEEE3] bg-white p-4 2xl:p-5">
+          <div className="mb-4 flex items-center gap-3 text-[#058447]">
+            <ShieldCheck className="size-6" />
+            <p className="text-base font-black">Privacy & Data</p>
           </div>
-
-          <div className="rounded-[18px] border border-[#E2E8EC] bg-white">
-            <button className="flex w-full items-center gap-3 border-b border-[#E2E8EC] p-4 text-left">
-              <span className="flex size-12 shrink-0 items-center justify-center rounded-full bg-[#1976E8] text-white">
-                <Building2 className="size-7" />
-              </span>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-black text-[#0E1A34]">PT Maju Bersama</span>
-                <span className="mt-1 block truncate text-xs font-medium text-[#647086]">
-                  Industri Perkantoran
-                </span>
-              </span>
-              <ChevronDown className="size-4 text-[#0E1A34]" />
-            </button>
-            <button className="flex w-full items-center gap-3 p-4 text-left">
-              <div className="relative size-12 overflow-hidden rounded-full bg-[#DDF6E7]">
-                <Image
-                  src="/landing/beranda/dudi.png"
-                  alt="Andi Pratama"
-                  fill
-                  sizes="48px"
-                  className="object-cover object-top"
-                />
-              </div>
-              <span className="min-w-0 flex-1">
-                <span className="block truncate text-sm font-black text-[#0E1A34]">Andi Pratama</span>
-                <span className="mt-1 block truncate text-xs font-medium text-[#647086]">HRD Partner</span>
-              </span>
-              <ChevronDown className="size-4 text-[#0E1A34]" />
-            </button>
-          </div>
-
-          <button className="flex min-h-10 w-full items-center gap-3 px-4 text-sm font-medium text-[#0E1A34]">
-            <LogOut className="size-5" />
-            Keluar
+          <p className="text-sm font-medium leading-6 text-[#26344A]">
+            Anda hanya melihat data publik yang sudah disetujui. Data sensitif tetap
+            berada di sekolah dan keluarga.
+          </p>
+          <button className="mt-4 inline-flex items-center gap-2 text-sm font-black text-[#058447]">
+            Lihat batas data
+            <ChevronRight className="size-4" />
           </button>
         </div>
+      </SidebarScrollArea>
+
+      <div className="shrink-0 space-y-3 border-t border-[#E2E8EC] bg-white/95 p-4 2xl:p-5">
+        <div className="rounded-[16px] border border-[#E2E8EC] bg-white">
+          <button className="flex w-full items-center gap-3 border-b border-[#E2E8EC] p-3 text-left">
+            <span className="flex size-11 shrink-0 items-center justify-center rounded-full bg-[#1976E8] text-white">
+              <Building2 className="size-6" />
+            </span>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-sm font-black text-[#0E1A34]">PT Maju Bersama</span>
+              <span className="mt-1 block truncate text-xs font-medium text-[#647086]">
+                Industri Perkantoran
+              </span>
+            </span>
+            <ChevronDown className="size-4 text-[#0E1A34]" />
+          </button>
+          <button className="flex w-full items-center gap-3 p-3 text-left">
+            <div className="relative size-11 overflow-hidden rounded-full bg-[#DDF6E7]">
+              <Image
+                src="/landing/beranda/dudi.png"
+                alt="Andi Pratama"
+                fill
+                sizes="44px"
+                className="object-cover object-top"
+              />
+            </div>
+            <span className="min-w-0 flex-1">
+              <span className="block truncate text-sm font-black text-[#0E1A34]">Andi Pratama</span>
+              <span className="mt-1 block truncate text-xs font-medium text-[#647086]">HRD Partner</span>
+            </span>
+            <ChevronDown className="size-4 text-[#0E1A34]" />
+          </button>
+        </div>
+
+        <button className="flex min-h-10 w-full items-center gap-3 rounded-xl px-3 text-sm font-medium text-[#0E1A34] transition hover:bg-[#F3F8F5]">
+          <LogOut className="size-5" />
+          Keluar
+        </button>
       </div>
     </aside>
   );
@@ -318,34 +331,32 @@ function Sidebar() {
 
 function TopBar() {
   return (
-    <div className="sticky top-0 z-30 flex h-[78px] items-center justify-between border-b border-[#E2E8EC] bg-white/95 px-5 backdrop-blur lg:px-8">
-      <div className="flex min-w-0 items-center gap-6">
-        <button className="inline-flex size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3]">
-          <Menu className="size-6" />
-        </button>
-        <h1 className="shrink-0 text-[26px] font-black tracking-[-0.02em] text-[#0E1A34]">
+    <div className="z-30 flex h-[72px] shrink-0 items-center justify-between border-b border-[#E2E8EC] bg-white/95 px-4 backdrop-blur lg:px-6 2xl:h-[78px] 2xl:px-8">
+      <div className="flex min-w-0 items-center gap-4 2xl:gap-6">
+        <DashboardSidebarToggle className="inline-flex size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3]" />
+        <h1 className="min-w-0 truncate text-[22px] font-black tracking-[-0.02em] text-[#0E1A34] 2xl:text-[26px]">
           Dashboard DUDI
         </h1>
-        <span className="hidden size-1.5 rounded-full bg-[#009D55] min-[1060px]:block" />
-        <p className="hidden truncate text-sm font-black text-[#058447] min-[1060px]:block">
+        <span className="hidden size-1.5 rounded-full bg-[#009D55] min-[1700px]:block" />
+        <p className="hidden truncate text-sm font-black text-[#058447] min-[1700px]:block">
           Menghubungkan potensi, mewujudkan mandiri
         </p>
       </div>
 
-      <div className="flex items-center gap-3 sm:gap-5">
-        <button className="hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] sm:inline-flex">
+      <div className="flex shrink-0 items-center gap-2 sm:gap-3 2xl:gap-5">
+        <button className="hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] md:inline-flex">
           <Search className="size-6" />
         </button>
-        <button className="relative hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] sm:inline-flex">
+        <button className="relative hidden size-10 items-center justify-center rounded-full text-[#0E1A34] transition hover:bg-[#F0F5F3] md:inline-flex">
           <Bell className="size-6" />
           <span className="absolute right-0.5 top-0 flex size-5 items-center justify-center rounded-full bg-[#EF3333] text-[10px] font-black text-white">
             5
           </span>
         </button>
-        <button className="hidden size-10 items-center justify-center rounded-full text-[#009D55] transition hover:bg-[#F0F5F3] sm:inline-flex">
+        <button className="hidden size-10 items-center justify-center rounded-full text-[#009D55] transition hover:bg-[#F0F5F3] 2xl:inline-flex">
           <Accessibility className="size-7" />
         </button>
-        <span className="hidden h-9 w-px bg-[#E2E8EC] sm:block" />
+        <span className="hidden h-9 w-px bg-[#E2E8EC] 2xl:block" />
         <button className="flex min-h-11 items-center gap-3 rounded-xl border border-[#DCE5E9] bg-white px-4 text-sm font-black text-[#0E1A34] shadow-sm transition hover:bg-[#F7FAF8]">
           PT Maju Bersama
           <ChevronDown className="size-4" />
@@ -397,7 +408,7 @@ function HeroVisual() {
 
 function HeroAndPrivacy() {
   return (
-    <div className="grid gap-5 xl:grid-cols-[1fr_0.4fr]">
+    <div className="grid gap-5 2xl:grid-cols-[1fr_0.4fr]">
       <section className="relative overflow-hidden rounded-[20px] border border-[#D5E7DD] bg-gradient-to-r from-[#F8FCFA] via-[#EEF9F2] to-[#F8FCFA] px-6 py-7 shadow-sm lg:px-8">
         <div className="grid min-h-[264px] gap-6 lg:grid-cols-[0.92fr_0.9fr] lg:items-center">
           <div className="relative z-10">
@@ -493,7 +504,7 @@ function SummarySection() {
       <h2 className="mb-5 text-xl font-black tracking-[-0.01em] text-[#0E1A34]">
         Ringkasan Hari Ini
       </h2>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-5">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 min-[1800px]:grid-cols-5">
         {summaryCards.map((card) => {
           const Icon = card.icon;
           return (
@@ -612,7 +623,7 @@ function CandidateSection() {
         </h2>
         <SmallLink>Lihat Semua</SmallLink>
       </div>
-      <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-4">
+      <div className="grid gap-4 md:grid-cols-2 min-[1800px]:grid-cols-4">
         {candidates.map((candidate) => (
           <CandidateCard key={candidate.code} candidate={candidate} />
         ))}
@@ -675,7 +686,7 @@ function ActivityPanel() {
 function CollaborationBanner() {
   return (
     <section className="rounded-[22px] border border-[#DCEEE3] bg-gradient-to-r from-[#EEF9F2] via-white to-[#F6FCF8] p-6 shadow-sm">
-      <div className="grid gap-6 xl:grid-cols-[1.25fr_2fr_0.9fr] xl:items-center">
+      <div className="grid gap-6 2xl:grid-cols-[1.25fr_2fr_0.9fr] 2xl:items-center">
         <div className="flex items-center gap-5">
           <span className="flex size-16 shrink-0 items-center justify-center rounded-full bg-[#009D55] text-white">
             <GraduationCap className="size-9" />
@@ -722,22 +733,19 @@ function CollaborationBanner() {
 
 export function DudiBerandaDashboard() {
   return (
-    <main className="min-h-screen bg-[#FBFCFD] text-[#0E1A34]">
-      <div className="flex min-h-screen">
-        <Sidebar />
-        <div className="min-w-0 flex-1">
-          <TopBar />
-          <div className="mx-auto flex w-full max-w-[1580px] flex-col gap-5 px-4 py-5 sm:px-6 lg:px-8">
-            <HeroAndPrivacy />
-            <SummarySection />
-            <div className="grid gap-5 xl:grid-cols-[1fr_0.4fr]">
-              <CandidateSection />
-              <ActivityPanel />
-            </div>
-            <CollaborationBanner />
+    <DashboardShell desktopSidebar={<Sidebar />} mobileSidebar={<Sidebar variant="mobile" />}>
+      <TopBar />
+      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
+        <div className="mx-auto flex w-full max-w-[1580px] flex-col gap-5 px-4 py-5 sm:px-6 2xl:px-8">
+          <HeroAndPrivacy />
+          <SummarySection />
+          <div className="grid gap-5 2xl:grid-cols-[1fr_0.4fr]">
+            <CandidateSection />
+            <ActivityPanel />
           </div>
+          <CollaborationBanner />
         </div>
       </div>
-    </main>
+    </DashboardShell>
   );
 }
