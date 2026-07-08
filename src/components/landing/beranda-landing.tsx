@@ -565,7 +565,7 @@ function RoleSection() {
           </p>
         </div>
 
-        <div className="mt-20 grid gap-4  md:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-20 grid gap-y-9 gap-x-4  md:grid-cols-2 xl:grid-cols-5">
           {roleCards.map((role) => (
             <RoleCard key={role.title} {...role} />
           ))}
@@ -1075,8 +1075,10 @@ function RoleCard({
         />
       </div>
       <div className="p-5 text-center">
-        <h3 className="text-base font-extrabold  text-[#111c33]">{title}</h3>
-        <ul className="mt-4 text-left space-y-3">
+        <h3 className="text-base text-center font-extrabold  text-[#111c33]">
+          {title}
+        </h3>
+        <ul className="mt-4 inline-flex flex-col space-y-3">
           {bullets.map((item) => (
             <li
               key={item}
@@ -1092,7 +1094,7 @@ function RoleCard({
         <a
           href="#cara-kerja"
           className={cn(
-            "mt-5  inline-flex items-center gap-1 text-sm font-extrabold",
+            "mt-5  flex justify-center items-center gap-1 text-sm font-extrabold ",
             toneClass[color].text,
           )}
         >
