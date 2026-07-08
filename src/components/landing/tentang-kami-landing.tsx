@@ -4,8 +4,6 @@ import type { LucideIcon } from "lucide-react";
 import {
   Accessibility,
   ArrowRight,
-  BookOpen,
-  BriefcaseBusiness,
   Check,
   ClipboardCheck,
   Eye,
@@ -16,7 +14,6 @@ import {
   Leaf,
   Mail,
   Network,
-  School,
   Send,
   ShieldCheck,
   Sprout,
@@ -129,27 +126,27 @@ const approachItems = [
 
 const ecosystemCards = [
   {
-    image: "/landing/beranda/admin.png",
+    image: "/landing/tentang-kami/3.png",
     title: "Tim Pengembang",
     body: "Membangun teknologi dengan hati dan fokus pada dampak nyata.",
   },
   {
-    image: "/landing/beranda/guru.png",
+    image: "/landing/tentang-kami/4.png",
     title: "Sekolah & Guru",
     body: "Mitra utama dalam pendampingan dan pengembangan siswa.",
   },
   {
-    image: "/landing/beranda/ortu.png",
+    image: "/landing/tentang-kami/7.png",
     title: "Pembimbing & Ahli",
     body: "PLB, psikolog, dan praktisi vokasi yang menjadi penasihat kami.",
   },
   {
-    image: "/landing/beranda/dudi.png",
+    image: "/landing/tentang-kami/8.png",
     title: "Mitra Industri (DUDI)",
     body: "Memberi kesempatan, validasi, dan membuka peluang kerja.",
   },
   {
-    image: "/landing/beranda/cta-students.png",
+    image: "/landing/tentang-kami/6.png",
     title: "Komunitas",
     body: "Orang tua, relawan, dan komunitas yang bergerak untuk inklusi.",
   },
@@ -181,12 +178,12 @@ export function TentangKamiLanding() {
 
 function AboutHero() {
   return (
-    <section className="border-b border-[#e8efe9] bg-[linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
+    <section className="border-b border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
       <div className="mx-auto grid w-full max-w-screen-2xl gap-8 px-5 pb-10 pt-9 sm:px-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-10 xl:px-10">
         <div className="relative z-10 min-w-0">
           <Kicker icon={Heart}>Tentang SyncVoca</Kicker>
 
-          <h1 className="mt-5 max-w-3xl text-4xl font-extrabold leading-tight tracking-normal text-[#101a35] sm:text-5xl lg:text-[4rem] lg:leading-[1.08]">
+          <h1 className="mt-6 max-w-full break-words text-3xl font-extrabold leading-tight tracking-normal text-[#111c33] sm:text-4xl lg:text-[2.6rem] lg:leading-[1.15] 2xl:mt-7 2xl:text-5xl 2xl:leading-tight">
             Kami percaya,
             <br />
             potensi ABK perlu diberi
@@ -211,19 +208,19 @@ function AboutHero() {
           </div>
         </div>
 
-        <div className="relative min-h-[330px] overflow-hidden lg:min-h-[500px]">
+        <div className="relative mx-auto mt-8 min-w-0 w-full max-w-2xl self-end lg:mx-0 lg:mt-0 lg:self-center lg:scale-[1.2] lg:translate-[-30px,0] 2xl:max-w-3xl">
           <div
             aria-hidden="true"
-            className="absolute inset-x-[8%] bottom-10 top-0 rounded-[42%] bg-[#eaf7ed]"
+            className="absolute inset-x-[8%] bottom-[8%] top-15 rounded-[42%] bg-[#eaf7ed]"
           />
           <Image
-            src="/landing/beranda/cta-students.png"
+            src="/landing/tentang-kami/hero-section.png"
             alt="Siswa dan pendamping SyncVoca menggunakan tablet"
-            width={1307}
-            height={1004}
+            width={1593}
+            height={987}
             priority
             sizes="(max-width: 1024px) 92vw, 58vw"
-            className="absolute bottom-0 right-[-5%] z-10 h-full w-[118%] max-w-none object-contain object-right-bottom lg:right-[-9%]"
+            className="relative z-10 h-auto w-full -right-5 object-contain"
           />
         </div>
       </div>
@@ -262,67 +259,23 @@ function AboutStory() {
           </ul>
         </div>
 
-        <BridgeVisual />
+        <div className="relative mx-auto min-w-0 w-full max-w-2xl self-center lg:scale-[1.08] lg:translate-x-[-10px] 2xl:max-w-3xl">
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-[8%] bottom-[8%] top-0 rounded-[42%]"
+          />
+          <Image
+            src="/landing/tentang-kami/2.png"
+            alt="Siswa dan pendamping SyncVoca menggunakan tablet"
+            width={1672}
+            height={941}
+            priority
+            sizes="(max-width: 1024px) 92vw, 58vw"
+            className="relative z-10 h-auto w-full object-contain"
+          />
+        </div>
       </div>
     </section>
-  );
-}
-
-function BridgeVisual() {
-  return (
-    <div className="relative min-h-[300px] overflow-hidden rounded-2xl bg-[linear-gradient(180deg,#fbfdfb_0%,#ffffff_58%,#eff8f2_100%)] px-5 pb-5 pt-4">
-      <div className="absolute left-1/2 top-3 z-20 grid size-16 -translate-x-1/2 place-items-center rounded-full bg-[#009856] text-white shadow-[0_14px_32px_rgba(0,152,86,0.24)]">
-        <BookOpen className="size-9" />
-      </div>
-      <div className="absolute right-6 top-8 z-20 grid size-14 place-items-center rounded-full bg-[#8557f6] text-white shadow-[0_14px_32px_rgba(133,87,246,0.22)]">
-        <BriefcaseBusiness className="size-7" />
-      </div>
-
-      <div className="absolute bottom-20 left-8 h-24 w-36 rounded-t-3xl bg-[#0da35e]/90 shadow-[0_22px_44px_rgba(0,152,86,0.18)]">
-        <div className="absolute left-5 top-5 grid grid-cols-3 gap-2">
-          {Array.from({ length: 6 }).map((_, index) => (
-            <span
-              key={index}
-              className="size-3 rounded-sm bg-white/45"
-            />
-          ))}
-        </div>
-        <School className="absolute bottom-4 left-1/2 size-12 -translate-x-1/2 text-white/85" />
-      </div>
-      <p className="absolute bottom-[4.7rem] left-12 z-20 text-xs font-extrabold uppercase tracking-normal text-white">
-        Sekolah
-      </p>
-
-      <div className="absolute bottom-20 right-7 h-28 w-32 rounded-t-3xl bg-[#8067df]/80 shadow-[0_22px_44px_rgba(105,80,200,0.16)]">
-        <div className="absolute bottom-0 left-4 h-24 w-5 rounded-t-lg bg-white/28" />
-        <div className="absolute bottom-0 left-12 h-32 w-6 rounded-t-lg bg-white/22" />
-        <div className="absolute bottom-0 right-4 h-20 w-5 rounded-t-lg bg-white/25" />
-      </div>
-      <p className="absolute bottom-[4.7rem] right-10 z-20 text-xs font-extrabold uppercase tracking-normal text-white">
-        Dunia Kerja
-      </p>
-
-      <div className="absolute left-[24%] right-[22%] top-[42%] z-10 h-5 rounded-full bg-[#d5c5a7] shadow-[0_8px_18px_rgba(87,73,52,0.13)]" />
-      <div className="absolute left-[25%] right-[23%] top-[35%] z-10 h-px bg-[#9b8c72]" />
-      <div className="absolute left-[28%] top-[35%] z-10 h-20 w-1 bg-[#b6a684]" />
-      <div className="absolute right-[26%] top-[35%] z-10 h-20 w-1 bg-[#b6a684]" />
-      {Array.from({ length: 7 }).map((_, index) => (
-        <span
-          key={index}
-          className="absolute top-[37%] z-10 h-12 w-px bg-[#b6a684]"
-          style={{ left: `${33 + index * 5}%` }}
-        />
-      ))}
-
-      <div className="absolute bottom-[4.8rem] left-1/2 z-20 -translate-x-1/2 text-center">
-        <div className="mx-auto h-12 w-9 rounded-t-full bg-[#263449]" />
-        <div className="mx-auto -mt-1 h-14 w-16 rounded-t-2xl bg-[#f7fbf8] shadow-[0_10px_24px_rgba(17,28,51,0.16)]" />
-        <div className="mx-auto -mt-11 h-16 w-12 rounded-2xl bg-[#1f2b42]" />
-      </div>
-      <p className="absolute bottom-3 left-1/2 z-20 w-56 -translate-x-1/2 text-center text-sm font-extrabold leading-5 text-[#101a35]">
-        Kita bangun jembatan yang aman, terukur, dan bermakna.
-      </p>
-    </div>
   );
 }
 
@@ -335,7 +288,7 @@ function MissionVision() {
             key={item.title}
             className="relative overflow-hidden rounded-2xl border border-[#dbe8df] bg-white px-6 py-7 shadow-[0_14px_36px_rgba(17,28,51,0.04)] sm:px-8"
           >
-            <div className="flex gap-5">
+            <div className="flex sm:flex-row flex-col items-center sm:items-start sm:text-left text-center gap-5">
               <IconBubble icon={item.icon} />
               <div className="max-w-xl">
                 <h2 className="text-lg font-extrabold text-[#101a35]">
@@ -416,18 +369,15 @@ function EcosystemSection() {
               key={card.title}
               className="overflow-hidden rounded-2xl border border-[#dbe8df] bg-white text-center shadow-[0_14px_32px_rgba(17,28,51,0.05)]"
             >
-              <div className="relative h-36 overflow-hidden bg-[#f4faf6]">
+              <div className="relative min-h-36 max-h-56 overflow-hidden bg-[#f4faf6]">
                 <Image
                   src={card.image}
                   alt={card.title}
-                  width={index === 4 ? 1307 : 500}
-                  height={index === 4 ? 1004 : 472}
+                  width="500"
+                  height="472"
                   loading="lazy"
                   sizes="(max-width: 640px) 90vw, (max-width: 1280px) 30vw, 18vw"
-                  className={cn(
-                    "h-full w-full object-contain",
-                    index === 4 && "scale-150 object-right-bottom",
-                  )}
+                  className="h-full w-full object-cover object-center"
                 />
               </div>
               <div className="px-4 py-5">
@@ -449,12 +399,12 @@ function EcosystemSection() {
 function CommitmentSection() {
   return (
     <section className="bg-[#fbfdfb] px-5 pb-6 pt-3 sm:px-8">
-      <div className="mx-auto grid w-full max-w-screen-2xl gap-5 overflow-hidden rounded-2xl border border-[#dbe8df] bg-[linear-gradient(90deg,#f4fbf6_0%,#ffffff_48%,#f4fbf6_100%)] px-6 py-6 shadow-[0_14px_36px_rgba(17,28,51,0.04)] md:grid-cols-[auto_1fr_auto] md:items-center md:px-9">
-        <div className="grid size-24 place-items-center rounded-full bg-[#e6f7ec] text-[#009856]">
+      <div className="mx-auto grid w-full max-w-screen-2xl gap-5 overflow-hidden rounded-2xl border border-[#dbe8df]  px-6 py-6 shadow-[0_14px_36px_rgba(17,28,51,0.04)] md:grid-cols-[auto_1fr_auto] md:items-center md:px-9">
+        <div className="ml-auto mr-auto grid size-24 place-items-center rounded-full bg-[#e6f7ec] text-[#009856]">
           <ShieldCheck className="size-14" />
         </div>
-        <div>
-          <h2 className="text-2xl font-extrabold text-[#101a35]">
+        <div className="md:text-left text-center">
+          <h2 className="text-2xl  font-extrabold text-[#101a35]">
             Kami berkomitmen menjaga amanah yang diberikan.
           </h2>
           <p className="mt-3 max-w-3xl text-base font-semibold leading-7 text-[#33435f]">
@@ -462,15 +412,15 @@ function CommitmentSection() {
             untuk satu tujuan: masa depan ABK yang lebih mandiri dan bermakna.
           </p>
         </div>
-        <div className="relative hidden h-32 w-72 md:block">
+        <div className="relative  md:w-120 w-full full block">
           <Image
-            src="/landing/beranda/cta-students.png"
+            src="/landing/tentang-kami/1.png"
             alt="Pelajar dan pendamping SyncVoca"
             width={1307}
             height={1004}
             loading="lazy"
             sizes="288px"
-            className="absolute bottom-[-36px] right-[-44px] h-48 w-auto max-w-none object-contain"
+            className=""
           />
         </div>
       </div>
