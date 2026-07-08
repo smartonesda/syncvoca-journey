@@ -191,6 +191,7 @@ export default function LandingPage({
       selector: '[data-tour="landing-hero"]',
       title: "Selamat datang di SyncVoca",
       body: `Halaman awal ini menjelaskan cerita besar SyncVoca: ${TAGLINE}. User awam cukup memahami bahwa aktivitas siswa akan berubah menjadi bukti kerja.`,
+      audioSrc: "/voice/landing-prototype/landing-hero.wav",
       voice:
         "Di halaman awal ini, SyncVoca menjelaskan perjalanan dari potensi siswa menuju bukti kerja yang bisa dipahami sekolah, keluarga, dan industri.",
     },
@@ -198,26 +199,31 @@ export default function LandingPage({
       selector: '[data-tour="landing-portal-cta"]',
       title: "Masuk ke portal demo",
       body: "Tombol ini membawa user ke area prototype. Dari sini demo bisa diarahkan ke dashboard siswa, guru, orang tua, DUDI, atau admin.",
+      audioSrc: "/voice/landing-prototype/landing-portal-cta.wav",
     },
     {
       selector: '[data-tour="landing-role-picker"]',
       title: "Pilih mode cepat",
       body: "Role picker membantu presenter langsung membuka sudut pandang pengguna tanpa harus mencari menu di bawah halaman.",
+      audioSrc: "/voice/landing-prototype/landing-role-picker.wav",
     },
     {
       selector: '[data-tour="landing-workflow"]',
       title: "Alur produk",
       body: "Alur ini menjadi jembatan naratif sebelum user masuk dashboard: intake, simulasi, pendampingan, portofolio, lalu validasi DUDI.",
+      audioSrc: "/voice/landing-prototype/landing-workflow.wav",
     },
     {
       selector: '[data-tour="landing-proof"]',
       title: "Bukti produk",
       body: "Bagian ini menunjukkan output yang perlu dibuktikan di dashboard: portofolio, validation seal, dan pendekatan aksesibilitas.",
+      audioSrc: "/voice/landing-prototype/landing-proof.wav",
     },
     {
       selector: '[data-tour="landing-portal-roles"]',
       title: "Portal role demo",
       body: "Bagian ini adalah pintu utama untuk masuk ke dashboard masing-masing role. Setiap role punya menu, data, dan batas akses yang berbeda.",
+      audioSrc: "/voice/landing-prototype/landing-portal-roles.wav",
     },
   ];
 

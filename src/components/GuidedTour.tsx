@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { ArrowRight, CheckCircle2, Volume2, VolumeX, X } from "lucide-react";
 
 export interface GuidedTourStep {
@@ -6,6 +6,7 @@ export interface GuidedTourStep {
   title: string;
   body: string;
   voice?: string;
+  audioSrc?: string;
 }
 
 interface GuidedTourProps {
@@ -31,6 +32,51 @@ const getStoredVoicePreference = () => {
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
 
+const VOCI_VOICE_PROFILE = {
+  lang: "id-ID",
+  pitch: 1.42,
+  rate: 1.03,
+  volume: 1,
+};
+
+const getVoiceScore = (voice: SpeechSynthesisVoice) => {
+  const name = voice.name.toLowerCase();
+  const lang = voice.lang.toLowerCase();
+  let score = 0;
+
+  if (lang === "id-id") score += 80;
+  else if (lang.startsWith("id")) score += 65;
+  else if (lang.startsWith("ms")) score += 24;
+  else if (lang.startsWith("en")) score += 8;
+
+  if (name.includes("male") || name.includes("pria") || name.includes("boy")) {
+    score += 22;
+  }
+  if (
+    name.includes("child") ||
+    name.includes("kid") ||
+    name.includes("young") ||
+    name.includes("anak")
+  ) {
+    score += 26;
+  }
+  if (
+    name.includes("female") ||
+    name.includes("wanita") ||
+    name.includes("girl")
+  ) {
+    score -= 12;
+  }
+  if (voice.localService) score += 4;
+
+  return score;
+};
+
+const getBestVociVoice = (voices: SpeechSynthesisVoice[]) =>
+  voices
+    .filter((voice) => voice.lang)
+    .sort((first, second) => getVoiceScore(second) - getVoiceScore(first))[0];
+
 export default function GuidedTour({
   enabled,
   storageKey,
@@ -42,6 +88,10 @@ export default function GuidedTour({
   const [activeIndex, setActiveIndex] = useState(0);
   const [voiceEnabled, setVoiceEnabled] = useState(getStoredVoicePreference);
   const [spotlight, setSpotlight] = useState<SpotlightRect | null>(null);
+  const [availableVoices, setAvailableVoices] = useState<
+    SpeechSynthesisVoice[]
+  >([]);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
   const activeStep = steps[activeIndex];
   const totalSteps = steps.length;
@@ -53,24 +103,70 @@ export default function GuidedTour({
       : activeStep.voice || activeStep.body;
   }, [activeIndex, activeStep, voiceIntro]);
 
-  const speak = (text: string) => {
-    if (!voiceEnabled || typeof window === "undefined") return;
+  const stopCurrentVoice = () => {
+    if (typeof window === "undefined") return;
+    window.speechSynthesis?.cancel();
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.currentTime = 0;
+      audioRef.current = null;
+    }
+  };
+
+  const speakWithBrowserVoice = (text: string) => {
+    if (typeof window === "undefined") return;
     const speech = window.speechSynthesis;
     if (!speech || !text) return;
 
     speech.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.lang = "id-ID";
-    utterance.rate = 0.95;
-    utterance.pitch = 1;
+    utterance.lang = VOCI_VOICE_PROFILE.lang;
+    utterance.rate = VOCI_VOICE_PROFILE.rate;
+    utterance.pitch = VOCI_VOICE_PROFILE.pitch;
+    utterance.volume = VOCI_VOICE_PROFILE.volume;
 
-    const voices = speech.getVoices();
-    const idVoice = voices.find((voice) =>
-      voice.lang.toLowerCase().startsWith("id"),
-    );
-    if (idVoice) utterance.voice = idVoice;
+    const voices = availableVoices.length
+      ? availableVoices
+      : speech.getVoices();
+    const vociVoice = getBestVociVoice(voices);
+    if (vociVoice) {
+      utterance.voice = vociVoice;
+      utterance.lang = vociVoice.lang || VOCI_VOICE_PROFILE.lang;
+    }
 
     speech.speak(utterance);
+  };
+
+  const speak = (text: string, audioSrc?: string) => {
+    if (!voiceEnabled || typeof window === "undefined") return;
+    stopCurrentVoice();
+
+    if (audioSrc) {
+      const audio = new Audio(audioSrc);
+      audio.preload = "auto";
+      audioRef.current = audio;
+
+      const fallbackToBrowserVoice = () => {
+        if (audioRef.current === audio) {
+          audioRef.current = null;
+          speakWithBrowserVoice(text);
+        }
+      };
+
+      audio.addEventListener("error", fallbackToBrowserVoice, { once: true });
+      audio.addEventListener(
+        "ended",
+        () => {
+          if (audioRef.current === audio) audioRef.current = null;
+        },
+        { once: true },
+      );
+
+      audio.play().catch(fallbackToBrowserVoice);
+      return;
+    }
+
+    speakWithBrowserVoice(text);
   };
 
   const startTour = (force = false) => {
@@ -82,7 +178,7 @@ export default function GuidedTour({
 
   const closeTour = (markDone = true) => {
     if (typeof window !== "undefined") {
-      window.speechSynthesis?.cancel();
+      stopCurrentVoice();
       if (markDone) window.localStorage.setItem(storageKey, "done");
     }
     setIsOpen(false);
@@ -91,7 +187,7 @@ export default function GuidedTour({
   useEffect(() => {
     startTour(false);
     return () => {
-      if (typeof window !== "undefined") window.speechSynthesis?.cancel();
+      stopCurrentVoice();
     };
     // storageKey intentionally drives the first-run behavior per dashboard role.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -101,6 +197,19 @@ export default function GuidedTour({
     if (replaySignal > 0) startTour(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [replaySignal]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.speechSynthesis) return;
+
+    const speech = window.speechSynthesis;
+    const syncVoices = () => setAvailableVoices(speech.getVoices());
+
+    syncVoices();
+    speech.addEventListener?.("voiceschanged", syncVoices);
+    return () => {
+      speech.removeEventListener?.("voiceschanged", syncVoices);
+    };
+  }, []);
 
   useEffect(() => {
     if (!isOpen || !activeStep || typeof window === "undefined") return;
@@ -140,15 +249,16 @@ export default function GuidedTour({
   }, [activeStep, isOpen]);
 
   useEffect(() => {
-    if (isOpen) speak(voiceText);
+    if (isOpen) speak(voiceText, activeStep?.audioSrc);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeIndex, isOpen, voiceText]);
+  }, [activeIndex, activeStep?.audioSrc, isOpen, voiceText]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       window.localStorage.setItem("sv_tour_voice", voiceEnabled ? "on" : "off");
-      if (!voiceEnabled) window.speechSynthesis?.cancel();
+      if (!voiceEnabled) stopCurrentVoice();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [voiceEnabled]);
 
   if (!isOpen || !activeStep) return null;
@@ -261,7 +371,7 @@ export default function GuidedTour({
             </button>
             <button
               type="button"
-              onClick={() => speak(voiceText)}
+              onClick={() => speak(voiceText, activeStep.audioSrc)}
               className="rounded-full px-3 py-2 text-xs font-black text-[#12843a] transition hover:bg-[#eef8f0]"
             >
               Dengar ulang
