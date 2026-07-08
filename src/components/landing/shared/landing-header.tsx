@@ -121,7 +121,7 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
                 SyncVoca
               </p>
               <p className="mt-1 block truncate text-xs font-semibold text-[#24304b]">
-                Bukti Kerja, Masa Depan, Bersama.
+                Menghubungkan Potensi, Mewujudkan Mandiri
               </p>
             </div>
           </Link>

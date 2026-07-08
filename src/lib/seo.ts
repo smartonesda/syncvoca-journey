@@ -48,22 +48,26 @@ export const marketingSections = [
   {
     label: "Beranda",
     href: "/",
-    summary: "Cerita utama tentang potensi ABK, bukti kerja, dan kesiapan masa depan.",
+    summary:
+      "Cerita utama tentang potensi ABK, bukti kerja, dan kesiapan masa depan.",
   },
   {
     label: "Cara Kerja",
     href: "/cara-kerja",
-    summary: "Alur lima tahap dari mengenal diri, eksplorasi minat, pra-internship, internship, sampai siap kerja.",
+    summary:
+      "Alur lima tahap dari mengenal diri, eksplorasi minat, pra-internship, internship, sampai siap kerja.",
   },
   {
     label: "Bukti Kerja",
     href: "/#bukti-kerja",
-    summary: "Aktivitas siswa dikumpulkan sebagai evidence stack, portofolio, dan validasi DUDI.",
+    summary:
+      "Aktivitas siswa dikumpulkan sebagai evidence stack, portofolio, dan validasi DUDI.",
   },
   {
     label: "Keamanan Data",
     href: "/#keamanan-data",
-    summary: "Batas data publik dan data sensitif dijaga melalui consent, kontrol akses, dan audit.",
+    summary:
+      "Batas data publik dan data sensitif dijaga melalui consent, kontrol akses, dan audit.",
   },
   {
     label: "Untuk Siapa",
@@ -73,12 +77,14 @@ export const marketingSections = [
   {
     label: "Ekosistem",
     href: "/#ekosistem",
-    summary: "Kolaborasi sekolah, keluarga, industri, dan mitra untuk vokasi inklusif.",
+    summary:
+      "Kolaborasi sekolah, keluarga, industri, dan mitra untuk vokasi inklusif.",
   },
   {
     label: "Tentang Kami",
     href: "/tentang-kami",
-    summary: "Visi SyncVoca untuk membuat perjalanan ABK lebih terbaca, aman, dan bermakna.",
+    summary:
+      "Visi SyncVoca untuk membuat perjalanan ABK lebih terbaca, aman, dan bermakna.",
   },
   {
     label: "Kontak",
@@ -156,7 +162,7 @@ export function buildLandingJsonLd() {
       name: siteConfig.name,
       url: siteConfig.url,
       logo: absoluteUrl(siteConfig.logoPath),
-      slogan: "Bukti Kerja, Masa Depan, Bersama.",
+      slogan: "Menghubungkan Potensi, Mewujudkan Mandiri",
       description: siteConfig.description,
       email: siteConfig.email,
       telephone: siteConfig.phone,

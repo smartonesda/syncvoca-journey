@@ -346,7 +346,7 @@ export function BerandaLanding() {
 
 function HeroSection() {
   return (
-    <section className="border-b border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
+    <section className=" border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
       <div className="sv-hero-grid mx-auto grid w-full max-w-screen-2xl gap-6 px-5 pb-7 pt-7 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-8 lg:pb-5 lg:pt-8 xl:px-10 2xl:gap-7 2xl:pb-0 2xl:pt-9">
         <div className="relative z-10 w-full min-w-0 max-w-3xl overflow-hidden">
           <div className="inline-flex min-h-8 items-center gap-2 rounded-full bg-[#effaf4] px-4 text-sm font-extrabold text-[#008a4a]">
@@ -406,9 +406,9 @@ function HeroSection() {
           </div>
         </div>
 
-        <div className="relative mt-8 mx-auto min-w-0 w-full max-w-2xl self-end lg:mx-0 lg:self-center 2xl:max-w-3xl lg:scale-[1.2] lg:translate-[-30px,0]">
+        <div className="relative mt-8 mx-auto min-w-0 w-full max-w-2xl self-end lg:mx-0 lg:self-center 2xl:max-w-3xl scale-[1.1] lg:scale-[1.2] lg:translate-[-30px,0]">
           <Image
-            src="/landing/beranda/hero-section.png"
+            src="/landing/beranda/hero-section-3.png"
             alt="Dua siswa SyncVoca memegang tablet"
             width={1100}
             height={826}

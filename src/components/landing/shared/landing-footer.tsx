@@ -54,7 +54,7 @@ export function LandingFooter() {
             <div>
               <p className="text-2xl font-extrabold leading-none">SyncVoca</p>
               <p className="mt-1 text-xs font-semibold text-white/78">
-                Bukti Kerja, Masa Depan, Bersama.
+                Menghubungkan Potensi, Mewujudkan Mandiri
               </p>
             </div>
           </div>

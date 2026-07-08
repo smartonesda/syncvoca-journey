@@ -180,8 +180,8 @@ export function TentangKamiLanding() {
 
 function AboutHero() {
   return (
-    <section className="border-b pt-0 lg:pt-10 border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
-      <div className="mx-auto grid w-full max-w-screen-2xl gap-8 px-5 pb-10 pt-9 sm:px-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-10 xl:px-10">
+    <section className=" pt-0 lg:pt-10 border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
+      <div className="mx-auto grid w-full max-w-screen-2xl gap-8 px-5 pb-10 pt-9 sm:px-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-start lg:gap-10 xl:px-10">
         <div className="relative z-10 min-w-0">
           <Kicker icon={Heart}>Tentang SyncVoca</Kicker>
 
@@ -211,18 +211,14 @@ function AboutHero() {
         </div>
 
         <div className="relative mx-auto mt-8 min-w-0 w-full max-w-2xl self-end lg:mx-0 lg:mt-0 lg:self-center lg:scale-[1.2] lg:translate-[-30px,0] 2xl:max-w-3xl">
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-[8%] bottom-[8%] top-15 rounded-[42%] bg-[#eaf7ed]"
-          />
           <Image
-            src="/landing/tentang-kami/hero-section.png"
+            src="/landing/tentang-kami/hero-section-2.png"
             alt="Siswa dan pendamping SyncVoca menggunakan tablet"
             width={1593}
             height={987}
             priority
             sizes="(max-width: 1024px) 92vw, 58vw"
-            className="relative z-10 h-auto w-full -right-5 object-contain"
+            className="relative z-10 h-auto w-full  object-contain"
           />
         </div>
       </div>
@@ -233,8 +229,23 @@ function AboutHero() {
 function AboutStory() {
   return (
     <section className="bg-[#fbfdfb] px-5 py-8 sm:px-8">
-      <div className="mx-auto grid w-full max-w-screen-2xl gap-8 rounded-2xl border border-[#dbe8df] bg-white px-6 py-7 shadow-[0_18px_48px_rgba(17,28,51,0.04)] lg:grid-cols-[0.82fr_1.18fr] lg:px-10 lg:py-9">
-        <div>
+      <div className="mx-auto grid w-full max-w-screen-2xl gap-8 rounded-2xl border border-[#dbe8df] bg-white px-6 py-7 shadow-[0_18px_48px_rgba(17,28,51,0.04)]  lg:grid-cols-[1.18fr_0.82fr] lg:px-10 lg:py-9">
+        <div className="order-2 lg:order-1 relative mx-auto min-w-0 w-full max-w-2xl self-center lg:scale-[1.08] lg:translate-x-[-10px] 2xl:max-w-3xl">
+          <div
+            aria-hidden="true"
+            className="absolute inset-x-[8%] bottom-[8%] top-0 rounded-[42%]"
+          />
+          <Image
+            src="/landing/tentang-kami/2.png"
+            alt="Siswa dan pendamping SyncVoca menggunakan tablet"
+            width={1672}
+            height={941}
+            priority
+            sizes="(max-width: 1024px) 92vw, 58vw"
+            className="relative z-10 h-auto w-full object-contain"
+          />
+        </div>
+        <div className="order-1 lg:order-2">
           <h2 className="inline-flex items-center gap-2 text-2xl font-extrabold text-[#101a35] sm:text-3xl">
             Cerita Awal SyncVoca
             <Leaf className="size-5 rotate-45 text-[#00a45d]" />
@@ -259,22 +270,6 @@ function AboutStory() {
               </li>
             ))}
           </ul>
-        </div>
-
-        <div className="relative mx-auto min-w-0 w-full max-w-2xl self-center lg:scale-[1.08] lg:translate-x-[-10px] 2xl:max-w-3xl">
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-[8%] bottom-[8%] top-0 rounded-[42%]"
-          />
-          <Image
-            src="/landing/tentang-kami/2.png"
-            alt="Siswa dan pendamping SyncVoca menggunakan tablet"
-            width={1672}
-            height={941}
-            priority
-            sizes="(max-width: 1024px) 92vw, 58vw"
-            className="relative z-10 h-auto w-full object-contain"
-          />
         </div>
       </div>
     </section>
