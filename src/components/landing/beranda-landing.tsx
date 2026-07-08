@@ -483,7 +483,7 @@ function JourneySection() {
           </p>
         </div>
 
-        <div className="mt-14 grid gap-[55] lg:grid-cols-5">
+        <div className="mt-14 grid gap-x-4 gap-y-[50] lg:grid-cols-5">
           {journeySteps.map((step, index) => (
             <JourneyCard key={step.title} step={step} index={index} />
           ))}
@@ -565,7 +565,7 @@ function RoleSection() {
           </p>
         </div>
 
-        <div className="mt-20 grid gap-9  md:grid-cols-2 xl:grid-cols-5">
+        <div className="mt-20 grid gap-4  md:grid-cols-2 xl:grid-cols-5">
           {roleCards.map((role) => (
             <RoleCard key={role.title} {...role} />
           ))}
@@ -632,7 +632,8 @@ function EcosystemSection() {
                         height={logo.height}
                         loading={groupIndex === 0 ? "eager" : "lazy"}
                         sizes="(max-width: 640px) 80px, 112px"
-                        className="h-auto max-h-12 w-auto max-w-20 object-contain grayscale opacity-80 transition duration-300 hover:grayscale-0 hover:opacity-100 sm:max-h-16 sm:max-w-28"
+                        // className="h-auto max-h-12 w-auto max-w-20 object-contain grayscale opacity-80 transition duration-300 hover:grayscale-0 hover:opacity-100 sm:max-h-16 sm:max-w-28"
+                        className="object-contain max-h-25 "
                       />
                     </div>
                   ))}
@@ -875,7 +876,7 @@ function JourneyCard({
   return (
     <article className="relative rounded-2xl border border-[#e0e9e3] bg-white px-5 pb-6 pt-12 text-center shadow-[0_14px_32px_rgba(17,28,51,0.04)]">
       {!isLast ? (
-        <span className="absolute left-full top-8 z-10 hidden -translate-x-2 items-center text-[#0aa960] lg:flex">
+        <span className="absolute left-full top-8 z-10 hidden -translate-x-4 items-center text-[#0aa960] lg:flex">
           <span className="h-px w-10 border-t border-dashed border-current" />
           <ChevronRight className="size-5" />
         </span>
@@ -1073,9 +1074,9 @@ function RoleCard({
           className="absolute inset-x-0 bottom-0 mx-auto h-44 w-auto object-contain"
         />
       </div>
-      <div className="p-5">
-        <h3 className="text-base font-extrabold text-[#111c33]">{title}</h3>
-        <ul className="mt-4 space-y-3">
+      <div className="p-5 text-center">
+        <h3 className="text-base font-extrabold  text-[#111c33]">{title}</h3>
+        <ul className="mt-4 text-left space-y-3">
           {bullets.map((item) => (
             <li
               key={item}
@@ -1091,7 +1092,7 @@ function RoleCard({
         <a
           href="#cara-kerja"
           className={cn(
-            "mt-5 inline-flex items-center gap-1 text-sm font-extrabold",
+            "mt-5  inline-flex items-center gap-1 text-sm font-extrabold",
             toneClass[color].text,
           )}
         >
