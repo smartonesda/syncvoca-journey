@@ -40,7 +40,7 @@ ABK punya potensi
 Tagline emosional yang bisa dipakai:
 
 ```text
-Bukti Kerja, Masa Depan, Bersama.
+Menghubungkan Potensi, Mewujudkan Mandiri
 ```
 
 Narasi pendukung:
@@ -840,18 +840,18 @@ Isi:
 
 Gunakan link internal agar user tidak berhenti di satu halaman.
 
-| Dari Halaman | Arahkan Ke | Alasan |
-| --- | --- | --- |
-| Beranda | Cara Kerja | User sudah tertarik, perlu paham alur |
-| Beranda | Bukti Kerja | User ingin melihat output nyata |
-| Cara Kerja | Bukti Kerja | Setelah paham alur, tunjukkan hasil |
-| Cara Kerja | Keamanan Data | Saat membahas DUDI, jelaskan privacy |
-| Bukti Kerja | Keamanan Data | Evidence perlu dibatasi dengan privacy |
-| Keamanan Data | Untuk Siapa | Jelaskan role access |
-| Untuk Siapa | Ekosistem | Tunjukkan kolaborasi lebih besar |
-| Ekosistem | Kontak | Dorong kemitraan |
-| Tentang Kami | Kontak | Dorong percakapan |
-| Kontak | Masuk Portal Demo | Tetap beri jalur mencoba |
+| Dari Halaman  | Arahkan Ke        | Alasan                                 |
+| ------------- | ----------------- | -------------------------------------- |
+| Beranda       | Cara Kerja        | User sudah tertarik, perlu paham alur  |
+| Beranda       | Bukti Kerja       | User ingin melihat output nyata        |
+| Cara Kerja    | Bukti Kerja       | Setelah paham alur, tunjukkan hasil    |
+| Cara Kerja    | Keamanan Data     | Saat membahas DUDI, jelaskan privacy   |
+| Bukti Kerja   | Keamanan Data     | Evidence perlu dibatasi dengan privacy |
+| Keamanan Data | Untuk Siapa       | Jelaskan role access                   |
+| Untuk Siapa   | Ekosistem         | Tunjukkan kolaborasi lebih besar       |
+| Ekosistem     | Kontak            | Dorong kemitraan                       |
+| Tentang Kami  | Kontak            | Dorong percakapan                      |
+| Kontak        | Masuk Portal Demo | Tetap beri jalur mencoba               |
 
 ## CTA Yang Konsisten
 
@@ -891,4 +891,3 @@ Sebelum membuat desain atau slicing halaman, cek:
 8. Apakah CTA berikutnya jelas?
 9. Apakah visualnya konsisten dengan landing page?
 10. Apakah halaman ini membantu user percaya dan ingin mencoba?
-
