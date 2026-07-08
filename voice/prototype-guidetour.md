@@ -40,6 +40,12 @@ Pengaturan audio yang disarankan:
 - Durasi ideal per step: 8 sampai 18 detik
 - Folder target nanti: `prototype/public/audio/voci/`
 
+Catatan implementasi saat ini:
+
+- Sample audio landing sudah tersedia di `prototype/public/voice/landing-prototype/`.
+- Guide tour akan memutar file audio jika `audioSrc` tersedia.
+- Jika file audio untuk suatu step belum ada, sistem fallback ke Web Speech API bawaan browser.
+
 Konvensi nama file:
 
 ```text
@@ -69,7 +75,8 @@ Hai, aku Voci. Selamat datang di portal demo SyncVoca. Di sini aku akan bantu ka
 ### Landing 1: Selamat Datang Di SyncVoca
 
 **Target selector:** `landing-hero`  
-**File:** `voci-landing-01-welcome.mp3`
+**File rencana:** `voci-landing-01-welcome.mp3`  
+**File sample saat ini:** `/voice/landing-prototype/landing-hero.wav`
 
 ```text
 Hai, aku Voci. Selamat datang di SyncVoca. Di halaman awal ini, kamu akan melihat cerita besar SyncVoca: bagaimana potensi siswa bisa dikenali, dilatih, lalu diubah menjadi bukti kerja yang mudah dipahami.
@@ -78,7 +85,8 @@ Hai, aku Voci. Selamat datang di SyncVoca. Di halaman awal ini, kamu akan meliha
 ### Landing 2: Masuk Ke Portal Demo
 
 **Target selector:** `landing-portal-cta`  
-**File:** `voci-landing-02-portal-demo.mp3`
+**File rencana:** `voci-landing-02-portal-demo.mp3`  
+**File sample saat ini:** `/voice/landing-prototype/landing-portal-cta.wav`
 
 ```text
 Tombol ini adalah pintu masuk ke portal demo. Dari sini, kamu bisa mulai melihat SyncVoca dari sudut pandang siswa, guru, orang tua, DUDI, atau admin.
@@ -87,7 +95,8 @@ Tombol ini adalah pintu masuk ke portal demo. Dari sini, kamu bisa mulai melihat
 ### Landing 3: Pilih Mode Cepat
 
 **Target selector:** `landing-role-picker`  
-**File:** `voci-landing-03-role-picker.mp3`
+**File rencana:** `voci-landing-03-role-picker.mp3`  
+**File sample saat ini:** `/voice/landing-prototype/landing-role-picker.wav`
 
 ```text
 Bagian ini membantu kamu masuk lebih cepat ke role yang ingin dicoba. Kalau ingin melihat pengalaman siswa, pilih Siswa. Kalau ingin melihat pengelolaan data dan validasi, pilih role lain yang tersedia.
@@ -96,7 +105,8 @@ Bagian ini membantu kamu masuk lebih cepat ke role yang ingin dicoba. Kalau ingi
 ### Landing 4: Alur Produk
 
 **Target selector:** `landing-workflow`  
-**File:** `voci-landing-04-workflow.mp3`
+**File rencana:** `voci-landing-04-workflow.mp3`  
+**File sample saat ini:** `/voice/landing-prototype/landing-workflow.wav`
 
 ```text
 Ini adalah alur utama SyncVoca. Perjalanan dimulai dari intake dukungan, lalu simulasi kerja, rencana pendampingan, portofolio bukti, sampai validasi DUDI.
@@ -105,7 +115,8 @@ Ini adalah alur utama SyncVoca. Perjalanan dimulai dari intake dukungan, lalu si
 ### Landing 5: Bukti Produk
 
 **Target selector:** `landing-proof`  
-**File:** `voci-landing-05-proof.mp3`
+**File rencana:** `voci-landing-05-proof.mp3`  
+**File sample saat ini:** `/voice/landing-prototype/landing-proof.wav`
 
 ```text
 Di bagian ini, SyncVoca menunjukkan bahwa prosesnya bukan hanya klaim. Ada portofolio talenta, validation seal dari DUDI, dan pendekatan aksesibilitas agar bukti kerja siswa bisa dibaca dengan jelas.
@@ -114,7 +125,8 @@ Di bagian ini, SyncVoca menunjukkan bahwa prosesnya bukan hanya klaim. Ada porto
 ### Landing 6: Portal Role Demo
 
 **Target selector:** `landing-portal-roles`  
-**File:** `voci-landing-06-role-portal.mp3`
+**File rencana:** `voci-landing-06-role-portal.mp3`  
+**File sample saat ini:** `/voice/landing-prototype/landing-portal-roles.wav`
 
 ```text
 Di sini kamu bisa masuk ke dashboard masing-masing role. Setiap role punya menu, tugas, dan batas akses data yang berbeda, supaya pengalaman demo terasa seperti aplikasi sungguhan.
@@ -472,4 +484,3 @@ Prioritas implementasi:
 2. Lanjutkan guru dan DUDI karena paling penting untuk demo alur produk.
 3. Lengkapi orang tua dan admin.
 4. Setelah semua file audio siap, ubah `GuidedTour.tsx` agar memutar file audio sebelum fallback ke Web Speech API.
-
