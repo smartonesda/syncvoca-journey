@@ -1,4 +1,4 @@
-import { BerandaLanding } from "@/components/landing/beranda-landing";
+import { BerandaLanding } from "@/components/landing/beranda/beranda-landing";
 import { JsonLd } from "@/components/seo/json-ld";
 import { buildLandingJsonLd } from "@/lib/seo";
 

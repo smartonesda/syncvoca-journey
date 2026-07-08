@@ -5,12 +5,13 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { ArrowRight, Menu, X } from "lucide-react";
+import { demoPortalUrl } from "@/lib/external-links";
 import { cn } from "@/lib/utils";
 
 const navItems = [
   { label: "Beranda", href: "/" },
   { label: "Tentang Kami", href: "/tentang-kami" },
-  { label: "Cara Kerja", href: "/#cara-kerja" },
+  { label: "Cara Kerja", href: "/cara-kerja" },
   { label: "Ekosistem", href: "/#ekosistem" },
   { label: "Bukti Kerja", href: "/#bukti-kerja" },
   { label: "Keamanan Data", href: "/#keamanan-data" },
@@ -164,12 +165,12 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
             >
               Masuk
             </Link>
-            <Link
-              href="/login"
+            <a
+              href={demoPortalUrl}
               className="focus-ring inline-flex min-h-11 items-center justify-center rounded-xl bg-[#008a4a] px-5 text-sm font-extrabold text-white shadow-[0_12px_24px_rgba(0,138,74,0.18)] transition hover:bg-[#006d3b] 2xl:px-6"
             >
               Masuk Portal Demo
-            </Link>
+            </a>
           </div>
 
           <button
@@ -230,14 +231,14 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
             >
               Masuk
             </Link>
-            <Link
-              href="/login"
+            <a
+              href={demoPortalUrl}
               onClick={closeMenu}
               className="focus-ring inline-flex min-h-12 items-center justify-center gap-2 rounded-xl bg-[#008a4a] px-5 text-sm font-extrabold text-white shadow-[0_12px_24px_rgba(0,138,74,0.18)] transition hover:bg-[#006d3b] xl:hidden"
             >
               Masuk Portal Demo
               <ArrowRight className="size-4" />
-            </Link>
+            </a>
           </div>
         </div>
       </header>

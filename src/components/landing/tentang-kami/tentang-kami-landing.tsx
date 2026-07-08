@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import type { Route } from "next";
 import type { LucideIcon } from "lucide-react";
 import {
   Accessibility,
@@ -20,8 +21,9 @@ import {
   Target,
   UsersRound,
 } from "lucide-react";
-import { LandingFooter } from "@/components/landing/landing-footer";
-import { LandingHeader } from "@/components/landing/landing-header";
+import { LandingFooter } from "@/components/landing/shared/landing-footer";
+import { LandingHeader } from "@/components/landing/shared/landing-header";
+import { demoPortalUrl } from "@/lib/external-links";
 import { cn } from "@/lib/utils";
 
 const heroPillars = [
@@ -178,7 +180,7 @@ export function TentangKamiLanding() {
 
 function AboutHero() {
   return (
-    <section className="border-b border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
+    <section className="border-b pt-0 lg:pt-10 border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
       <div className="mx-auto grid w-full max-w-screen-2xl gap-8 px-5 pb-10 pt-9 sm:px-8 lg:grid-cols-[0.88fr_1.12fr] lg:items-center lg:gap-10 xl:px-10">
         <div className="relative z-10 min-w-0">
           <Kicker icon={Heart}>Tentang SyncVoca</Kicker>
@@ -364,7 +366,7 @@ function EcosystemSection() {
         </p>
 
         <div className="mt-7 grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
-          {ecosystemCards.map((card, index) => (
+          {ecosystemCards.map((card) => (
             <article
               key={card.title}
               className="overflow-hidden rounded-2xl border border-[#dbe8df] bg-white text-center shadow-[0_14px_32px_rgba(17,28,51,0.05)]"
@@ -373,8 +375,8 @@ function EcosystemSection() {
                 <Image
                   src={card.image}
                   alt={card.title}
-                  width="500"
-                  height="472"
+                  width={500}
+                  height={472}
                   loading="lazy"
                   sizes="(max-width: 640px) 90vw, (max-width: 1280px) 30vw, 18vw"
                   className="h-full w-full object-cover object-center"
@@ -442,7 +444,7 @@ function AboutCta() {
 
         <div className="grid gap-3 sm:grid-cols-3 lg:min-w-[720px]">
           <Link
-            href="/#cara-kerja"
+            href={"/cara-kerja" as Route}
             className="focus-ring inline-flex min-h-14 items-center justify-center gap-3 rounded-xl bg-[#009856] px-6 text-sm font-extrabold text-white shadow-[0_14px_28px_rgba(0,152,86,0.18)] transition hover:bg-[#007b45]"
           >
             Lihat Cara Kerja
@@ -455,13 +457,13 @@ function AboutCta() {
             Hubungi Kami
             <Mail className="size-4" />
           </a>
-          <Link
-            href="/login"
+          <a
+            href={demoPortalUrl}
             className="focus-ring inline-flex min-h-14 items-center justify-center gap-3 rounded-xl border border-[#b9dcc7] bg-white px-6 text-sm font-extrabold text-[#101a35] transition hover:bg-[#f4fbf6]"
           >
             Masuk Portal Demo
             <Send className="size-4" />
-          </Link>
+          </a>
         </div>
       </div>
     </section>

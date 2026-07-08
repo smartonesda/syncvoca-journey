@@ -52,7 +52,7 @@ export const marketingSections = [
   },
   {
     label: "Cara Kerja",
-    href: "/#cara-kerja",
+    href: "/cara-kerja",
     summary: "Alur lima tahap dari mengenal diri, eksplorasi minat, pra-internship, internship, sampai siap kerja.",
   },
   {
@@ -137,7 +137,7 @@ export const feedItems = [
   },
   {
     title: "Alur lima tahap SyncVoca untuk vokasi inklusif",
-    href: "/#cara-kerja",
+    href: "/cara-kerja",
     description:
       "Perjalanan SyncVoca dimulai dari mengenal diri, eksplorasi minat, pra-internship, internship, hingga siap kerja.",
     publishedAt: siteConfig.updatedAt,

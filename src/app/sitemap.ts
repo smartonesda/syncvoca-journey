@@ -15,5 +15,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.8,
     },
+    {
+      url: absoluteUrl("/cara-kerja"),
+      lastModified: new Date(siteConfig.updatedAt),
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
   ];
 }

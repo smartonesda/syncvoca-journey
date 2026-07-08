@@ -17,7 +17,7 @@ const footerColumns = [
   {
     title: "Informasi",
     links: [
-      { label: "Cara Kerja", href: "/#cara-kerja" },
+      { label: "Cara Kerja", href: "/cara-kerja" },
       { label: "Bukti Kerja", href: "/#bukti-kerja" },
       { label: "Keamanan Data", href: "/#keamanan-data" },
       { label: "Untuk Siapa", href: "/#untuk-siapa" },
@@ -28,8 +28,8 @@ const footerColumns = [
     title: "Bantuan",
     links: [
       { label: "Pusat Bantuan", href: "/#kontak" },
-      { label: "Panduan Pengguna", href: "/#cara-kerja" },
-      { label: "Video Tutorial", href: "/#cara-kerja" },
+      { label: "Panduan Pengguna", href: "/cara-kerja" },
+      { label: "Video Tutorial", href: "/cara-kerja" },
       { label: "FAQ", href: "/#kontak" },
     ],
   },

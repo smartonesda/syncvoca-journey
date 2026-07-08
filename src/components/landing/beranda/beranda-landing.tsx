@@ -1,8 +1,7 @@
 import Image from "next/image";
-import Link from "next/link";
 import type { LucideIcon } from "lucide-react";
-import { LandingFooter } from "@/components/landing/landing-footer";
-import { LandingHeader } from "@/components/landing/landing-header";
+import { LandingFooter } from "@/components/landing/shared/landing-footer";
+import { LandingHeader } from "@/components/landing/shared/landing-header";
 import {
   ArrowRight,
   BadgeCheck,
@@ -24,6 +23,7 @@ import {
   UserCheck,
   UsersRound,
 } from "lucide-react";
+import { demoPortalUrl } from "@/lib/external-links";
 import { cn } from "@/lib/utils";
 
 const trustBadges = [
@@ -369,17 +369,17 @@ function HeroSection() {
           </p>
 
           <div className="mt-7 flex flex-col gap-4 sm:flex-row 2xl:mt-8">
-            <Link
-              href="/login"
+            <a
+              href={demoPortalUrl}
               className="focus-ring inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#009856] px-6 text-sm font-extrabold text-white shadow-[0_18px_32px_rgba(0,152,86,0.2)] transition hover:bg-[#007b45] 2xl:min-h-14 2xl:px-8 2xl:text-base"
             >
               Masuk Portal Demo
               <span className="grid size-6 place-items-center rounded-full border border-white/60">
                 <ArrowRight className="size-4" />
               </span>
-            </Link>
+            </a>
             <a
-              href="#cara-kerja"
+              href="/cara-kerja"
               className="focus-ring inline-flex min-h-12 items-center justify-center gap-3 rounded-xl border border-[#dbe7e0] bg-white px-6 text-sm font-extrabold text-[#111c33] shadow-sm transition hover:bg-[#f7fbf8] 2xl:min-h-14 2xl:px-8 2xl:text-base"
             >
               Pelajari Cara Kerja
@@ -424,7 +424,7 @@ function HeroSection() {
 
 function ProblemSection() {
   return (
-    <section className="bg-white py-8">
+    <section className="bg-white mt-10 py-8">
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8">
         <SectionTitle
           id="masalah"
@@ -643,15 +643,15 @@ function CtaSection() {
             mereka.
           </p>
           <div className="mt-7 flex flex-col justify-center gap-4 sm:flex-row lg:justify-start">
-            <Link
-              href="/login"
+            <a
+              href={demoPortalUrl}
               className="focus-ring inline-flex min-h-12 items-center justify-center gap-3 rounded-xl bg-[#009856] px-7 text-sm font-extrabold text-white shadow-[0_15px_28px_rgba(0,152,86,0.18)] hover:bg-[#007b45]"
             >
               Masuk Portal Demo
               <ArrowRight className="size-4" />
-            </Link>
+            </a>
             <a
-              href="#cara-kerja"
+              href="/cara-kerja"
               className="focus-ring inline-flex min-h-12 items-center justify-center gap-3 rounded-xl border border-[#dbe7e0] bg-white px-7 text-sm font-extrabold text-[#111c33] hover:bg-[#f7fbf8]"
             >
               Pelajari Cara Kerja
@@ -960,7 +960,7 @@ function RoleCard({
           ))}
         </ul>
         <a
-          href="#cara-kerja"
+          href="/cara-kerja"
           className={cn(
             "mt-5  flex justify-center items-center gap-1 text-sm font-extrabold ",
             toneClass[color].text,

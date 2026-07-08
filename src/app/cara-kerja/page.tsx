@@ -1,22 +1,22 @@
 import type { Metadata } from "next";
-import { TentangKamiLanding } from "@/components/landing/tentang-kami/tentang-kami-landing";
+import { CaraKerjaLanding } from "@/components/landing/cara-kerja/cara-kerja-landing";
 import { JsonLd } from "@/components/seo/json-ld";
 import { buildArticleJsonLd, siteConfig } from "@/lib/seo";
 
-const title = "Tentang Kami | SyncVoca";
+const title = "Cara Kerja | SyncVoca";
 const description =
-  "Kenali visi SyncVoca dalam membantu ABK membangun bukti kerja yang aman, terukur, dan dipahami oleh sekolah, keluarga, serta dunia industri.";
+  "Pahami alur SyncVoca dari mengenal potensi, simulasi adaptif, evidence stack, pendampingan, portofolio, hingga validasi DUDI yang aman.";
 
 export const metadata: Metadata = {
   title,
   description,
   alternates: {
-    canonical: "/tentang-kami",
+    canonical: "/cara-kerja",
   },
   openGraph: {
     title,
     description,
-    url: "/tentang-kami",
+    url: "/cara-kerja",
     siteName: siteConfig.name,
     locale: siteConfig.locale,
     type: "website",
@@ -37,18 +37,18 @@ export const metadata: Metadata = {
   },
 };
 
-export default function TentangKamiPage() {
+export default function CaraKerjaPage() {
   return (
     <>
       <JsonLd
         data={buildArticleJsonLd({
           title,
           description,
-          path: "/tentang-kami",
+          path: "/cara-kerja",
           publishedAt: siteConfig.updatedAt,
         })}
       />
-      <TentangKamiLanding />
+      <CaraKerjaLanding />
     </>
   );
 }
