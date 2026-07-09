@@ -141,11 +141,11 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
             </button>
           </div>
 
-          {/* Audio Assist */}
+          {/* Text to Voice */}
           <div className="flex justify-between items-center">
             <div>
-              <span className="text-xs font-bold text-slate-600 block">Asisten Audio (Sound Assist)</span>
-              <p className="text-[11px] text-slate-400">Suara panduan navigasi dan game</p>
+              <span className="text-xs font-bold text-slate-600 block">Text to Voice</span>
+              <p className="text-[11px] text-slate-400">Bacakan panduan, langkah demo, dan ringkasan halaman</p>
             </div>
             <button
               onClick={() => togglePreference('audioAssist')}

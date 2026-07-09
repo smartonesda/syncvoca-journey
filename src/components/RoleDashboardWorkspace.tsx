@@ -72,6 +72,7 @@ interface RoleDashboardWorkspaceProps {
   validations: IndustryValidation[];
   companies: Company[];
   preferences: AccessibilityPreferences;
+  onPreferencesChange: (preferences: AccessibilityPreferences) => void;
   onGameComplete: (session: GameSession) => void;
   onAddNote: (note: Omit<TeacherNote, "id">) => void;
   onAddJob: (job: Omit<JobPosting, "id">) => void;
@@ -520,6 +521,7 @@ export default function RoleDashboardWorkspace({
   validations,
   companies,
   preferences,
+  onPreferencesChange,
   onGameComplete,
   onAddNote,
   onAddJob,
@@ -545,6 +547,9 @@ export default function RoleDashboardWorkspace({
   const intro = roleIntro[role];
   const IntroIcon = intro.icon;
   const isHighContrast = preferences.highContrast;
+  const setAudioAssist = (audioAssist: boolean) => {
+    onPreferencesChange({ ...preferences, audioAssist });
+  };
 
   useEffect(() => {
     setActiveMenu(roleMenus[role][0].id);
@@ -2339,6 +2344,8 @@ export default function RoleDashboardWorkspace({
         replaySignal={tourReplay}
         steps={tourSteps}
         voiceIntro={`Selamat datang di halaman portal demo SyncVoca. ${TAGLINE}.`}
+        voiceEnabled={preferences.audioAssist}
+        onVoiceEnabledChange={setAudioAssist}
       />
 
       <section

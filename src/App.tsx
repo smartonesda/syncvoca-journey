@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import {
   Building2,
   GraduationCap,
@@ -77,6 +77,11 @@ const roleOrder: Array<UserRole | null> = [
   "admin",
 ];
 
+const getInitialAudioAssist = () => {
+  if (typeof window === "undefined") return true;
+  return window.localStorage.getItem("sv_tour_voice") !== "off";
+};
+
 function ResetDemoButton({ isHighContrast }: { isHighContrast: boolean }) {
   const { requestConfirm, notify } = useAppFeedback();
 
@@ -135,8 +140,12 @@ export default function App() {
     dyslexiaFont: false,
     reducedMotion: false,
     simplifiedLayout: false,
-    audioAssist: false,
+    audioAssist: getInitialAudioAssist(),
   });
+  const [isChromeVisible, setIsChromeVisible] = useState(true);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const lastScrollYRef = useRef(0);
+  const tickingRef = useRef(false);
 
   const handleRoleChange = (role: UserRole | null) => {
     if (role && typeof window !== "undefined" && window.location.hash) {
@@ -148,6 +157,7 @@ export default function App() {
     }
 
     setCurrentRole(role);
+    setIsChromeVisible(true);
     scrollToTopInstant();
   };
 
@@ -163,8 +173,40 @@ export default function App() {
   }, []);
 
   useLayoutEffect(() => {
+    setIsChromeVisible(true);
     scrollToTopInstant();
   }, [currentRole]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    lastScrollYRef.current = window.scrollY;
+
+    const updateChromeVisibility = () => {
+      const currentY = Math.max(0, window.scrollY);
+      const previousY = lastScrollYRef.current;
+
+      setHasScrolled(currentY > 8);
+
+      if (currentY <= 16 || currentY < previousY - 6) {
+        setIsChromeVisible(true);
+      } else if (currentY > previousY + 6) {
+        setIsChromeVisible(false);
+      }
+
+      lastScrollYRef.current = currentY;
+      tickingRef.current = false;
+    };
+
+    const handleScroll = () => {
+      if (tickingRef.current) return;
+      tickingRef.current = true;
+      window.requestAnimationFrame(updateChromeVisibility);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const dudiCandidates = useMemo(
     () =>
@@ -516,14 +558,18 @@ export default function App() {
 
   return (
     <div
-      className={`sv-app ${isHighContrast ? "sv-high-contrast bg-white text-black border-4 border-black" : "bento-bg text-[#17351f]"} ${accessibility.dyslexiaFont ? "font-serif" : "font-sans"} min-h-screen pb-24`}
+      className={`sv-app ${isHighContrast ? "sv-high-contrast bg-white text-black border-4 border-black" : "bento-bg text-[#17351f]"} ${accessibility.dyslexiaFont ? "font-serif" : "font-sans"} min-h-screen pb-24 pt-[76px] sm:pt-[84px]`}
     >
       <AppFeedbackProvider>
         <header
-          className={`sticky top-0 z-40 border-b px-4 py-3 backdrop-blur-xl sm:px-8 ${
+          className={`fixed inset-x-0 top-0 z-40 border-b px-4 py-3 backdrop-blur-xl transition-transform duration-300 ease-out sm:px-8 ${
+            isChromeVisible ? "translate-y-0" : "-translate-y-full"
+          } ${
             isHighContrast
               ? "border-b-4 border-black bg-white text-black"
-              : "border-[#dbe7dd] bg-white/90 shadow-sm"
+              : `border-[#dbe7dd] bg-white/90 ${
+                  hasScrolled ? "shadow-lg shadow-green-950/10" : "shadow-sm"
+                }`
           }`}
         >
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-2 sm:gap-4">
@@ -577,6 +623,7 @@ export default function App() {
             <LandingPage
               onEnterPortal={handleRoleChange}
               preferences={accessibility}
+              onPreferencesChange={setAccessibility}
             />
           ) : (
             <RoleDashboardWorkspace
@@ -592,6 +639,7 @@ export default function App() {
               validations={validations}
               companies={database.getCompanies()}
               preferences={accessibility}
+              onPreferencesChange={setAccessibility}
               onGameComplete={handleGameComplete}
               onAddNote={handleAddTeacherNote}
               onAddJob={handleAddJob}

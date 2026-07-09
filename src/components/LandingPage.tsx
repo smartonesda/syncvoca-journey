@@ -25,6 +25,7 @@ const TAGLINE = "Menghubungkan potensi, mewujudkan mandiri";
 interface LandingPageProps {
   onEnterPortal: (role: UserRole) => void;
   preferences: AccessibilityPreferences;
+  onPreferencesChange: (preferences: AccessibilityPreferences) => void;
 }
 
 const journeyStages = [
@@ -166,9 +167,13 @@ const ecosystemCards = [
 export default function LandingPage({
   onEnterPortal,
   preferences,
+  onPreferencesChange,
 }: LandingPageProps) {
   const [tourReplay, setTourReplay] = useState(0);
   const isHighContrast = preferences.highContrast;
+  const setAudioAssist = (audioAssist: boolean) => {
+    onPreferencesChange({ ...preferences, audioAssist });
+  };
 
   const titleClass = {
     normal: "text-[2.25rem] sm:text-5xl lg:text-[4rem]",
@@ -237,6 +242,8 @@ export default function LandingPage({
         replaySignal={tourReplay}
         steps={landingTourSteps}
         voiceIntro={`Selamat datang di halaman portal demo SyncVoca. ${TAGLINE}.`}
+        voiceEnabled={preferences.audioAssist}
+        onVoiceEnabledChange={setAudioAssist}
       />
 
       <section

@@ -1,5 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { ArrowRight, CheckCircle2, Volume2, VolumeX, X } from "lucide-react";
+import {
+  ArrowLeft,
+  ArrowRight,
+  CheckCircle2,
+  Volume2,
+  VolumeX,
+  X,
+} from "lucide-react";
 
 export interface GuidedTourStep {
   selector: string;
@@ -12,9 +19,12 @@ export interface GuidedTourStep {
 interface GuidedTourProps {
   enabled: boolean;
   storageKey: string;
+  playOnceKey?: string;
   replaySignal: number;
   steps: GuidedTourStep[];
   voiceIntro: string;
+  voiceEnabled?: boolean;
+  onVoiceEnabledChange?: (enabled: boolean) => void;
 }
 
 interface SpotlightRect {
@@ -31,6 +41,8 @@ const getStoredVoicePreference = () => {
 
 const clamp = (value: number, min: number, max: number) =>
   Math.min(max, Math.max(min, value));
+
+const DEFAULT_PLAY_ONCE_KEY = "sv-guide-played-once";
 
 const VOCI_VOICE_PROFILE = {
   lang: "id-ID",
@@ -80,13 +92,18 @@ const getBestVociVoice = (voices: SpeechSynthesisVoice[]) =>
 export default function GuidedTour({
   enabled,
   storageKey,
+  playOnceKey = DEFAULT_PLAY_ONCE_KEY,
   replaySignal,
   steps,
   voiceIntro,
+  voiceEnabled,
+  onVoiceEnabledChange,
 }: GuidedTourProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [voiceEnabled, setVoiceEnabled] = useState(getStoredVoicePreference);
+  const [localVoiceEnabled, setLocalVoiceEnabled] = useState(
+    getStoredVoicePreference,
+  );
   const [spotlight, setSpotlight] = useState<SpotlightRect | null>(null);
   const [availableVoices, setAvailableVoices] = useState<
     SpeechSynthesisVoice[]
@@ -95,6 +112,7 @@ export default function GuidedTour({
 
   const activeStep = steps[activeIndex];
   const totalSteps = steps.length;
+  const isVoiceActive = voiceEnabled ?? localVoiceEnabled;
 
   const voiceText = useMemo(() => {
     if (!activeStep) return "";
@@ -137,8 +155,17 @@ export default function GuidedTour({
     speech.speak(utterance);
   };
 
+  const setTourVoiceEnabled = (nextEnabled: boolean) => {
+    setLocalVoiceEnabled(nextEnabled);
+    onVoiceEnabledChange?.(nextEnabled);
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("sv_tour_voice", nextEnabled ? "on" : "off");
+    }
+    if (!nextEnabled) stopCurrentVoice();
+  };
+
   const speak = (text: string, audioSrc?: string) => {
-    if (!voiceEnabled || typeof window === "undefined") return;
+    if (!isVoiceActive || typeof window === "undefined") return;
     stopCurrentVoice();
 
     if (audioSrc) {
@@ -169,9 +196,42 @@ export default function GuidedTour({
     speakWithBrowserVoice(text);
   };
 
+  const speakCurrentPage = () => {
+    if (typeof document === "undefined") return;
+    const main = document.querySelector("main");
+    if (!main) return;
+
+    const readableNodes = Array.from(
+      main.querySelectorAll<HTMLElement>(
+        "h1,h2,h3,p,li,dt,dd,[data-voice-readable]",
+      ),
+    );
+    const seen = new Set<string>();
+    const readableText = readableNodes
+      .map((node) => node.innerText || node.textContent || "")
+      .map((text) => text.replace(/\s+/g, " ").trim())
+      .filter((text) => {
+        if (!text || text.length < 3 || seen.has(text)) return false;
+        seen.add(text);
+        return true;
+      })
+      .join(". ")
+      .slice(0, 1800);
+
+    if (readableText) {
+      speak(`Ringkasan teks pada halaman ini. ${readableText}`);
+    }
+  };
+
   const startTour = (force = false) => {
     if (!enabled || !steps.length || typeof window === "undefined") return;
-    if (!force && window.localStorage.getItem(storageKey) === "done") return;
+    if (
+      !force &&
+      (window.localStorage.getItem(playOnceKey) === "done" ||
+        window.localStorage.getItem(storageKey) === "done")
+    ) {
+      return;
+    }
     setActiveIndex(0);
     setIsOpen(true);
   };
@@ -179,7 +239,10 @@ export default function GuidedTour({
   const closeTour = (markDone = true) => {
     if (typeof window !== "undefined") {
       stopCurrentVoice();
-      if (markDone) window.localStorage.setItem(storageKey, "done");
+      if (markDone) {
+        window.localStorage.setItem(storageKey, "done");
+        window.localStorage.setItem(playOnceKey, "done");
+      }
     }
     setIsOpen(false);
   };
@@ -189,9 +252,9 @@ export default function GuidedTour({
     return () => {
       stopCurrentVoice();
     };
-    // storageKey intentionally drives the first-run behavior per dashboard role.
+    // Auto-play is global: one guided tour is enough until the user replays it.
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [enabled, storageKey]);
+  }, [enabled, storageKey, playOnceKey]);
 
   useEffect(() => {
     if (replaySignal > 0) startTour(true);
@@ -251,15 +314,41 @@ export default function GuidedTour({
   useEffect(() => {
     if (isOpen) speak(voiceText, activeStep?.audioSrc);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [activeIndex, activeStep?.audioSrc, isOpen, voiceText]);
+  }, [activeIndex, activeStep?.audioSrc, isOpen, voiceText, isVoiceActive]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      window.localStorage.setItem("sv_tour_voice", voiceEnabled ? "on" : "off");
-      if (!voiceEnabled) stopCurrentVoice();
+      window.localStorage.setItem("sv_tour_voice", isVoiceActive ? "on" : "off");
+      if (!isVoiceActive) stopCurrentVoice();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [voiceEnabled]);
+  }, [isVoiceActive]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        closeTour();
+        return;
+      }
+      if (event.key === "ArrowLeft") {
+        setActiveIndex((current) => Math.max(0, current - 1));
+        return;
+      }
+      if (event.key === "ArrowRight") {
+        if (activeIndex >= totalSteps - 1) {
+          closeTour();
+          return;
+        }
+        setActiveIndex((current) => current + 1);
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeIndex, isOpen, totalSteps]);
 
   if (!isOpen || !activeStep) return null;
 
@@ -356,29 +445,47 @@ export default function GuidedTour({
         </div>
 
         <div className="mt-4 flex flex-col gap-2 min-[420px]:flex-row min-[420px]:items-center min-[420px]:justify-between">
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <button
               type="button"
-              onClick={() => setVoiceEnabled((current) => !current)}
+              onClick={() => setTourVoiceEnabled(!isVoiceActive)}
               className="inline-flex items-center gap-2 rounded-full border border-[#dbe7dd] bg-white px-3 py-2 text-xs font-black text-[#17351f] transition hover:bg-[#eef8f0]"
             >
-              {voiceEnabled ? (
+              {isVoiceActive ? (
                 <Volume2 className="h-4 w-4 text-[#12843a]" />
               ) : (
                 <VolumeX className="h-4 w-4 text-[#61746a]" />
               )}
-              {voiceEnabled ? "Suara aktif" : "Suara mati"}
+              {isVoiceActive ? "Suara aktif" : "Suara mati"}
             </button>
             <button
               type="button"
               onClick={() => speak(voiceText, activeStep.audioSrc)}
-              className="rounded-full px-3 py-2 text-xs font-black text-[#12843a] transition hover:bg-[#eef8f0]"
+              disabled={!isVoiceActive}
+              className="rounded-full px-3 py-2 text-xs font-black text-[#12843a] transition hover:bg-[#eef8f0] disabled:cursor-not-allowed disabled:text-[#9ba9a1] disabled:hover:bg-transparent"
             >
               Dengar ulang
+            </button>
+            <button
+              type="button"
+              onClick={speakCurrentPage}
+              disabled={!isVoiceActive}
+              className="rounded-full px-3 py-2 text-xs font-black text-[#12843a] transition hover:bg-[#eef8f0] disabled:cursor-not-allowed disabled:text-[#9ba9a1] disabled:hover:bg-transparent"
+            >
+              Baca halaman
             </button>
           </div>
 
           <div className="flex items-center gap-2">
+            <button
+              type="button"
+              onClick={() => setActiveIndex((current) => Math.max(0, current - 1))}
+              disabled={activeIndex === 0}
+              className="inline-flex items-center gap-1 rounded-full px-3 py-2 text-xs font-black text-[#61746a] transition hover:bg-[#f8faf7] disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <ArrowLeft className="h-4 w-4" />
+              Sebelumnya
+            </button>
             <button
               type="button"
               onClick={() => closeTour()}
