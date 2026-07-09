@@ -190,7 +190,7 @@ function AboutHero() {
             <br />
             potensi ABK perlu diberi
             <br />
-            ruang untuk <span className="text-[#009856]">terlihat.</span>
+            ruang untuk <span className="text-[#009856]">terlihat</span>
           </h1>
 
           <p className="mt-6 max-w-xl text-base font-semibold leading-8 text-[#31405c]">
@@ -433,7 +433,7 @@ function AboutCta() {
           <Leaf className="absolute -left-2 -top-3 size-24 -rotate-12 text-[#bfe6c8]/55" />
           <h2 className="relative max-w-2xl text-2xl font-extrabold leading-tight text-[#101a35] sm:text-3xl">
             Berjalan bersama menciptakan masa depan yang lebih inklusif dan
-            bermakna.
+            bermakna
           </h2>
         </div>
 

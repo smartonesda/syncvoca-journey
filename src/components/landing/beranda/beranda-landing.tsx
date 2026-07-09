@@ -355,12 +355,12 @@ function HeroSection() {
           </div>
 
           <h1 className="mt-6 max-w-full break-words text-3xl font-extrabold leading-tight tracking-normal text-[#111c33] sm:text-4xl lg:text-[2.6rem] lg:leading-[1.15] 2xl:mt-7 2xl:text-5xl 2xl:leading-tight">
-            Temukan Potensi.
+            Temukan Potensi
             <br />
-            Siapkan Masa Depan.
+            Siapkan Masa Depan
             <br />
             <span className="text-[#0cae61]">Tumbuh</span> Bersama
-            <br className="sm:hidden" /> SyncVoca.
+            <br className="sm:hidden" /> SyncVoca
           </h1>
 
           <p className="mt-5 max-w-full break-words text-base font-medium leading-7 text-[#42506a] sm:max-w-2xl 2xl:mt-6 2xl:text-lg 2xl:leading-8">
@@ -636,7 +636,8 @@ function CtaSection() {
 
         <div className="flex flex-col justify-center px-6 py-8 text-center lg:px-3 lg:text-left">
           <h2 className="text-3xl font-extrabold leading-tight text-[#006b3f] sm:text-4xl">
-            Mulai lihat perjalanan ABK menuju masa depan yang lebih cerah.
+            Mulai lihat perjalanan ABK & Disabilitas menuju masa depan yang
+            lebih cerah
           </h2>
           <p className="mt-4 text-sm font-medium leading-6 text-[#42506a]">
             Masuk ke portal demo dan temukan bagaimana SyncVoca bekerja untuk

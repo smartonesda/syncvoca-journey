@@ -116,9 +116,144 @@ button {
   }
 }
 
+.sv-voci-float {
+  animation: sv-voci-float 3.4s ease-in-out infinite;
+}
+
+.sv-voci-glow {
+  isolation: isolate;
+}
+
+.sv-voci-glow::before {
+  position: absolute;
+  inset: -0.45rem;
+  z-index: -1;
+  border-radius: 9999px;
+  background: rgba(16, 167, 101, 0.2);
+  content: "";
+  animation: sv-voci-pulse 2.4s ease-out infinite;
+}
+
+.sv-voci-wave {
+  animation: sv-voci-wave 2.5s ease-in-out infinite;
+  transform-origin: 78% 72%;
+}
+
+.sv-voci-message {
+  opacity: 0;
+  transform: translate3d(0, 10px, 0) scale(0.98);
+  animation: sv-voci-message-in 0.46s ease-out forwards;
+}
+
+.sv-voci-delay-1 {
+  animation-delay: 0.08s;
+}
+
+.sv-voci-delay-2 {
+  animation-delay: 0.18s;
+}
+
+.sv-voci-delay-3 {
+  animation-delay: 0.3s;
+}
+
+.sv-voci-dot {
+  display: inline-block;
+  width: 0.25rem;
+  height: 0.25rem;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.58;
+  animation: sv-voci-dot 1.05s ease-in-out infinite;
+}
+
+.sv-voci-dot-2 {
+  animation-delay: 0.14s;
+}
+
+.sv-voci-dot-3 {
+  animation-delay: 0.28s;
+}
+
+@keyframes sv-voci-float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  50% {
+    transform: translate3d(0, -0.45rem, 0);
+  }
+}
+
+@keyframes sv-voci-pulse {
+  0% {
+    opacity: 0.55;
+    transform: scale(0.86);
+  }
+
+  70% {
+    opacity: 0;
+    transform: scale(1.28);
+  }
+
+  100% {
+    opacity: 0;
+    transform: scale(1.28);
+  }
+}
+
+@keyframes sv-voci-wave {
+  0%,
+  100% {
+    transform: rotate(0deg) translate3d(0, 0, 0);
+  }
+
+  38% {
+    transform: rotate(-2deg) translate3d(0, -0.3rem, 0);
+  }
+
+  62% {
+    transform: rotate(1.5deg) translate3d(0, 0.1rem, 0);
+  }
+}
+
+@keyframes sv-voci-message-in {
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+@keyframes sv-voci-dot {
+  0%,
+  100% {
+    opacity: 0.4;
+    transform: translateY(0);
+  }
+
+  45% {
+    opacity: 1;
+    transform: translateY(-0.18rem);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .sv-partner-logo-track {
     animation-duration: 36s;
+  }
+
+  .sv-voci-float,
+  .sv-voci-glow::before,
+  .sv-voci-wave,
+  .sv-voci-message,
+  .sv-voci-dot {
+    animation: none;
+  }
+
+  .sv-voci-message {
+    opacity: 1;
+    transform: none;
   }
 }
 

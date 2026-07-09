@@ -250,7 +250,7 @@ function HeroSection() {
           <h1 className="mt-6 max-w-full break-words text-3xl font-extrabold leading-tight tracking-normal text-[#111c33] sm:text-4xl lg:text-[2.6rem] lg:leading-[1.15] 2xl:mt-7 2xl:text-5xl 2xl:leading-tight">
             Dari Potensi Kecil Hari Ini
             <br />
-            Menjadi <span className="text-[#436757]">Bukti Kerja.</span>
+            Menjadi <span className="text-[#436757]">Bukti Kerja</span>
           </h1>
 
           <p className="mt-6 max-w-2xl text-base font-semibold leading-8 text-[#31405c]">
@@ -610,7 +610,8 @@ function ClosingCta() {
       <div className="mx-auto grid w-full max-w-screen-2xl gap-6 overflow-hidden rounded-2xl border border-[#dbe8df] bg-[linear-gradient(90deg,#f4fbf6_0%,#ffffff_54%,#f4fbf6_100%)] px-6 py-8 shadow-[0_14px_36px_rgba(17,28,51,0.04)] lg:grid-cols-[1fr_auto] lg:items-center lg:px-10">
         <div>
           <h2 className="max-w-3xl text-3xl font-extrabold leading-tight text-[#006b3f] sm:text-4xl">
-            Mulai lihat perjalanan ABK menuju masa depan yang lebih cerah.
+            Mulai lihat perjalanan ABK & Disabilitas menuju masa depan yang
+            lebih cerah
           </h2>
           <p className="mt-4 max-w-2xl text-sm font-semibold leading-7 text-[#42506a]">
             Masuk ke portal demo dan temukan bagaimana SyncVoca bekerja untuk
