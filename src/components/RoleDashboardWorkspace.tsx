@@ -2345,6 +2345,7 @@ export default function RoleDashboardWorkspace({
         steps={tourSteps}
         voiceIntro={`Selamat datang di halaman portal demo SyncVoca. ${TAGLINE}.`}
         voiceEnabled={preferences.audioAssist}
+        reducedMotion={preferences.reducedMotion}
         onVoiceEnabledChange={setAudioAssist}
       />
 

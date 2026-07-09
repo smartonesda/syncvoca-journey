@@ -27,6 +27,7 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
   return (
     <div className="relative">
       <button
+        type="button"
         onClick={() => setIsOpen(!isOpen)}
         className="flex items-center gap-2 rounded-full border border-teal-200 bg-teal-50 p-2 text-sm font-semibold text-teal-800 shadow-sm transition hover:bg-teal-100 sm:px-3"
         aria-label="Pengaturan Aksesibilitas"
@@ -43,6 +44,7 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
               Asisten Inklusi & Akses
             </h4>
             <button
+              type="button"
               onClick={() => setIsOpen(false)}
               className="text-xs font-semibold text-slate-400 hover:text-slate-700"
             >
@@ -55,6 +57,8 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
             <span className="text-xs font-bold text-slate-500 block">Ukuran Huruf (Font Size)</span>
             <div className="grid grid-cols-3 gap-2">
               <button
+                type="button"
+                aria-pressed={preferences.textSize === 'normal'}
                 onClick={() => setTextSize('normal')}
                 className={`py-1.5 text-xs rounded border font-medium ${
                   preferences.textSize === 'normal'
@@ -65,6 +69,8 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
                 Normal (14px)
               </button>
               <button
+                type="button"
+                aria-pressed={preferences.textSize === 'large'}
                 onClick={() => setTextSize('large')}
                 className={`py-1.5 text-xs rounded border font-bold ${
                   preferences.textSize === 'large'
@@ -75,6 +81,8 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
                 Besar (18px)
               </button>
               <button
+                type="button"
+                aria-pressed={preferences.textSize === 'xlarge'}
                 onClick={() => setTextSize('xlarge')}
                 className={`py-1.5 text-xs rounded border font-black ${
                   preferences.textSize === 'xlarge'
@@ -94,6 +102,8 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
               <p className="text-[11px] text-slate-400">Tampilan hitam-putih kontras tinggi</p>
             </div>
             <button
+              type="button"
+              aria-pressed={preferences.highContrast}
               onClick={() => togglePreference('highContrast')}
               className={`w-11 h-6 rounded-full transition-colors relative ${
                 preferences.highContrast ? 'bg-teal-600' : 'bg-slate-200'
@@ -112,6 +122,8 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
               <p className="text-[11px] text-slate-400">Gunakan font berkaki untuk kemudahan baca</p>
             </div>
             <button
+              type="button"
+              aria-pressed={preferences.dyslexiaFont}
               onClick={() => togglePreference('dyslexiaFont')}
               className={`w-11 h-6 rounded-full transition-colors relative ${
                 preferences.dyslexiaFont ? 'bg-teal-600' : 'bg-slate-200'
@@ -130,6 +142,8 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
               <p className="text-[11px] text-slate-400">Nonaktifkan animasi/pergeseran dinamis</p>
             </div>
             <button
+              type="button"
+              aria-pressed={preferences.reducedMotion}
               onClick={() => togglePreference('reducedMotion')}
               className={`w-11 h-6 rounded-full transition-colors relative ${
                 preferences.reducedMotion ? 'bg-teal-600' : 'bg-slate-200'
@@ -145,9 +159,11 @@ export default function AccessibilityPanel({ preferences, onPreferencesChange }:
           <div className="flex justify-between items-center">
             <div>
               <span className="text-xs font-bold text-slate-600 block">Text to Voice</span>
-              <p className="text-[11px] text-slate-400">Bacakan panduan, langkah demo, dan ringkasan halaman</p>
+              <p className="text-[11px] text-slate-400">Bacakan teks halaman, tandai teks aktif, dan buka voice command</p>
             </div>
             <button
+              type="button"
+              aria-pressed={preferences.audioAssist}
               onClick={() => togglePreference('audioAssist')}
               className={`w-11 h-6 rounded-full transition-colors relative ${
                 preferences.audioAssist ? 'bg-teal-600' : 'bg-slate-200'

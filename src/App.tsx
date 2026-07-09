@@ -29,6 +29,7 @@ import AccessibilityPanel from "./components/AccessibilityPanel";
 import { AppFeedbackProvider, useAppFeedback } from "./components/AppFeedback";
 import LandingPage from "./components/LandingPage";
 import RoleDashboardWorkspace from "./components/RoleDashboardWorkspace";
+import TextToVoiceAssistant from "./components/TextToVoiceAssistant";
 import { createDudiCandidateProfiles } from "./privacy";
 import { scrollToTopInstant } from "./utils/scroll";
 
@@ -77,9 +78,51 @@ const roleOrder: Array<UserRole | null> = [
   "admin",
 ];
 
-const getInitialAudioAssist = () => {
-  if (typeof window === "undefined") return true;
-  return window.localStorage.getItem("sv_tour_voice") !== "off";
+const isTextSizePreference = (
+  value: unknown,
+): value is AccessibilityPreferences["textSize"] =>
+  value === "normal" || value === "large" || value === "xlarge";
+
+const getInitialAccessibilityPreferences = (): AccessibilityPreferences => {
+  const defaults: AccessibilityPreferences = {
+    textSize: "normal",
+    highContrast: false,
+    dyslexiaFont: false,
+    reducedMotion: false,
+    simplifiedLayout: false,
+    audioAssist: true,
+  };
+
+  if (typeof window === "undefined") return defaults;
+
+  let storedPreferences: Partial<AccessibilityPreferences> = {};
+  try {
+    storedPreferences = JSON.parse(
+      window.localStorage.getItem("sv_accessibility_preferences") || "{}",
+    ) as Partial<AccessibilityPreferences>;
+  } catch {
+    storedPreferences = {};
+  }
+
+  const storedPreference =
+    window.localStorage.getItem("sv_text_to_voice") ||
+    window.localStorage.getItem("sv_tour_voice");
+
+  return {
+    ...defaults,
+    ...storedPreferences,
+    textSize: isTextSizePreference(storedPreferences.textSize)
+      ? storedPreferences.textSize
+      : defaults.textSize,
+    highContrast: Boolean(storedPreferences.highContrast),
+    dyslexiaFont: Boolean(storedPreferences.dyslexiaFont),
+    reducedMotion: Boolean(storedPreferences.reducedMotion),
+    simplifiedLayout: Boolean(storedPreferences.simplifiedLayout),
+    audioAssist:
+      storedPreference === null
+        ? Boolean(storedPreferences.audioAssist ?? defaults.audioAssist)
+        : storedPreference !== "off",
+  };
 };
 
 function ResetDemoButton({ isHighContrast }: { isHighContrast: boolean }) {
@@ -134,14 +177,9 @@ export default function App() {
   const [placements, setPlacements] = useState<DudiPlacementRecord[]>([]);
   const [auditEvents, setAuditEvents] = useState<AuditEvent[]>([]);
 
-  const [accessibility, setAccessibility] = useState<AccessibilityPreferences>({
-    textSize: "normal",
-    highContrast: false,
-    dyslexiaFont: false,
-    reducedMotion: false,
-    simplifiedLayout: false,
-    audioAssist: getInitialAudioAssist(),
-  });
+  const [accessibility, setAccessibility] = useState<AccessibilityPreferences>(
+    getInitialAccessibilityPreferences,
+  );
   const [isChromeVisible, setIsChromeVisible] = useState(true);
   const [hasScrolled, setHasScrolled] = useState(false);
   const lastScrollYRef = useRef(0);
@@ -207,6 +245,17 @@ export default function App() {
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const value = accessibility.audioAssist ? "on" : "off";
+    window.localStorage.setItem(
+      "sv_accessibility_preferences",
+      JSON.stringify(accessibility),
+    );
+    window.localStorage.setItem("sv_text_to_voice", value);
+    window.localStorage.setItem("sv_tour_voice", value);
+  }, [accessibility]);
 
   const dudiCandidates = useMemo(
     () =>
@@ -555,10 +604,17 @@ export default function App() {
   };
 
   const isHighContrast = accessibility.highContrast;
+  const accessibilityClasses = [
+    `sv-text-${accessibility.textSize}`,
+    accessibility.dyslexiaFont ? "sv-dyslexia-font font-serif" : "font-sans",
+    accessibility.reducedMotion ? "sv-reduced-motion" : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
-      className={`sv-app ${isHighContrast ? "sv-high-contrast bg-white text-black border-4 border-black" : "bento-bg text-[#17351f]"} ${accessibility.dyslexiaFont ? "font-serif" : "font-sans"} min-h-screen pb-24 pt-[76px] sm:pt-[84px]`}
+      className={`sv-app ${isHighContrast ? "sv-high-contrast bg-white text-black border-4 border-black" : "bento-bg text-[#17351f]"} ${accessibilityClasses} min-h-screen pb-24 pt-[76px] sm:pt-[84px]`}
     >
       <AppFeedbackProvider>
         <header
@@ -652,6 +708,16 @@ export default function App() {
             />
           )}
         </main>
+
+        <TextToVoiceAssistant
+          enabled={accessibility.audioAssist}
+          currentRole={currentRole}
+          reducedMotion={accessibility.reducedMotion}
+          onRoleChange={handleRoleChange}
+          onEnabledChange={(audioAssist) =>
+            setAccessibility((current) => ({ ...current, audioAssist }))
+          }
+        />
 
         <nav
           data-tour="role-switcher"

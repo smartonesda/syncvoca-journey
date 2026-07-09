@@ -243,6 +243,7 @@ export default function LandingPage({
         steps={landingTourSteps}
         voiceIntro={`Selamat datang di halaman portal demo SyncVoca. ${TAGLINE}.`}
         voiceEnabled={preferences.audioAssist}
+        reducedMotion={preferences.reducedMotion}
         onVoiceEnabledChange={setAudioAssist}
       />
 

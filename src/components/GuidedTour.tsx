@@ -24,6 +24,7 @@ interface GuidedTourProps {
   steps: GuidedTourStep[];
   voiceIntro: string;
   voiceEnabled?: boolean;
+  reducedMotion?: boolean;
   onVoiceEnabledChange?: (enabled: boolean) => void;
 }
 
@@ -97,6 +98,7 @@ export default function GuidedTour({
   steps,
   voiceIntro,
   voiceEnabled,
+  reducedMotion = false,
   onVoiceEnabledChange,
 }: GuidedTourProps) {
   const [isOpen, setIsOpen] = useState(false);
@@ -196,33 +198,6 @@ export default function GuidedTour({
     speakWithBrowserVoice(text);
   };
 
-  const speakCurrentPage = () => {
-    if (typeof document === "undefined") return;
-    const main = document.querySelector("main");
-    if (!main) return;
-
-    const readableNodes = Array.from(
-      main.querySelectorAll<HTMLElement>(
-        "h1,h2,h3,p,li,dt,dd,[data-voice-readable]",
-      ),
-    );
-    const seen = new Set<string>();
-    const readableText = readableNodes
-      .map((node) => node.innerText || node.textContent || "")
-      .map((text) => text.replace(/\s+/g, " ").trim())
-      .filter((text) => {
-        if (!text || text.length < 3 || seen.has(text)) return false;
-        seen.add(text);
-        return true;
-      })
-      .join(". ")
-      .slice(0, 1800);
-
-    if (readableText) {
-      speak(`Ringkasan teks pada halaman ini. ${readableText}`);
-    }
-  };
-
   const startTour = (force = false) => {
     if (!enabled || !steps.length || typeof window === "undefined") return;
     if (
@@ -245,6 +220,11 @@ export default function GuidedTour({
       }
     }
     setIsOpen(false);
+    if (typeof window !== "undefined") {
+      window.setTimeout(() => {
+        window.dispatchEvent(new Event("sv:text-to-voice:page-ready"));
+      }, 180);
+    }
   };
 
   useEffect(() => {
@@ -285,7 +265,7 @@ export default function GuidedTour({
       }
 
       target.scrollIntoView({
-        behavior: "smooth",
+        behavior: reducedMotion ? "auto" : "smooth",
         block: "center",
         inline: "nearest",
       });
@@ -408,6 +388,8 @@ export default function GuidedTour({
       />
 
       <section
+        data-tour-dialog="true"
+        data-voice-ignore="true"
         role="dialog"
         aria-modal="true"
         aria-label="Tur panduan SyncVoca"
@@ -465,14 +447,6 @@ export default function GuidedTour({
               className="rounded-full px-3 py-2 text-xs font-black text-[#12843a] transition hover:bg-[#eef8f0] disabled:cursor-not-allowed disabled:text-[#9ba9a1] disabled:hover:bg-transparent"
             >
               Dengar ulang
-            </button>
-            <button
-              type="button"
-              onClick={speakCurrentPage}
-              disabled={!isVoiceActive}
-              className="rounded-full px-3 py-2 text-xs font-black text-[#12843a] transition hover:bg-[#eef8f0] disabled:cursor-not-allowed disabled:text-[#9ba9a1] disabled:hover:bg-transparent"
-            >
-              Baca halaman
             </button>
           </div>
 
