@@ -257,7 +257,8 @@ export default function LandingPage({
                 <h1
                   className={`${titleClass} max-w-full break-words font-display font-black leading-[0.98] tracking-tight text-[#17351f] sm:max-w-5xl sm:leading-[0.94]`}
                 >
-                  Temukan Potensi. Siapkan Masa Depan. Tumbuh Bersama SyncVoca.
+                  Temukan Potensi, Siapkan Masa Depan, Mewujudkan kemandirian
+                  Bersama SyncVoca
                 </h1>
                 <p
                   className={`${bodyClass} max-w-2xl font-medium leading-relaxed text-[#61746a]`}
@@ -534,7 +535,7 @@ export default function LandingPage({
                 BMC signal
               </p>
               <h2 className="mt-3 font-display text-3xl font-black">
-                Bukan hanya aplikasi, tetapi ekosistem berkelanjutan.
+                Bukan hanya aplikasi, tetapi ekosistem berkelanjutan
               </h2>
             </div>
             <BriefcaseBusiness className="h-8 w-8 shrink-0 text-[#f6c343]" />

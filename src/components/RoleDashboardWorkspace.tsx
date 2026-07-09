@@ -127,7 +127,7 @@ const roleIntro: Record<
   siswa: {
     label: "Dashboard Siswa",
     eyebrow: "Ruang latihan siswa",
-    title: "Hari ini fokusnya sederhana: lanjutkan misi, kumpulkan bukti.",
+    title: "Hari ini fokusnya sederhana, lanjutkan misi,kumpulkan bukti",
     desc: "Siswa melihat perjalanan belajarnya sebagai langkah kecil yang jelas, bukan tabel administrasi yang rumit.",
     icon: UserRound,
     primaryAction: "Mulai simulasi",
@@ -136,7 +136,8 @@ const roleIntro: Record<
   orang_tua: {
     label: "Dashboard Orang Tua",
     eyebrow: "Ruang dukungan keluarga",
-    title: "Keluarga melihat progres anak dan langkah rumah yang bisa dilakukan.",
+    title:
+      "Keluarga melihat progres anak dan langkah rumah yang bisa dilakukan",
     desc: "Orang tua mendapat cerita perkembangan yang mudah dipahami, termasuk catatan guru, consent, dan saran pendampingan.",
     icon: HeartHandshake,
     primaryAction: "Lihat dukungan rumah",
@@ -145,7 +146,7 @@ const roleIntro: Record<
   guru: {
     label: "Ruang Guru",
     eyebrow: "Meja pendamping sekolah",
-    title: "Guru mengubah latihan menjadi rencana pendampingan yang terukur.",
+    title: "Guru mengubah latihan menjadi rencana pendampingan yang terukur",
     desc: "Guru melihat pola performa, evidence, consent, dan follow-up placement dalam satu ruang kerja.",
     icon: GraduationCap,
     primaryAction: "Tambah catatan",
@@ -154,7 +155,7 @@ const roleIntro: Record<
   dudi: {
     label: "Ruang DUDI",
     eyebrow: "Talent desk industri",
-    title: "DUDI membaca kandidat dari bukti kompetensi, bukan data pribadi.",
+    title: "DUDI membaca kandidat dari bukti kompetensi, bukan data pribadi",
     desc: "Kandidat tampil dengan kode aman, ringkasan skill, evidence, akomodasi kerja, dan consent yang relevan.",
     icon: Building2,
     primaryAction: "Validasi kandidat",
@@ -163,7 +164,8 @@ const roleIntro: Record<
   admin: {
     label: "Admin Governance",
     eyebrow: "Operator ekosistem",
-    title: "Admin menjaga data demo, consent, audit, dan placement tetap terkendali.",
+    title:
+      "Admin menjaga data demo, consent, audit, dan placement tetap terkendali",
     desc: "Admin memantau kesehatan ekosistem SyncVoca dari sekolah, siswa, DUDI, sampai log keamanan.",
     icon: ShieldCheck,
     primaryAction: "Kelola ekosistem",
@@ -179,31 +181,86 @@ const roleMenus: Record<
     { id: "beranda", label: "Beranda", desc: "Misi hari ini", icon: Home },
     { id: "journey", label: "Journey", desc: "Tahap perjalanan", icon: Route },
     { id: "simulasi", label: "Simulasi", desc: "Latihan kerja", icon: Target },
-    { id: "portofolio", label: "Portofolio", desc: "Bukti kerja", icon: FileBadge },
+    {
+      id: "portofolio",
+      label: "Portofolio",
+      desc: "Bukti kerja",
+      icon: FileBadge,
+    },
     { id: "notifikasi", label: "Notifikasi", desc: "Info terbaru", icon: Bell },
   ],
   orang_tua: [
     { id: "ringkasan", label: "Ringkasan", desc: "Kabar utama", icon: Home },
     { id: "progres", label: "Progres", desc: "Perkembangan", icon: Activity },
-    { id: "dukungan", label: "Dukungan", desc: "Latihan rumah", icon: HeartHandshake },
-    { id: "persetujuan", label: "Persetujuan", desc: "Batas data", icon: LockKeyhole },
+    {
+      id: "dukungan",
+      label: "Dukungan",
+      desc: "Latihan rumah",
+      icon: HeartHandshake,
+    },
+    {
+      id: "persetujuan",
+      label: "Persetujuan",
+      desc: "Batas data",
+      icon: LockKeyhole,
+    },
     { id: "pesan", label: "Pesan", desc: "Catatan guru", icon: MessageSquare },
   ],
   guru: [
     { id: "beranda", label: "Beranda", desc: "Kelas & prioritas", icon: Home },
-    { id: "siswa", label: "Siswa", desc: "Profil pendampingan", icon: UsersRound },
+    {
+      id: "siswa",
+      label: "Siswa",
+      desc: "Profil pendampingan",
+      icon: UsersRound,
+    },
     { id: "simulasi", label: "Simulasi", desc: "Sesi latihan", icon: Target },
-    { id: "evidence", label: "Evidence", desc: "Bukti kerja", icon: ClipboardCheck },
-    { id: "consent", label: "Consent", desc: "Izin berbagi", icon: LockKeyhole },
-    { id: "placement", label: "Placement", desc: "Follow-up DUDI", icon: BriefcaseBusiness },
-    { id: "laporan", label: "Laporan", desc: "Narasi perkembangan", icon: FileText },
+    {
+      id: "evidence",
+      label: "Evidence",
+      desc: "Bukti kerja",
+      icon: ClipboardCheck,
+    },
+    {
+      id: "consent",
+      label: "Consent",
+      desc: "Izin berbagi",
+      icon: LockKeyhole,
+    },
+    {
+      id: "placement",
+      label: "Placement",
+      desc: "Follow-up DUDI",
+      icon: BriefcaseBusiness,
+    },
+    {
+      id: "laporan",
+      label: "Laporan",
+      desc: "Narasi perkembangan",
+      icon: FileText,
+    },
   ],
   dudi: [
     { id: "beranda", label: "Beranda", desc: "Ringkasan talent", icon: Home },
     { id: "talent", label: "Talent", desc: "Kandidat aman", icon: Search },
-    { id: "lowongan", label: "Lowongan", desc: "Kebutuhan kerja", icon: BriefcaseBusiness },
-    { id: "validasi", label: "Validasi", desc: "Seal industri", icon: BadgeCheck },
-    { id: "placement", label: "Placement", desc: "Pipeline", icon: CalendarCheck },
+    {
+      id: "lowongan",
+      label: "Lowongan",
+      desc: "Kebutuhan kerja",
+      icon: BriefcaseBusiness,
+    },
+    {
+      id: "validasi",
+      label: "Validasi",
+      desc: "Seal industri",
+      icon: BadgeCheck,
+    },
+    {
+      id: "placement",
+      label: "Placement",
+      desc: "Pipeline",
+      icon: CalendarCheck,
+    },
     { id: "report", label: "Report", desc: "DUDI-safe PDF", icon: Download },
   ],
   admin: [
@@ -211,10 +268,25 @@ const roleMenus: Record<
     { id: "users", label: "Users", desc: "Siswa & role", icon: UsersRound },
     { id: "schools", label: "Schools", desc: "Sekolah mitra", icon: School },
     { id: "dudi", label: "DUDI", desc: "Mitra & jobs", icon: Building2 },
-    { id: "consent", label: "Consent", desc: "Governance data", icon: LockKeyhole },
+    {
+      id: "consent",
+      label: "Consent",
+      desc: "Governance data",
+      icon: LockKeyhole,
+    },
     { id: "audit", label: "Audit", desc: "Jejak aktivitas", icon: Database },
-    { id: "reports", label: "Reports", desc: "Insight ekosistem", icon: FileText },
-    { id: "placement", label: "Placement", desc: "Pipeline kerja", icon: BriefcaseBusiness },
+    {
+      id: "reports",
+      label: "Reports",
+      desc: "Insight ekosistem",
+      icon: FileText,
+    },
+    {
+      id: "placement",
+      label: "Placement",
+      desc: "Pipeline kerja",
+      icon: BriefcaseBusiness,
+    },
   ],
 };
 
@@ -415,7 +487,9 @@ function Panel({
           )}
         </div>
         {Icon && (
-          <span className={`hidden rounded-2xl border p-3 sm:inline-flex ${toneClass[tone]}`}>
+          <span
+            className={`hidden rounded-2xl border p-3 sm:inline-flex ${toneClass[tone]}`}
+          >
             <Icon className="h-5 w-5" />
           </span>
         )}
@@ -700,7 +774,8 @@ export default function RoleDashboardWorkspace({
   };
 
   const issueValidation = (candidate?: DudiCandidateProfile) => {
-    const targetCandidate = candidate || selectedCandidate || candidateForStudent;
+    const targetCandidate =
+      candidate || selectedCandidate || candidateForStudent;
     const company = companies[0];
     if (!targetCandidate || !company) return;
 
@@ -817,7 +892,8 @@ export default function RoleDashboardWorkspace({
       name: `Demo Talenta ${suffix}`,
       schoolId: "school-demo",
       schoolName: "Sekolah Inklusi Demo SyncVoca",
-      supportProfile: "Profil Dukungan Vokasi - instruksi visual dan ritme kerja stabil",
+      supportProfile:
+        "Profil Dukungan Vokasi - instruksi visual dan ritme kerja stabil",
       bio: "Profil demo untuk menguji flow intake, simulasi, consent, dan matching DUDI.",
       skills: ["Data Entry", "Checklist Digital", "Ketelitian"],
       interest: "Administrasi Digital",
@@ -974,7 +1050,9 @@ export default function RoleDashboardWorkspace({
       {
         icon: Trophy,
         label: "Journey score",
-        value: selectedStudent ? `${selectedStudent.readinessScore}/100` : "0/100",
+        value: selectedStudent
+          ? `${selectedStudent.readinessScore}/100`
+          : "0/100",
         detail: selectedStudent
           ? getLevel(selectedStudent.readinessScore)
           : "Belum ada profil aktif.",
@@ -1036,7 +1114,11 @@ export default function RoleDashboardWorkspace({
 
   const renderJourney = () => {
     const score = selectedStudent?.readinessScore || 0;
-    const activeIndex = clamp(Math.floor(score / 22), 0, journeyStages.length - 1);
+    const activeIndex = clamp(
+      Math.floor(score / 22),
+      0,
+      journeyStages.length - 1,
+    );
     return (
       <div className="grid gap-3 md:grid-cols-5">
         {journeyStages.map((stage, index) => {
@@ -1084,10 +1166,14 @@ export default function RoleDashboardWorkspace({
             className="rounded-[1.25rem] border border-[#dbe7dd] bg-white p-4 shadow-sm"
           >
             <div className="flex items-start justify-between gap-3">
-              <span className={`rounded-2xl border p-3 ${toneClass[mission.tone]}`}>
+              <span
+                className={`rounded-2xl border p-3 ${toneClass[mission.tone]}`}
+              >
                 <Icon className="h-5 w-5" />
               </span>
-              <StatusBadge tone={mission.tone}>{mission.minutes} menit</StatusBadge>
+              <StatusBadge tone={mission.tone}>
+                {mission.minutes} menit
+              </StatusBadge>
             </div>
             <h4 className="mt-4 font-display text-lg font-black leading-tight text-[#10203b]">
               {mission.title}
@@ -1147,10 +1233,10 @@ export default function RoleDashboardWorkspace({
               Privacy Wall: data sensitif tetap aman
             </p>
             <p className="mt-1 max-w-4xl text-sm font-semibold leading-relaxed text-[#4c6257]">
-              DUDI hanya melihat bukti kerja, skor kesiapan, kebutuhan
-              akomodasi kerja, consent, dan kode kandidat. Nama siswa, catatan
-              medis, kontak wali, dan catatan internal tetap berada di sekolah
-              serta keluarga.
+              DUDI hanya melihat bukti kerja, skor kesiapan, kebutuhan akomodasi
+              kerja, consent, dan kode kandidat. Nama siswa, catatan medis,
+              kontak wali, dan catatan internal tetap berada di sekolah serta
+              keluarga.
             </p>
           </div>
         </div>
@@ -1437,7 +1523,10 @@ export default function RoleDashboardWorkspace({
         <Panel icon={CalendarCheck} title="Yang bisa dilakukan di rumah">
           <div className="space-y-3">
             {selectedStudent.supportRequirements.slice(0, 3).map((item) => (
-              <div key={item} className="flex gap-3 rounded-2xl bg-[#f8faf7] p-3">
+              <div
+                key={item}
+                className="flex gap-3 rounded-2xl bg-[#f8faf7] p-3"
+              >
                 <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-[#12843a]" />
                 <p className="text-sm font-semibold leading-relaxed text-[#61746a]">
                   {item}
@@ -1604,7 +1693,9 @@ export default function RoleDashboardWorkspace({
                     {student.interest}
                   </p>
                 </div>
-                <StatusBadge tone="green">{student.readinessScore}%</StatusBadge>
+                <StatusBadge tone="green">
+                  {student.readinessScore}%
+                </StatusBadge>
               </button>
             ))}
           </div>
@@ -1696,12 +1787,15 @@ export default function RoleDashboardWorkspace({
                       {job.companyName} - {job.type}
                     </p>
                   </div>
-                  <StatusBadge tone={job.status === "Active" ? "green" : "neutral"}>
+                  <StatusBadge
+                    tone={job.status === "Active" ? "green" : "neutral"}
+                  >
                     {job.status}
                   </StatusBadge>
                 </div>
                 <p className="mt-3 text-sm font-semibold leading-relaxed text-[#61746a]">
-                  Match kandidat aktif: {getDudiJobMatchScore(selectedCandidate, job)}%
+                  Match kandidat aktif:{" "}
+                  {getDudiJobMatchScore(selectedCandidate, job)}%
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
                   {job.accommodationSupports.slice(0, 3).map((support) => (
@@ -1740,7 +1834,9 @@ export default function RoleDashboardWorkspace({
                       className="rounded-2xl border border-[#dbe7dd] bg-[#f8faf7] p-3"
                     >
                       <div className="flex items-center justify-between gap-3">
-                        <p className="font-black text-[#10203b]">{item.title}</p>
+                        <p className="font-black text-[#10203b]">
+                          {item.title}
+                        </p>
                         <StatusBadge tone="green">{item.score}%</StatusBadge>
                       </div>
                     </div>
@@ -1751,7 +1847,9 @@ export default function RoleDashboardWorkspace({
               </div>
             </div>
             <div className="rounded-2xl border border-[#dbe7dd] bg-[#f8faf7] p-4">
-              <StatusBadge tone={getConsentTone(selectedCandidate.consentStatus)}>
+              <StatusBadge
+                tone={getConsentTone(selectedCandidate.consentStatus)}
+              >
                 {selectedCandidate.consentStatus}
               </StatusBadge>
               <p className="mt-3 text-sm font-semibold leading-relaxed text-[#61746a]">
@@ -1806,18 +1904,23 @@ export default function RoleDashboardWorkspace({
                     </StatusBadge>
                   </div>
                   <div className="mt-3 flex flex-wrap gap-2">
-                    {(["interview", "work_trial", "placed", "not_ready"] as PlacementStatus[]).map(
-                      (status) => (
-                        <button
-                          key={status}
-                          type="button"
-                          onClick={() => movePlacement(placement, status)}
-                          className="rounded-full border border-[#dbe7dd] bg-white px-3 py-2 text-xs font-black text-[#17351f] transition hover:bg-[#eef8f0]"
-                        >
-                          {status.replaceAll("_", " ")}
-                        </button>
-                      ),
-                    )}
+                    {(
+                      [
+                        "interview",
+                        "work_trial",
+                        "placed",
+                        "not_ready",
+                      ] as PlacementStatus[]
+                    ).map((status) => (
+                      <button
+                        key={status}
+                        type="button"
+                        onClick={() => movePlacement(placement, status)}
+                        className="rounded-full border border-[#dbe7dd] bg-white px-3 py-2 text-xs font-black text-[#17351f] transition hover:bg-[#eef8f0]"
+                      >
+                        {status.replaceAll("_", " ")}
+                      </button>
+                    ))}
                   </div>
                 </div>
               ))
@@ -1945,9 +2048,17 @@ export default function RoleDashboardWorkspace({
                   {student.schoolName}
                 </p>
                 <div className="mt-3 flex flex-wrap gap-2">
-                  <StatusBadge tone="green">{student.readinessScore}%</StatusBadge>
-                  <StatusBadge tone={getConsentTone(consents.find((item) => item.studentId === student.id)?.status)}>
-                    {consents.find((item) => item.studentId === student.id)?.status || "pending"}
+                  <StatusBadge tone="green">
+                    {student.readinessScore}%
+                  </StatusBadge>
+                  <StatusBadge
+                    tone={getConsentTone(
+                      consents.find((item) => item.studentId === student.id)
+                        ?.status,
+                    )}
+                  >
+                    {consents.find((item) => item.studentId === student.id)
+                      ?.status || "pending"}
                   </StatusBadge>
                 </div>
               </div>
@@ -1958,7 +2069,9 @@ export default function RoleDashboardWorkspace({
     }
 
     if (activeMenu === "schools") {
-      const schools = Array.from(new Set(students.map((student) => student.schoolName)));
+      const schools = Array.from(
+        new Set(students.map((student) => student.schoolName)),
+      );
       return (
         <Panel icon={School} title="Sekolah mitra">
           <div className="grid gap-3 md:grid-cols-2">
@@ -1969,7 +2082,11 @@ export default function RoleDashboardWorkspace({
               >
                 <p className="font-black text-[#10203b]">{school}</p>
                 <p className="mt-2 text-sm font-semibold text-[#61746a]">
-                  {students.filter((student) => student.schoolName === school).length} siswa aktif dalam demo.
+                  {
+                    students.filter((student) => student.schoolName === school)
+                      .length
+                  }{" "}
+                  siswa aktif dalam demo.
                 </p>
               </div>
             ))}
@@ -2010,7 +2127,9 @@ export default function RoleDashboardWorkspace({
         <Panel icon={LockKeyhole} title="Consent governance">
           <div className="space-y-3">
             {students.map((student) => {
-              const consent = consents.find((item) => item.studentId === student.id);
+              const consent = consents.find(
+                (item) => item.studentId === student.id,
+              );
               return (
                 <div
                   key={student.id}
@@ -2018,13 +2137,17 @@ export default function RoleDashboardWorkspace({
                 >
                   <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                     <div>
-                      <p className="font-black text-[#10203b]">{student.name}</p>
+                      <p className="font-black text-[#10203b]">
+                        {student.name}
+                      </p>
                       <p className="mt-1 text-sm font-semibold text-[#61746a]">
                         {consent?.note || "Consent belum tercatat lengkap."}
                       </p>
                     </div>
                     <div className="flex flex-wrap gap-2">
-                      {(["approved", "pending", "revoked"] as ConsentStatus[]).map((status) => (
+                      {(
+                        ["approved", "pending", "revoked"] as ConsentStatus[]
+                      ).map((status) => (
                         <button
                           key={status}
                           type="button"
@@ -2039,7 +2162,8 @@ export default function RoleDashboardWorkspace({
                             notify({
                               title: "Consent admin diperbarui",
                               message: `${student.name} sekarang ${status}.`,
-                              tone: status === "approved" ? "success" : "warning",
+                              tone:
+                                status === "approved" ? "success" : "warning",
                             });
                           }}
                           className={`rounded-full border px-3 py-2 text-xs font-black ${toneClass[getConsentTone(status)]}`}
@@ -2166,16 +2290,15 @@ export default function RoleDashboardWorkspace({
                 94%
               </p>
               <p className="mt-2 text-xs font-semibold text-[#61746a]">
-                Data demo sudah memuat siswa, consent, evidence, DUDI, dan placement.
+                Data demo sudah memuat siswa, consent, evidence, DUDI, dan
+                placement.
               </p>
             </div>
             <div className="rounded-2xl border border-[#dbe7dd] bg-[#f8faf7] p-4">
-              <p className="text-sm font-black text-[#10203b]">
-                Risiko utama
-              </p>
+              <p className="text-sm font-black text-[#10203b]">Risiko utama</p>
               <p className="mt-2 text-sm font-semibold leading-relaxed text-[#61746a]">
-                Kandidat dengan consent pending tidak boleh divalidasi oleh DUDI.
-                Prototype sengaja menampilkan guardrail ini.
+                Kandidat dengan consent pending tidak boleh divalidasi oleh
+                DUDI. Prototype sengaja menampilkan guardrail ini.
               </p>
             </div>
           </div>
@@ -2228,8 +2351,10 @@ export default function RoleDashboardWorkspace({
       >
         <div className="absolute inset-x-0 top-0 h-1.5 bg-gradient-to-r from-[#1768c8] via-[#12843a] to-[#f6c343]" />
         <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div className="flex gap-4">
-            <span className={`mt-1 hidden rounded-[1.2rem] border p-4 sm:inline-flex ${toneClass[intro.tone]}`}>
+          <div className="flex gap-4 items-start">
+            <span
+              className={`mt-1 hidden relative top-[-10px] rounded-[1.2rem] border p-4 sm:inline-flex ${toneClass[intro.tone]}`}
+            >
               <IntroIcon className="h-8 w-8" />
             </span>
             <div>
