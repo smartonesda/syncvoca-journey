@@ -1,0 +1,12 @@
+.git
+.env
+.env.local
+.env.*
+node_modules/
+npm-debug.log
+*.db
+*.db-journal
+*.sqlite
+dist/
+Dockerfile
+.dockerignore

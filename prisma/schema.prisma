@@ -1,0 +1,128 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  role      String   // STUDENT, TEACHER, PARENT, DUDI, ADMIN
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  studentProfile StudentProfile?
+  dudiProfile    DudiProfile?
+}
+
+model StudentProfile {
+  id           String @id @default(cuid())
+  userId       String @unique
+  user         User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  pseudonymCode String @unique
+  schoolType    String
+  readinessScore Int
+  vocationalInterest String?
+  accommodationNeeds String?
+  
+  // Sensitive Data
+  sensitiveData  String? 
+  
+  consents       Consent[]
+  industrySeals  IndustryValidationSeal[]
+  auditLogs      AuditLog[]
+  gameSessions   GameSession[]
+  portfolio      StudentPortfolio?
+  milestones     JourneyMilestone[]
+}
+
+model DudiProfile {
+  id          String @id @default(cuid())
+  userId      String @unique
+  user        User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  companyName String
+  industry    String
+}
+
+model Consent {
+  id               String   @id @default(cuid())
+  studentProfileId String
+  studentProfile   StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+  
+  scope            String 
+  status           String 
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model IndustryValidationSeal {
+  id               String   @id @default(cuid())
+  studentProfileId String
+  studentProfile   StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+  
+  issuedByDudiId   String 
+  skillValidated   String
+  
+  issuedAt         DateTime @default(now())
+}
+
+model AuditLog {
+  id               String   @id @default(cuid())
+  studentProfileId String
+  studentProfile   StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+  
+  event            String 
+  timestamp        DateTime @default(now())
+}
+
+model GameSession {
+  id               String   @id @default(cuid())
+  studentProfileId String
+  studentProfile   StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+  
+  gameId           String
+  gameName         String
+  score            Int
+  accuracy         Float
+  completionTime   Int      // dalam detik
+  errorCount       Int
+  consistency      Float
+  
+  playedAt         DateTime @default(now())
+}
+
+model JourneyMilestone {
+  id               String   @id @default(cuid())
+  studentProfileId String
+  studentProfile   StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+  
+  milestoneName    String   
+  status           String   
+  completedAt      DateTime?
+  notes            String?
+  
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model StudentPortfolio {
+  id               String   @id @default(cuid())
+  studentProfileId String   @unique
+  studentProfile   StudentProfile @relation(fields: [studentProfileId], references: [id], onDelete: Cascade)
+  
+  summary          String
+  competencyLogika Int      @default(0)
+  competencyKetelitian Int  @default(0)
+  competencyKonsistensi Int @default(0)
+  competencyMotorik Int     @default(0)
+  
+  updatedAt        DateTime @updatedAt
+}
