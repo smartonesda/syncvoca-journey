@@ -2,7 +2,36 @@ import Image from "next/image";
 import Link from "next/link";
 import type { Route } from "next";
 import { Mail, MapPin, Send } from "lucide-react";
+import {
+  FaInstagram,
+  FaLinkedinIn,
+  FaWhatsapp,
+  FaYoutube,
+} from "react-icons/fa6";
 import { VociFloatingAssistant } from "@/components/landing/shared/voci-floating-assistant";
+
+const socialLinks = [
+  {
+    label: "Instagram SyncVoca",
+    href: "https://instagram.com/syncvoca.id",
+    icon: FaInstagram,
+  },
+  {
+    label: "WhatsApp SyncVoca",
+    href: "https://wa.me/622112345678",
+    icon: FaWhatsapp,
+  },
+  {
+    label: "YouTube SyncVoca",
+    href: "https://youtube.com/@syncvoca",
+    icon: FaYoutube,
+  },
+  {
+    label: "LinkedIn SyncVoca",
+    href: "https://www.linkedin.com/company/syncvoca",
+    icon: FaLinkedinIn,
+  },
+] as const;
 
 const footerColumns = [
   {
@@ -46,7 +75,7 @@ export function LandingFooter() {
       >
         <div className="mx-auto grid w-full max-w-screen-2xl gap-9 px-5 py-10 sm:px-8 lg:grid-cols-6 xl:px-12">
           <div>
-            <div className="flex items-center gap-3">
+            <div className="flex items-start gap-3">
               <Image
                 src="/landing/beranda/syncvoca-mark.webp"
                 alt="SyncVoca"
@@ -67,13 +96,18 @@ export function LandingFooter() {
               secara aman.
             </p>
             <div className="mt-6 flex gap-4 text-white/90">
-              {["ig", "wa", "yt", "in"].map((item) => (
-                <span
-                  key={item}
-                  className="grid size-8 place-items-center rounded-full bg-white/8 text-xs font-bold"
+              {socialLinks.map((item) => (
+                <a
+                  key={item.label}
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  aria-label={item.label}
+                  title={item.label}
+                  className="focus-ring size-7 grid  place-items-center rounded-full bg-white/10 text-white transition hover:-translate-y-0.5 hover:bg-white hover:text-[#00603b]"
                 >
-                  {item}
-                </span>
+                  <item.icon className="size-4" aria-hidden="true" />
+                </a>
               ))}
             </div>
           </div>
@@ -112,7 +146,9 @@ export function LandingFooter() {
           </div>
 
           <div>
-            <h3 className="text-base font-extrabold">Dapatkan Update Terbaru</h3>
+            <h3 className="text-base font-extrabold">
+              Dapatkan Update Terbaru
+            </h3>
             <p className="mt-4 text-sm font-medium leading-6 text-white/82">
               Berlangganan untuk mendapatkan informasi terkini dari SyncVoca
               Journey.

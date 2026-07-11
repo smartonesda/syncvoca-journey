@@ -217,7 +217,7 @@ export function VociFloatingAssistant() {
             className="size-full rounded-full object-cover transition duration-300 group-hover:scale-105"
             priority={false}
           />
-          <span className="absolute -right-1 bottom-0 grid size-7 place-items-center rounded-full border-2 border-white bg-[#10A765] text-white shadow-lg sm:size-8">
+          <span className="absolute -right-4 bottom-0 grid size-7 place-items-center rounded-full border-2 border-white bg-[#10A765] text-white shadow-lg sm:size-8">
             <MessageCircle className="size-3.5 sm:size-4" />
           </span>
           <span className="absolute -left-2 bottom-2 hidden max-w-[138px] -translate-x-full rounded-2xl rounded-br-sm border border-[#DCEEE3] bg-white px-3 py-2 text-left text-xs font-black leading-4 text-[#0E1A34] shadow-[0_14px_34px_rgba(4,41,27,0.12)] min-[1420px]:block">
