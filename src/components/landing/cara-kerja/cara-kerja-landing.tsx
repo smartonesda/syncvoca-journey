@@ -240,7 +240,7 @@ export function CaraKerjaLanding() {
 
 function HeroSection() {
   return (
-    <section className="  border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
+    <section className="mb-15  border-[#e9f0eb] bg-[radial-gradient(circle_at_82%_20%,rgba(219,244,225,0.7),transparent_30%),linear-gradient(180deg,#ffffff_0%,#fbfdfb_100%)]">
       <div className="sv-hero-grid mx-auto grid w-full max-w-screen-2xl gap-6 px-5 pb-7 pt-7 sm:px-8 lg:grid-cols-2 lg:items-center lg:gap-8 lg:pb-5 lg:pt-8 xl:px-10 2xl:gap-7 2xl:pb-0 2xl:pt-9">
         <div className="relative z-10 w-full min-w-0 max-w-3xl overflow-hidden">
           <Kicker icon={Sparkles}>
@@ -497,7 +497,7 @@ function ValidationSection() {
             height={1042}
             loading="lazy"
             sizes="(max-width: 1024px) 90vw, 34vw"
-            className="absolute bottom-[-10px] left-[-18px] h-[220px] w-auto max-w-none object-contain"
+            className="w-full object-cover"
           />
         </div>
 
@@ -626,7 +626,7 @@ function ClosingCta() {
               <ArrowRight className="size-4" />
             </a>
             <Link
-              href="/#bukti-kerja"
+              href="/bukti-kerja"
               className="focus-ring inline-flex min-h-12 items-center justify-center gap-3 rounded-xl border border-[#b9dcc7] bg-white px-7 text-sm font-extrabold text-[#111c33] hover:bg-[#f7fbf8]"
             >
               Lihat Bukti Kerja

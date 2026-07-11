@@ -12,17 +12,18 @@ const navItems = [
   { label: "Beranda", href: "/" },
   { label: "Tentang Kami", href: "/tentang-kami" },
   { label: "Cara Kerja", href: "/cara-kerja" },
-  { label: "Ekosistem", href: "/#ekosistem" },
-  { label: "Bukti Kerja", href: "/#bukti-kerja" },
-  { label: "Keamanan Data", href: "/#keamanan-data" },
-  { label: "Untuk Siapa", href: "/#untuk-siapa" },
+  { label: "Ekosistem", href: "/ekosistem" },
+  { label: "Bukti Kerja", href: "/bukti-kerja" },
+  { label: "Keamanan Data", href: "/keamanan-data" },
+  { label: "Untuk Siapa", href: "/untuk-siapa" },
 
-  { label: "Kontak", href: "/#kontak" },
+  { label: "Kontak", href: "/kontak" },
 ];
 
-const compactNavItems = navItems.filter((item) =>
-  ["Beranda", "Tentang Kami", "Cara Kerja", "Ekosistem"].includes(item.label),
+const primaryNavItems = navItems.filter((item) =>
+  ["Beranda", "Tentang Kami", "Cara Kerja", "Ekosistem", "Bukti Kerja"].includes(item.label),
 );
+const compactNavItems = primaryNavItems;
 const compactNavLabels = new Set(compactNavItems.map((item) => item.label));
 
 type LandingHeaderProps = {
@@ -144,7 +145,7 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
           </div>
 
           <div className="hidden min-w-0 flex-1 items-center justify-center gap-2 2xl:flex">
-            {navItems.map((item) => (
+            {primaryNavItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href as Route}
@@ -180,7 +181,7 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
             aria-controls="landing-mobile-menu"
             aria-label={isOpen ? "Tutup menu navigasi" : "Buka menu navigasi"}
             onClick={() => setIsOpen((value) => !value)}
-            className="focus-ring ml-auto inline-flex min-h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-[#d7e7de] bg-white px-0 text-[#111c33] shadow-sm transition hover:bg-[#effaf4] sm:w-auto sm:px-4 lg:ml-0 2xl:hidden"
+            className="focus-ring ml-auto inline-flex min-h-11 w-11 shrink-0 items-center justify-center gap-2 rounded-xl border border-[#d7e7de] bg-white px-0 text-[#111c33] shadow-sm transition hover:bg-[#effaf4] sm:w-auto sm:px-4 lg:ml-0"
           >
             {isOpen ? <X className="size-5" /> : <Menu className="size-5" />}
             <span className="hidden text-sm font-extrabold sm:inline">
@@ -191,7 +192,7 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
 
         <div
           className={cn(
-            "fixed inset-0 top-20 z-40 bg-[#0b1b16]/28 opacity-0 backdrop-blur-sm transition-opacity 2xl:hidden",
+            "fixed inset-0 top-20 z-40 bg-[#0b1b16]/28 opacity-0 backdrop-blur-sm transition-opacity",
             isOpen ? "pointer-events-auto opacity-100" : "pointer-events-none",
           )}
           onClick={closeMenu}
@@ -200,7 +201,7 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
         <div
           id="landing-mobile-menu"
           className={cn(
-            "fixed left-3 right-3 top-24 z-50 max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-2xl border border-[#dbe9df] bg-white p-3 shadow-[0_24px_70px_rgba(17,28,51,0.18)] transition duration-200 sm:left-auto sm:w-96 lg:w-[22rem] xl:w-[24rem] 2xl:hidden",
+            "fixed left-3 right-3 top-24 z-50 max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-2xl border border-[#dbe9df] bg-white p-3 shadow-[0_24px_70px_rgba(17,28,51,0.18)] transition duration-200 sm:left-auto sm:w-96 lg:w-[22rem] xl:w-[24rem]",
             isOpen
               ? "pointer-events-auto translate-y-0 opacity-100"
               : "pointer-events-none -translate-y-3 opacity-0",
@@ -224,7 +225,7 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
             ))}
           </div>
 
-          <div className="mt-4 grid gap-3 border-t border-[#e5eee8] pt-4 2xl:hidden">
+          <div className="mt-4 grid gap-3 border-t border-[#e5eee8] pt-4">
             <Link
               href="/login"
               onClick={closeMenu}

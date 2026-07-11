@@ -21,5 +21,35 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.85,
     },
+    {
+      url: absoluteUrl("/ekosistem"),
+      lastModified: new Date(siteConfig.updatedAt),
+      changeFrequency: "monthly",
+      priority: 0.8,
+    },
+    {
+      url: absoluteUrl("/bukti-kerja"),
+      lastModified: new Date(siteConfig.updatedAt),
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: absoluteUrl("/keamanan-data"),
+      lastModified: new Date(siteConfig.updatedAt),
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: absoluteUrl("/untuk-siapa"),
+      lastModified: new Date(siteConfig.updatedAt),
+      changeFrequency: "monthly",
+      priority: 0.85,
+    },
+    {
+      url: absoluteUrl("/kontak"),
+      lastModified: new Date(siteConfig.updatedAt),
+      changeFrequency: "monthly",
+      priority: 0.75,
+    },
   ];
 }

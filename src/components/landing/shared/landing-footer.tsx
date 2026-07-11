@@ -8,30 +8,31 @@ const footerColumns = [
   {
     title: "Platform",
     links: [
-      { label: "Untuk Siswa", href: "/#untuk-siapa" },
-      { label: "Untuk Guru", href: "/#untuk-siapa" },
-      { label: "Untuk Orang Tua", href: "/#untuk-siapa" },
-      { label: "Untuk DUDI", href: "/#untuk-siapa" },
-      { label: "Untuk Admin", href: "/#untuk-siapa" },
+      { label: "Untuk Siswa", href: "/untuk-siapa#siswa" },
+      { label: "Untuk Guru", href: "/untuk-siapa#guru" },
+      { label: "Untuk Orang Tua", href: "/untuk-siapa#orang-tua" },
+      { label: "Untuk DUDI", href: "/untuk-siapa#dudi" },
+      { label: "Untuk Admin", href: "/untuk-siapa#admin" },
     ],
   },
   {
     title: "Informasi",
     links: [
       { label: "Cara Kerja", href: "/cara-kerja" },
-      { label: "Bukti Kerja", href: "/#bukti-kerja" },
-      { label: "Keamanan Data", href: "/#keamanan-data" },
-      { label: "Untuk Siapa", href: "/#untuk-siapa" },
-      { label: "Ekosistem", href: "/#ekosistem" },
+      { label: "Bukti Kerja", href: "/bukti-kerja" },
+      { label: "Keamanan Data", href: "/keamanan-data" },
+      { label: "Untuk Siapa", href: "/untuk-siapa" },
+      { label: "Ekosistem", href: "/ekosistem" },
+      { label: "Kontak", href: "/kontak" },
     ],
   },
   {
     title: "Bantuan",
     links: [
-      { label: "Pusat Bantuan", href: "/#kontak" },
+      { label: "Pusat Bantuan", href: "/kontak#form-kontak" },
       { label: "Panduan Pengguna", href: "/cara-kerja" },
       { label: "Video Tutorial", href: "/cara-kerja" },
-      { label: "FAQ", href: "/#kontak" },
+      { label: "FAQ", href: "/kontak#faq" },
     ],
   },
 ] as const;
