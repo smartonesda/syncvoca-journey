@@ -323,7 +323,7 @@ function EvidenceJourney() {
             className="relative rounded-2xl border border-[#dce8e0] bg-white px-4 pb-5 pt-12 text-center"
           >
             {index < evidenceFlow.length - 1 ? (
-              <ArrowRight className="absolute -right-4 top-1/2 z-10 hidden size-6 -translate-y-1/2 text-[#009856] lg:block" />
+              <ArrowRight className="absolute -right-6 top-1/2 z-10 hidden size-6 -translate-y-1/2 text-[#009856] lg:block" />
             ) : null}
             <span className="absolute left-1/2 top-0 grid size-16 -translate-x-1/2 -translate-y-1/3 place-items-center rounded-full border border-[#cde7d7] bg-[#f2fbf5] text-[#009856] shadow-sm">
               <item.icon className="size-8" />

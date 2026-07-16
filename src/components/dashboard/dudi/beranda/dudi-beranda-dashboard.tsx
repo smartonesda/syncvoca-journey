@@ -735,7 +735,10 @@ export function DudiBerandaDashboard() {
   return (
     <DashboardShell desktopSidebar={<Sidebar />} mobileSidebar={<Sidebar variant="mobile" />}>
       <TopBar />
-      <div className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden">
+      <div
+        data-lenis-prevent
+        className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden"
+      >
         <div className="mx-auto flex w-full max-w-[1580px] flex-col gap-5 px-4 py-5 sm:px-6 2xl:px-8">
           <HeroAndPrivacy />
           <SummarySection />

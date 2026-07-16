@@ -198,6 +198,7 @@ export function SidebarScrollArea({ children }: { children: ReactNode }) {
     <div className="relative min-h-0 flex-1">
       <nav
         ref={scrollRef}
+        data-lenis-prevent
         className={cn(
           "sv-scrollbar-hidden h-full overflow-y-auto px-4 transition-[padding] duration-200 2xl:px-5",
           canScrollDown ? "pb-14" : "pb-4",

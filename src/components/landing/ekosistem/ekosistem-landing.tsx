@@ -326,9 +326,6 @@ function PillarsSection() {
             <p className="mt-5 text-sm font-semibold leading-7 text-[#43516b]">
               {pillar.body}
             </p>
-            <ArrowRight
-              className={cn("mt-auto ml-auto size-5", tones[pillar.tone].arrow)}
-            />
           </article>
         ))}
       </div>

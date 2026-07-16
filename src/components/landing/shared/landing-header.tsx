@@ -200,6 +200,7 @@ export function LandingHeader({ activeLabel = "Beranda" }: LandingHeaderProps) {
 
         <div
           id="landing-mobile-menu"
+          data-lenis-prevent
           className={cn(
             "fixed left-3 right-3 top-24 z-50 max-h-[calc(100dvh-7rem)] overflow-y-auto rounded-2xl border border-[#dbe9df] bg-white p-3 shadow-[0_24px_70px_rgba(17,28,51,0.18)] transition duration-200 sm:left-auto sm:w-96 lg:w-[22rem] xl:w-[24rem]",
             isOpen
