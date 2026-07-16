@@ -594,7 +594,7 @@ function EcosystemSection() {
                   {partnerLogos.map((logo) => (
                     <div
                       key={`${groupIndex}-${logo.src}`}
-                      className="grid h-20 w-28 shrink-0 place-items-center rounded-2xl border border-[#dbe9df] bg-white/90 px-4  sm:h-24 sm:w-36"
+                      className="grid h-20 w-28 shrink-0 place-items-center rounded-2xl  bg-white/90 px-4  sm:h-24 sm:w-36"
                     >
                       <Image
                         src={logo.src}
@@ -604,7 +604,7 @@ function EcosystemSection() {
                         loading={groupIndex === 0 ? "eager" : "lazy"}
                         sizes="(max-width: 640px) 80px, 112px"
                         // className="h-auto max-h-12 w-auto max-w-20 object-contain grayscale opacity-80 transition duration-300 hover:grayscale-0 hover:opacity-100 sm:max-h-16 sm:max-w-28"
-                        className="object-contain max-h-25 "
+                        className="object-cover max-h-24 "
                       />
                     </div>
                   ))}

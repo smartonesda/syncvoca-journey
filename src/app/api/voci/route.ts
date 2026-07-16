@@ -64,6 +64,7 @@ Aturan wajib:
 - Jangan meminta atau mengulang data pribadi, kredensial, data kesehatan, atau data siswa. Jelaskan bahwa detail data hanya dikelola lewat proses resmi dan consent.
 - Jangan mengarang fitur, kebijakan, biaya, mitra, atau hasil yang tidak tersedia di konteks ini.
 - Jawab dalam Bahasa Indonesia yang ramah, jelas, dan mudah dipahami. Maksimal 2 kalimat pendek, tanpa markdown, daftar, atau emoji.
+- Jangan mengulang sapaan atau perkenalan diri di setiap jawaban. Jika percakapan sudah berlangsung, langsung jawab pertanyaan pengguna tanpa membuka dengan salam.
 - destination hanya boleh berisi satu rute dari daftar berikut, atau string kosong bila tidak ada rute yang tepat.
 
 Halaman yang tersedia:
@@ -158,15 +159,21 @@ export async function POST(request: Request) {
     );
   }
 
-  // Only prior user messages are trusted as chat context; client-supplied assistant text is discarded.
-  const userMessages = parsedRequest.data.messages
-    .filter((message) => message.role === "user")
-    .slice(-5);
-  const userInput = userMessages.map((message) => message.content).join("\n");
+  const validatedMessages = parsedRequest.data.messages.slice(-MAX_MESSAGES);
 
-  if (!userInput || promptInjectionPattern.test(userInput)) {
+  const latestUserContent = validatedMessages
+    .filter((message) => message.role === "user")
+    .map((message) => message.content)
+    .join("\n");
+
+  if (!latestUserContent || promptInjectionPattern.test(latestUserContent)) {
     return NextResponse.json(blockedReply);
   }
+
+  const conversationContents = validatedMessages.map((message) => ({
+    role: message.role === "assistant" ? "model" : "user",
+    parts: [{ text: message.content }],
+  }));
 
   try {
     const ai = new GoogleGenAI({ apiKey });
@@ -178,11 +185,11 @@ export async function POST(request: Request) {
         try {
           const response = await ai.models.generateContent({
             model,
-            contents: userInput,
+            contents: conversationContents,
             config: {
               systemInstruction: vociInstructions,
               temperature: 0.2,
-              maxOutputTokens: 240,
+              maxOutputTokens: 512,
               responseMimeType: "application/json",
               responseJsonSchema: {
                 type: "object",
@@ -242,7 +249,14 @@ export async function POST(request: Request) {
       throw lastError || new Error("Voci response did not include output text.");
     }
 
-    const parsedResponse = responseSchema.safeParse(JSON.parse(outputText));
+    let parsedOutput: unknown;
+    try {
+      parsedOutput = JSON.parse(outputText);
+    } catch {
+      throw new Error("Voci returned truncated or invalid JSON.");
+    }
+
+    const parsedResponse = responseSchema.safeParse(parsedOutput);
     if (!parsedResponse.success) {
       throw new Error("Voci response did not match the expected format.");
     }
