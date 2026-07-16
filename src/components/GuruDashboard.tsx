@@ -271,7 +271,7 @@ export default function GuruDashboard({ students, sessions, teacherNotes, onAddN
             </div>
 
             {/* Student list */}
-            <div className="space-y-2 max-h-96 overflow-y-auto">
+            <div data-lenis-prevent className="space-y-2 max-h-96 overflow-y-auto">
               {filteredStudents.length === 0 ? (
                 <p className="text-center text-xs text-zinc-500 py-6">Siswa tidak ditemukan.</p>
               ) : (

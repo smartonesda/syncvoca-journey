@@ -29,6 +29,7 @@ import AccessibilityPanel from "./components/AccessibilityPanel";
 import { AppFeedbackProvider, useAppFeedback } from "./components/AppFeedback";
 import LandingPage from "./components/LandingPage";
 import RoleDashboardWorkspace from "./components/RoleDashboardWorkspace";
+import SmoothScroll from "./components/SmoothScroll";
 import TextToVoiceAssistant from "./components/TextToVoiceAssistant";
 import { createDudiCandidateProfiles } from "./privacy";
 import { scrollToTopInstant } from "./utils/scroll";
@@ -613,10 +614,12 @@ export default function App() {
     .join(" ");
 
   return (
-    <div
-      className={`sv-app ${isHighContrast ? "sv-high-contrast bg-white text-black border-4 border-black" : "bento-bg text-[#17351f]"} ${accessibilityClasses} min-h-screen pb-24 pt-[76px] sm:pt-[84px]`}
-    >
-      <AppFeedbackProvider>
+    <>
+      <SmoothScroll enabled={!accessibility.reducedMotion} />
+      <div
+        className={`sv-app ${isHighContrast ? "sv-high-contrast bg-white text-black border-4 border-black" : "bento-bg text-[#17351f]"} ${accessibilityClasses} min-h-screen pb-24 pt-[76px] sm:pt-[84px]`}
+      >
+        <AppFeedbackProvider>
         <header
           className={`fixed inset-x-0 top-0 z-40 border-b px-4 py-3 backdrop-blur-xl transition-transform duration-300 ease-out sm:px-8 ${
             isChromeVisible ? "translate-y-0" : "-translate-y-full"
@@ -753,7 +756,8 @@ export default function App() {
             );
           })}
         </nav>
-      </AppFeedbackProvider>
-    </div>
+        </AppFeedbackProvider>
+      </div>
+    </>
   );
 }
